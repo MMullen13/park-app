@@ -1,39 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package wallylandvacationplanner;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 
 /**
  *
- * @author aniut
+ * @author Ana
  */
 public class MainFrame extends JFrame {
     
     private TextPanel textPanel;
     private JButton btn;
+    private Toolbar toolbar;
+    private FormPanel formPanel;
 
     public MainFrame() {
         super("WallyLand Park Application");
         
         setLayout(new BorderLayout());
+        toolbar = new Toolbar();
         textPanel = new TextPanel();
-        btn = new JButton();
+        btn = new JButton("Login");
+        formPanel = new FormPanel();
         
+        toolbar.setStringListener(new StringListener(){
+            @Override
+            public void textEmmited(String text) {
+               textPanel.appendText(text);
+            }
+            
+        });
+        
+        add(toolbar, BorderLayout.NORTH);
         add(textPanel, BorderLayout.CENTER);
         add(btn, BorderLayout.SOUTH);
+        add(formPanel, BorderLayout.WEST);
         
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textPanel.appendText("Hello\n");
+                textPanel.appendText("Log In\n");
             }
             
         });

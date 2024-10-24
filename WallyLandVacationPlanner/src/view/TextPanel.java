@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package wallylandvacationplanner;
+package view;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -11,7 +7,7 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author aniut
+ * @author Ana
  */
 public class TextPanel extends JPanel{
     private JTextArea textArea;

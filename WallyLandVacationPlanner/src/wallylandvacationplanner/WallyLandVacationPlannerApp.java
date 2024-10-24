@@ -4,6 +4,7 @@
  */
 package wallylandvacationplanner;
 
+import view.MainFrame;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
