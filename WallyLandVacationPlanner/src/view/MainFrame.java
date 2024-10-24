@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 public class MainFrame extends JFrame {
     
     private TextPanel textPanel;
-    private JButton btn;
-    private Toolbar toolbar;
+    private JButton btn; //login button
+    private Toolbar toolbar; //top position toolbar
     private FormPanel formPanel;
 
     public MainFrame() {

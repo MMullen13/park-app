@@ -3,6 +3,7 @@ package view;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -17,6 +18,7 @@ public class Toolbar extends JPanel implements ActionListener{
     private StringListener textListener;
     
    public Toolbar(){
+       setBorder(BorderFactory.createTitledBorder("Toolbar")); 
        hi = new JButton("Hello");
        by = new JButton("GoodBuy");
        setLayout(new FlowLayout(FlowLayout.LEFT));
