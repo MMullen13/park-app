@@ -2,10 +2,13 @@ package controller;
 
 import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import view.loginsignup.LoginFormPanel;
 import view.loginsignup.Toolbar;
 import view.loginsignup.TextPanel;
@@ -67,7 +70,7 @@ public class MainPage extends JFrame {
         JMenu purchaseTickets = new JMenu("Purchase Passes");
         JMenu bday = new JMenu("Birthday Packages");      
         JMenu info = new JMenu("Information");
-        JMenu signOut = new JMenu("Sign Out");
+        JMenu exit = new JMenu("Exit Application");
         
         JMenuItem dessertMenu = new JMenuItem("Desserts");
         JMenuItem lunchMenu = new JMenuItem("Lunch");
@@ -81,12 +84,16 @@ public class MainPage extends JFrame {
         JMenuItem events = new JMenuItem("Events");
         JMenuItem attractions = new JMenuItem("Attractions");
         
+        JMenuItem signOut = new JMenuItem("Sign Out");
+        
         menuBar.add(purchaseTickets);
         menuBar.add(viewMap);
         menuBar.add(orderFood);
         menuBar.add(bday);
         menuBar.add(info);
-        menuBar.add(signOut);
+        menuBar.add(exit);
+        
+        exit.add(signOut);
         
         info.add(events);
         info.add(attractions);
@@ -99,6 +106,13 @@ public class MainPage extends JFrame {
         purchaseTickets.add(passes);
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
+        
+        signOut.addActionListener((ActionEvent e) -> {
+            int action = JOptionPane.showConfirmDialog(MainPage.this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
+            if(action == JOptionPane.OK_OPTION){
+                System.exit(0);
+            }
+        });
         
         return menuBar;
     }

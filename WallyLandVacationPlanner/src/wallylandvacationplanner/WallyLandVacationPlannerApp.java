@@ -20,8 +20,8 @@ public class WallyLandVacationPlannerApp {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new UserController();
-//                new MainPage();
+//                new UserController();
+                new MainPage();
             }
 
         });
