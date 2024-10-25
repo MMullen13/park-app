@@ -18,23 +18,22 @@ import javax.swing.border.Border;
  *
  * @author Ana
  */
-public class LoginFormPanel extends JPanel{
+public class SignUpFormPanel extends JPanel{
     private JLabel emailLabel;
     private JLabel passwordLabel;
     private JTextField emailField;
     private JTextField passwordField;
     private JButton loginBtn;
-    private JButton signUpBtn;
+    private JButton signIn;
     private FormListenerIF formListener;
     
-    public LoginFormPanel(){
+    public SignUpFormPanel(){
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
         emailField = new JTextField(10);
         passwordField = new JTextField(10);
         
         loginBtn = new JButton("Sign In");
-        signUpBtn = new JButton("Sign Up");
         
         Dimension dim = getPreferredSize();
         dim.width = 250;
@@ -91,16 +90,6 @@ public class LoginFormPanel extends JPanel{
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         add(loginBtn, gc);
         
-        //fourth row ---------------------------------------------------
-        gc.weightx = 1;
-        gc.weighty = 3;
-        
-        gc.gridx = 1;
-        gc.gridy = 3;
-        gc.insets = new Insets(0, 0, 0, 0);
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(signUpBtn, gc);
-        
         loginBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,3 +110,4 @@ public class LoginFormPanel extends JPanel{
         this.formListener = formListener;
     }
 }
+

@@ -78,14 +78,8 @@ public class MainPage extends JFrame {
         JMenuItem groupTickets = new JMenuItem("Group Passes");
         JMenuItem promotions = new JMenuItem("Deals");
         
-        orderFood.add(dessertMenu);
-        orderFood.add(lunchMenu);
-        orderFood.add(dinnerMenu);
-        
-        purchaseTickets.add(tickets);
-        purchaseTickets.add(passes);
-        purchaseTickets.add(groupTickets);
-        purchaseTickets.add(promotions);
+        JMenuItem events = new JMenuItem("Events");
+        JMenuItem attractions = new JMenuItem("Attractions");
         
         menuBar.add(purchaseTickets);
         menuBar.add(viewMap);
@@ -94,6 +88,17 @@ public class MainPage extends JFrame {
         menuBar.add(info);
         menuBar.add(signOut);
         
+        info.add(events);
+        info.add(attractions);
+        
+        orderFood.add(dessertMenu);
+        orderFood.add(lunchMenu);
+        orderFood.add(dinnerMenu);
+        
+        purchaseTickets.add(tickets);
+        purchaseTickets.add(passes);
+        purchaseTickets.add(groupTickets);
+        purchaseTickets.add(promotions);
         
         return menuBar;
     }
