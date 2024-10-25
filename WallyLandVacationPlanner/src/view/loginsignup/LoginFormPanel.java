@@ -1,9 +1,12 @@
-package view;
+package view.loginsignup;
 
+import model.loginsignup.ProfileUser;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,20 +18,21 @@ import javax.swing.border.Border;
  *
  * @author Ana
  */
-public class FormPanel extends JPanel{
+public class LoginFormPanel extends JPanel{
     private JLabel emailLabel;
     private JLabel passwordLabel;
     private JTextField emailField;
     private JTextField passwordField;
-    private JButton okBtn;
+    private JButton loginBtn;
+    private FormListenerIF formListener;
     
-    public FormPanel(){
+    public LoginFormPanel(){
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
         emailField = new JTextField(10);
         passwordField = new JTextField(10);
         
-        okBtn = new JButton("OK");
+        loginBtn = new JButton("OK");
         
         Dimension dim = getPreferredSize();
         dim.width = 250;
@@ -83,7 +87,25 @@ public class FormPanel extends JPanel{
         gc.gridy = 2;
         gc.insets = new Insets(0, 0, 0, 0);
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(okBtn, gc);
+        add(loginBtn, gc);
         
+        loginBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailField.getText();
+                String password = passwordField.getText();
+                
+                ProfileUser credentials = new ProfileUser(this, email, password);
+                
+                if(formListener != null){
+                    formListener.formEventOccured(credentials);
+                }
+            }           
+        });
+        
+    }
+
+    public void setFormListener(FormListenerIF formListener) {
+        this.formListener = formListener;
     }
 }

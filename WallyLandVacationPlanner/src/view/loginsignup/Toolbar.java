@@ -1,4 +1,4 @@
-package view;
+package view.loginsignup;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ public class Toolbar extends JPanel implements ActionListener{
     
     private JButton hi;
     private JButton by;
-    private StringListener textListener;
+    private StringListenerIF textListener;
     
    public Toolbar(){
        setBorder(BorderFactory.createTitledBorder("Toolbar")); 
@@ -30,7 +30,7 @@ public class Toolbar extends JPanel implements ActionListener{
        by.addActionListener(this);
    } 
 
-    void setStringListener(StringListener listener){
+    public void setStringListener(StringListenerIF listener){
         this.textListener = listener;
     }
 

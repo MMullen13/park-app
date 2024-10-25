@@ -1,4 +1,8 @@
-package view;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package view.loginsignup;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -7,7 +11,7 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author Ana
+ * @author aniut
  */
 public class TextPanel extends JPanel{
     private JTextArea textArea;
