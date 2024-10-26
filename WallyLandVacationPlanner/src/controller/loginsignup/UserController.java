@@ -5,7 +5,7 @@ import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import view.loginsignup.LoginFormPanel;
-import view.loginsignup.TextPanel;
+//import view.loginsignup.TextPanel;
 import view.loginsignup.FormListenerIF;
 
 /**
@@ -14,14 +14,14 @@ import view.loginsignup.FormListenerIF;
  */
 public class UserController extends JFrame {
     
-    private TextPanel textPanel;
+//    private TextPanel textPanel;
     private LoginFormPanel formPanel;
 
     public UserController() {
         super("WallyLand Park Application");
         
         setLayout(new BorderLayout());
-        textPanel = new TextPanel();
+//        textPanel = new TextPanel();
         formPanel = new LoginFormPanel();
         
         formPanel.setFormListener(new FormListenerIF(){
@@ -29,23 +29,25 @@ public class UserController extends JFrame {
                 String email = e.getEmail();
                 String password = e.getPassword();
                 
-                textPanel.appendText(email + "\n" + password + "\n");
+//                textPanel.appendText(email + "\n" + password + "\n");
+                System.out.println(email + "\n" + password + "\n");
                 
                 if(validateLogin(email, password)){
                     dispose();
                     MainPage mainPage = new MainPage();
                     mainPage.setVisible(true);
                 } else{
-                    textPanel.appendText("Invalid Login Credentials\n");
+//                    textPanel.appendText("Invalid Login Credentials\n");
+                    System.out.println("Invalid Login Credentials\n");
                 }
             }
         });
 
-        add(textPanel, BorderLayout.CENTER);
+//        add(textPanel, BorderLayout.EAST);
         //for testing purposses
-        add(formPanel, BorderLayout.WEST);
+        add(formPanel, BorderLayout.CENTER);
                
-        setSize(500, 500);
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

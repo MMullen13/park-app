@@ -26,6 +26,7 @@ public class LoginFormPanel extends JPanel{
     private JButton loginBtn;
     private JButton signUpBtn;
     private FormListenerIF formListener;
+    private JLabel signUpExplanationLabel;
     
     public LoginFormPanel(){
         emailLabel = new JLabel("Email");
@@ -35,6 +36,8 @@ public class LoginFormPanel extends JPanel{
         
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
+        
+        signUpExplanationLabel = new JLabel("Make an account!");
         
         Dimension dim = getPreferredSize();
         dim.width = 250;
@@ -48,58 +51,66 @@ public class LoginFormPanel extends JPanel{
         
         GridBagConstraints gc = new GridBagConstraints();
         
-        //first row ----------------------------------------------------
+        // First row: Email label and field
+        gc.gridy = 0;
         gc.weightx = 1;
         gc.weighty = 0.1;
-        
+
         gc.gridx = 0;
-        gc.gridy = 0;
-        gc.fill = GridBagConstraints.NONE;
-        gc.insets = new Insets(0, 0, 0, 5);
-        gc.anchor = GridBagConstraints.LINE_END;       
-        add(emailLabel, gc); //add the email label
-        
-        gc.gridx = 1;
-        gc.gridy = 0;
-        gc.insets = new Insets(0, 0, 0, 0);
-        gc.anchor = GridBagConstraints.LINE_START;
-        add(emailField, gc); //add the email field 
-        
-        //second row -------------------------------------------------------
-        gc.weightx = 1;
-        gc.weighty = 0.1;
-        
-        gc.gridx = 0;
-        gc.gridy = 1;
-        gc.insets = new Insets(0, 0, 0, 5);
         gc.anchor = GridBagConstraints.LINE_END;
-        add(passwordLabel, gc); //add the password label
-        
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(emailLabel, gc);
+
         gc.gridx = 1;
-        gc.gridy = 1;
-        gc.insets = new Insets(0, 0, 0, 0);
         gc.anchor = GridBagConstraints.LINE_START;
-        add(passwordField, gc); //add password field
-        
-        //third row ---------------------------------------------------
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(emailField, gc);
+
+        // Second row: Password label and field
+        gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 2;
-        
+        gc.weighty = 0.1;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(passwordLabel, gc);
+
         gc.gridx = 1;
-        gc.gridy = 2;
-        gc.insets = new Insets(0, 0, 0, 0);
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(passwordField, gc);
+
+        // Third row: Login button
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
         add(loginBtn, gc);
-        
-        //fourth row ---------------------------------------------------
+
+        // Fourth row: Sign up explanation label
+        gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 3;
-        
+        gc.weighty = 0.2;
+
         gc.gridx = 1;
-        gc.gridy = 3;
-        gc.insets = new Insets(0, 0, 0, 0);
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(15, 0, 5, 0); // Adding some top padding for spacing
+        add(signUpExplanationLabel, gc);
+
+        // Fifth row: Sign up button
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 2.0;
+
+        gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(5, 0, 0, 0);
         add(signUpBtn, gc);
+
         
         loginBtn.addActionListener(new ActionListener(){
             @Override
