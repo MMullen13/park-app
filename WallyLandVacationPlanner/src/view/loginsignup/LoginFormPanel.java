@@ -18,7 +18,8 @@ import javax.swing.border.Border;
  *
  * @author Ana
  */
-public class LoginFormPanel extends JPanel{
+public class LoginFormPanel extends JPanel {
+
     private JLabel emailLabel;
     private JLabel passwordLabel;
     private JTextField emailField;
@@ -27,34 +28,38 @@ public class LoginFormPanel extends JPanel{
     private JButton signUpBtn;
     private FormListenerIF formListener;
     private JLabel signUpExplanationLabel;
-    
-    public LoginFormPanel(){
+    protected JLabel incorrectPassword;
+
+    public LoginFormPanel() {
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
-        emailField = new JTextField(10);
-        passwordField = new JTextField(10);
-        
+        emailField = new JTextField(14);
+        passwordField = new JTextField(14);
+
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
-        
-        signUpExplanationLabel = new JLabel("Make an account!");
-        
+        loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+        signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+
+        signUpExplanationLabel = new JLabel("New User, Sign Up Here!");
+        incorrectPassword = new JLabel("");
+
         Dimension dim = getPreferredSize();
         dim.width = 250;
         setPreferredSize(dim);
-        
+
         Border innerBorder = BorderFactory.createTitledBorder("Log In");
-        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-        
+
         setLayout(new GridBagLayout());
-        
+
         GridBagConstraints gc = new GridBagConstraints();
-        
+
         // First row: Email label and field
         gc.gridy = 0;
         gc.weightx = 1;
-        gc.weighty = 0.1;
+        gc.weighty = 0.2;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
@@ -69,7 +74,7 @@ public class LoginFormPanel extends JPanel{
         // Second row: Password label and field
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.1;
+        gc.weighty = 0.2;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
@@ -84,7 +89,7 @@ public class LoginFormPanel extends JPanel{
         // Third row: Login button
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.4;
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -94,11 +99,11 @@ public class LoginFormPanel extends JPanel{
         // Fourth row: Sign up explanation label
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.1;
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(15, 0, 5, 0); // Adding some top padding for spacing
+        gc.insets = new Insets(15, 0, 0, 0); // Adding some top padding for spacing
         add(signUpExplanationLabel, gc);
 
         // Fifth row: Sign up button
@@ -111,24 +116,44 @@ public class LoginFormPanel extends JPanel{
         gc.insets = new Insets(5, 0, 0, 0);
         add(signUpBtn, gc);
 
+        // Sixth row: Incorrect password label
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(5, 0, 25, 0);
+        add(incorrectPassword, gc);
         
-        loginBtn.addActionListener(new ActionListener(){
+        
+        loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
                 String password = passwordField.getText();
-                
+
                 ProfileUser credentials = new ProfileUser(this, email, password);
-                
-                if(formListener != null){
+
+                if (formListener != null) {
                     formListener.formEventOccured(credentials);
                 }
-            }           
+
+                boolean isCorrectPassword = checkPassword(password);
+
+                if (!isCorrectPassword) {
+                    incorrectPassword.setText("Invalid Login Credentials!");
+                }
+            }
         });
-        
+
     }
 
     public void setFormListener(FormListenerIF formListener) {
         this.formListener = formListener;
+    }
+
+    private boolean checkPassword(String password) {
+        return "password".equals(password);
     }
 }
