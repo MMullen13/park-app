@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
@@ -19,13 +19,13 @@ import view.loginsignup.FormListenerIF;
  * 
  * @author Ana
  */
-public class MainPage extends JFrame {
+public class MainPageView extends JFrame {
     
 //    private TextPanel textPanel;
 //    private Toolbar toolbar; //top position toolbar
 //    private LoginFormPanel formPanel;
 
-    public MainPage() {
+    public MainPageView() {
         super("WallyLand Park Application");
         
         setLayout(new BorderLayout());
@@ -108,7 +108,7 @@ public class MainPage extends JFrame {
         purchaseTickets.add(promotions);
         
         signOut.addActionListener((ActionEvent e) -> {
-            int action = JOptionPane.showConfirmDialog(MainPage.this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
+            int action = JOptionPane.showConfirmDialog(MainPageView.this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
             if(action == JOptionPane.OK_OPTION){
                 System.exit(0);
             }
