@@ -1,4 +1,4 @@
-package view.loginsignup;
+package view.loginsignup.signup;
 
 import model.loginsignup.ProfileUser;
 import java.awt.Dimension;
@@ -13,42 +13,56 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import view.loginsignup.FormListenerIF;
 
 /**
  *
  * @author Ana
  */
-public class LoginFormPanel extends JPanel {
+public class SignUpFormPanel extends JPanel {
 
     private JLabel emailLabel;
     private JLabel passwordLabel;
+    private JLabel ageLabel;
+    private JLabel phoneLabel;
+    private JLabel firstNameLabel;
+    private JLabel lastNameLabel;
     private JTextField emailField;
     private JTextField passwordField;
-    private JButton loginBtn;
-    private JButton signUpBtn;
-    private FormListenerIF formListener;
-    private JLabel signUpExplanationLabel;
-    protected JLabel incorrectPassword;
+    private JTextField firstNameField;
+    private JTextField lastNameField;
+    private JTextField ageField;
+    private JTextField phoneField;    
+    private JButton registerBtn;
 
-    public LoginFormPanel() {
+    private FormListenerIF formListener;
+
+    /**
+     * Constructor
+     */
+    public SignUpFormPanel() {
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
-        emailField = new JTextField(14);
-        passwordField = new JTextField(14);
+        firstNameLabel = new JLabel("First Name");
+        lastNameLabel = new JLabel("Last Name");
+        ageLabel = new JLabel("Age");
+        phoneLabel = new JLabel("Phone Number");
+        emailField = new JTextField(16);
+        passwordField = new JTextField(16);
+        firstNameField = new JTextField(16);
+        lastNameField = new JTextField(16);
+        ageField = new JTextField(16);
+        phoneField = new JTextField(16);
 
-        loginBtn = new JButton("Sign In");
-        signUpBtn = new JButton("Sign Up");
-        loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
-        signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+        registerBtn = new JButton("Register");
+        registerBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
 
-        signUpExplanationLabel = new JLabel("New User, Sign Up Here!");
-        incorrectPassword = new JLabel("");
 
         Dimension dim = getPreferredSize();
         dim.width = 250;
         setPreferredSize(dim);
 
-        Border innerBorder = BorderFactory.createTitledBorder("Log In");
+        Border innerBorder = BorderFactory.createTitledBorder("New User Sign Up");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
@@ -59,7 +73,7 @@ public class LoginFormPanel extends JPanel {
         // First row: Email label and field
         gc.gridy = 0;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.15;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
@@ -70,11 +84,11 @@ public class LoginFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(emailField, gc);
-
+        
         // Second row: Password label and field
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.15;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
@@ -85,49 +99,79 @@ public class LoginFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(passwordField, gc);
-
-        // Third row: Login button
+        
+        // Third row: First Name label and field
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.4;
+        gc.weighty = 0.15;
 
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
-        add(loginBtn, gc);
-
-        // Fourth row: Sign up explanation label
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 0.1;
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(firstNameLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(15, 0, 0, 0); // Adding some top padding for spacing
-        add(signUpExplanationLabel, gc);
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(firstNameField, gc);
 
-        // Fifth row: Sign up button
+        // Fourth row: Last Name label and field
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 2.0;
+        gc.weighty = 0.15;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(lastNameLabel, gc);
 
         gc.gridx = 1;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(5, 0, 0, 0);
-        add(signUpBtn, gc);
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(lastNameField, gc);
 
-        // Sixth row: Incorrect password label
+        // Fifth row: Age label and field
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.15;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(ageLabel, gc);
+        
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(ageField, gc);
+
+        // Sixth row: Phone label and field
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.15;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0, 0, 5, 5);
+        add(phoneLabel, gc);
+        
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0, 0, 5, 0);
+        add(phoneField, gc);
+        
+        // Seventh row: Register button
         gc.gridy++;
         gc.weightx = 1;
         gc.weighty = 1;
 
         gc.gridx = 1;
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(5, 0, 25, 0);
-        add(incorrectPassword, gc);
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
+        add(registerBtn, gc);
         
         
-        loginBtn.addActionListener(new ActionListener() {
+        registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
@@ -142,7 +186,7 @@ public class LoginFormPanel extends JPanel {
                 boolean isCorrectPassword = checkPassword(password);
 
                 if (!isCorrectPassword) {
-                    incorrectPassword.setText("Invalid Login Credentials!");
+//                    incorrectPassword.setText("Invalid Login Credentials!");
                 }
             }
         });

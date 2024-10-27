@@ -1,33 +1,33 @@
-package view.loginsignup;
+package view.loginsignup.signup;
 
+import view.loginsignup.login.LoginFormPanel;
 import view.MainPageView;
-import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import model.loginsignup.UserIF;
+import view.loginsignup.FormListenerIF;
 //import view.loginsignup.TextPanel;
 
 /**
  *
  * @author Ana
  */
-public class UserView extends JFrame {
-    
-//    private TextPanel textPanel;
-    private LoginFormPanel formPanel;
+public class SignUpView extends JFrame {
 
-    public UserView() {
+    private SignUpFormPanel formPanel;
+
+    public SignUpView() {
         super("WallyLand Park Application");
         
         setLayout(new BorderLayout());
-//        textPanel = new TextPanel();
-        formPanel = new LoginFormPanel();
+
+        formPanel = new SignUpFormPanel();
         
         formPanel.setFormListener(new FormListenerIF(){
-            public void formEventOccured(ProfileUser e){
+            public void formEventOccured(UserIF e){
                 String email = e.getEmail();
                 String password = e.getPassword();
                 
-//                textPanel.appendText(email + "\n" + password + "\n");
                 System.out.println(email + "\n" + password + "\n");
                 
                 if(validateLogin(email, password)){
@@ -35,17 +35,15 @@ public class UserView extends JFrame {
                     MainPageView mainPage = new MainPageView();
                     mainPage.setVisible(true);
                 } else{
-//                    textPanel.appendText("Invalid Login Credentials\n");
                     System.out.println("Invalid Login Credentials\n");
                 }
             }
         });
 
-//        add(textPanel, BorderLayout.EAST);
         //for testing purposses
         add(formPanel, BorderLayout.CENTER);
                
-        setSize(600, 500);
+        setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }

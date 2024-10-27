@@ -1,19 +1,12 @@
 package view;
 
-import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import view.loginsignup.LoginFormPanel;
-import view.loginsignup.Toolbar;
-import view.loginsignup.TextPanel;
-import view.loginsignup.StringListenerIF;
-import view.loginsignup.FormListenerIF;
 
 /**
  * 
@@ -21,41 +14,15 @@ import view.loginsignup.FormListenerIF;
  */
 public class MainPageView extends JFrame {
     
-//    private TextPanel textPanel;
-//    private Toolbar toolbar; //top position toolbar
-//    private LoginFormPanel formPanel;
-
+    /**
+     * Constructor
+     */
     public MainPageView() {
         super("WallyLand Park Application");
         
         setLayout(new BorderLayout());
-//        toolbar = new Toolbar();
-//        textPanel = new TextPanel();
-//        formPanel = new LoginFormPanel();
-        
+       
         setJMenuBar(createMenuBar());
-        
-//        toolbar.setStringListener(new StringListenerIF(){
-//            @Override
-//            public void textEmmited(String text) {
-//               textPanel.appendText(text);
-//            }
-//            
-//        });
-//        
-//        formPanel.setFormListener(new FormListenerIF(){
-//            public void formEventOccured(ProfileUser e){
-//                String email = e.getEmail();
-//                String password = e.getPassword();
-//                
-//                textPanel.appendText(email + "\n" + password + "\n");
-//            }
-//        });
-//        
-//        add(toolbar, BorderLayout.NORTH);
-//        add(textPanel, BorderLayout.CENTER);
-//        add(formPanel, BorderLayout.WEST);
-        
         
         setSize(700, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
