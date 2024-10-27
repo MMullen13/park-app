@@ -1,7 +1,7 @@
 package wallylandvacationplanner;
 
-import controller.MainPage;
-import controller.loginsignup.UserController;
+import view.MainPageView;
+import view.loginsignup.UserView;
 import javax.swing.SwingUtilities;
 
 /**
@@ -20,8 +20,8 @@ public class WallyLandVacationPlannerApp {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new UserController();
-//                new MainPage();
+                new UserView();
+//                new MainPageView();
             }
 
         });
