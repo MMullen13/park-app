@@ -3,7 +3,7 @@ package view.loginsignup.signup;
 import view.MainPageView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import model.loginsignup.User;
+import model.loginsignup.UserFormEvent;
 import view.loginsignup.FormListenerIF;
 
 /**
@@ -22,7 +22,7 @@ public class SignUpView extends JFrame {
         formPanel = new SignUpFormPanel();
         
         formPanel.setFormListener(new FormListenerIF(){
-            public void formEventOccured(User e){
+            public void formEventOccured(UserFormEvent e){
                 String email = e.getEmail();
                 String password = e.getPassword();
                 

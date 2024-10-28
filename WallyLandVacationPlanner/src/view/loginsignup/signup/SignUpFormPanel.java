@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
+import model.loginsignup.UserFormEvent;
+import model.loginsignup.UserIF;
 import view.loginsignup.FormListenerIF;
 
 /**
@@ -179,9 +181,10 @@ public class SignUpFormPanel extends JPanel {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                User newUser = (User) UserFactory.createUser( email, password, true);
+                UserIF user = (User) UserFactory.createUser(email, password, true);
+                UserFormEvent userEvent = new UserFormEvent(this, user);
                 if (formListener != null) {
-                    formListener.formEventOccured(newUser);
+                    formListener.formEventOccured(userEvent);
                 }
 
                 boolean isCorrectPassword = checkPassword(password);

@@ -1,6 +1,5 @@
 package view.loginsignup.login;
 
-import model.loginsignup.ProfileUser;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
+import model.loginsignup.UserFormEvent;
+import model.loginsignup.UserIF;
 import view.loginsignup.FormListenerIF;
 import view.loginsignup.signup.SignUpView;
 
@@ -136,14 +137,11 @@ public class LoginFormPanel extends JPanel {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                // Debugging output
-                System.out.println("Email entered: " + email);
-                System.out.println("Password entered: " + password);
-
-                User profileUser = (User) UserFactory.createUser(email, password, false);
-
+                UserIF user = (User) UserFactory.createUser(email, password, false);
+                UserFormEvent userEvent = new UserFormEvent(this, user);
+                
                 if (formListener != null) {
-                    formListener.formEventOccured(profileUser);
+                    formListener.formEventOccured(userEvent);
                 }
 
                 boolean isCorrectPassword = checkPassword(password);

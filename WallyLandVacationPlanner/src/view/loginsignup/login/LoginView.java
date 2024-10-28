@@ -1,9 +1,10 @@
 package view.loginsignup.login;
 
+import controller.loginsignup.UserController;
 import view.MainPageView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import model.loginsignup.User;
+import model.loginsignup.UserFormEvent;
 import view.loginsignup.FormListenerIF;
 
 /**
@@ -14,6 +15,7 @@ public class LoginView extends JFrame {
 
     private LoginFormPanel formPanel;
     private MainPageView mainPage;
+    private UserController controller;
 
     public LoginView() {
         super("WallyLand Park Application");
@@ -21,9 +23,10 @@ public class LoginView extends JFrame {
         setLayout(new BorderLayout());
 
         formPanel = new LoginFormPanel();
+        controller = new UserController();
         
         formPanel.setFormListener(new FormListenerIF(){
-            public void formEventOccured(User e){
+            public void formEventOccured(UserFormEvent e){
                 String email = e.getEmail();
                 String password = e.getPassword();
                 

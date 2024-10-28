@@ -1,7 +1,8 @@
 package view.loginsignup;
 
 import java.util.EventListener;
-import model.loginsignup.User;
+import model.loginsignup.UserFormEvent;
+import model.loginsignup.UserIF;
 
 /**
  * FormListenerIF interface extends EventListener 
@@ -9,5 +10,5 @@ import model.loginsignup.User;
  * @author Ana
  */
 public interface FormListenerIF extends EventListener{
-    public void formEventOccured(User e);
+    public void formEventOccured(UserFormEvent e);
 }

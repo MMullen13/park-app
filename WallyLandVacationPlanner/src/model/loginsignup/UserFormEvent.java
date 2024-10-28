@@ -26,23 +26,23 @@ import java.util.EventObject;
 
 public class UserFormEvent extends EventObject {
 
-    private User user;
+    private UserIF user;
 
-    public UserFormEvent(Object source, User user) {
+    public UserFormEvent(Object source, UserIF user) {
         super(source);
 
         this.user = user;
     }
 
-    public User getUser() {
+    public UserIF getUser() {
         return user;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return user.getEmail();
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return user.getPassword();
     }
 
