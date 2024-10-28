@@ -40,16 +40,6 @@ public class NewUser extends User{
         this.age = age;
     }
 
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
     public String getFirstName() {
         return firstName;
     }

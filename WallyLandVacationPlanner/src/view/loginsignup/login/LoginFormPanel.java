@@ -129,15 +129,18 @@ public class LoginFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(5, 0, 25, 0);
         add(incorrectPassword, gc);
-        
-        
+
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                User profileUser = (User) UserFactory.createUser( email, password, false);
+                // Debugging output
+                System.out.println("Email entered: " + email);
+                System.out.println("Password entered: " + password);
+
+                User profileUser = (User) UserFactory.createUser(email, password, false);
 
                 if (formListener != null) {
                     formListener.formEventOccured(profileUser);
@@ -150,14 +153,14 @@ public class LoginFormPanel extends JPanel {
                 }
             }
         });
-        
-        signUpBtn.addActionListener(new ActionListener(){
+
+        signUpBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SignUpView signUpView = new SignUpView();
                 signUpView.setVisible(true);
             }
-            
+
         });
 
     }

@@ -15,26 +15,26 @@ import java.util.EventObject;
  * 
  * Usage example:
  * <pre>
- *     UserEvent userEvent = new UserEvent(this, user);
- *     if (userEvent.isNewUser()) {
- *         // Handle new user registration
- *     }
- * </pre>
+     UserFormEvent userEvent = new UserFormEvent(this, user);
+     if (userEvent.isNewUser()) {
+         // Handle new user registration
+     }
+ </pre>
  * 
  * @author Ana
  */
 
-public class UserEvent extends EventObject {
+public class UserFormEvent extends EventObject {
 
-    private UserIF user;
+    private User user;
 
-    public UserEvent(Object source, UserIF user) {
+    public UserFormEvent(Object source, User user) {
         super(source);
 
         this.user = user;
     }
 
-    public UserIF getUser() {
+    public User getUser() {
         return user;
     }
 

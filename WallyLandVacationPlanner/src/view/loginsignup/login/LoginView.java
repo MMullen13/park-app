@@ -1,10 +1,9 @@
 package view.loginsignup.login;
 
-import view.loginsignup.login.LoginFormPanel;
 import view.MainPageView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import model.loginsignup.UserIF;
+import model.loginsignup.User;
 import view.loginsignup.FormListenerIF;
 
 /**
@@ -14,6 +13,7 @@ import view.loginsignup.FormListenerIF;
 public class LoginView extends JFrame {
 
     private LoginFormPanel formPanel;
+    private MainPageView mainPage;
 
     public LoginView() {
         super("WallyLand Park Application");
@@ -23,7 +23,7 @@ public class LoginView extends JFrame {
         formPanel = new LoginFormPanel();
         
         formPanel.setFormListener(new FormListenerIF(){
-            public void formEventOccured(UserIF e){
+            public void formEventOccured(User e){
                 String email = e.getEmail();
                 String password = e.getPassword();
                 
@@ -31,7 +31,7 @@ public class LoginView extends JFrame {
                 
                 if(validateLogin(email, password)){
                     dispose();
-                    MainPageView mainPage = new MainPageView();
+                    mainPage = new MainPageView();
                     mainPage.setVisible(true);
                 } else{
                     System.out.println("Invalid Login Credentials\n");
