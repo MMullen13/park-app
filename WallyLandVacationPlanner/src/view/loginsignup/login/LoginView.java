@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import model.loginsignup.UserIF;
 import view.loginsignup.FormListenerIF;
-//import view.loginsignup.TextPanel;
 
 /**
  *

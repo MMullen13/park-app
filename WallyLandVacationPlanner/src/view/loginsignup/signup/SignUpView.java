@@ -1,12 +1,10 @@
 package view.loginsignup.signup;
 
-import view.loginsignup.login.LoginFormPanel;
 import view.MainPageView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import model.loginsignup.UserIF;
 import view.loginsignup.FormListenerIF;
-//import view.loginsignup.TextPanel;
 
 /**
  *

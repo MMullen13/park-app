@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import view.loginsignup.FormListenerIF;
+import view.loginsignup.signup.SignUpView;
 
 /**
  *
@@ -60,31 +61,31 @@ public class LoginFormPanel extends JPanel {
         // First row: Email label and field
         gc.gridy = 0;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.3;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(0, 0, 5, 5);
+        gc.insets = new Insets(30, 0, 5, 5);
         add(emailLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, 0, 5, 0);
+        gc.insets = new Insets(30, 0, 5, 0);
         add(emailField, gc);
 
         // Second row: Password label and field
         gc.gridy++;
         gc.weightx = 1;
-        gc.weighty = 0.2;
+        gc.weighty = 0.3;
 
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(0, 0, 5, 5);
+        gc.insets = new Insets(10, 0, 5, 5);
         add(passwordLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, 0, 5, 0);
+        gc.insets = new Insets(10, 0, 5, 0);
         add(passwordField, gc);
 
         // Third row: Login button
@@ -146,6 +147,15 @@ public class LoginFormPanel extends JPanel {
                     incorrectPassword.setText("Invalid Login Credentials!");
                 }
             }
+        });
+        
+        signUpBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SignUpView signUpView = new SignUpView();
+                signUpView.setVisible(true);
+            }
+            
         });
 
     }
