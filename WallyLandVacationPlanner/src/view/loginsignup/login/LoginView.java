@@ -24,21 +24,23 @@ public class LoginView extends JFrame {
 
         formPanel = new LoginFormPanel();
         controller = new UserController();
+        controller.setLoginView(this);
         
         formPanel.setFormListener(new FormListenerIF(){
             public void formEventOccured(UserFormEvent e){
-                String email = e.getEmail();
-                String password = e.getPassword();
-                
-                System.out.println(email + "\n" + password + "\n");
-                
-                if(validateLogin(email, password)){
-                    dispose();
-                    mainPage = new MainPageView();
-                    mainPage.setVisible(true);
-                } else{
-                    System.out.println("Invalid Login Credentials\n");
-                }
+//                String email = e.getEmail();
+//                String password = e.getPassword();
+//                
+//                System.out.println(email + "\n" + password + "\n");
+//                
+//                if(validateLogin(email, password)){
+//                    dispose();
+//                    mainPage = new MainPageView();
+//                    mainPage.setVisible(true);
+//                } else{
+//                    System.out.println("Invalid Login Credentials\n");
+//                }
+                controller.handleProfileUser(e);
             }
         });
 
@@ -50,9 +52,9 @@ public class LoginView extends JFrame {
         setVisible(true);
     }
     
-    private boolean validateLogin(String email, String password){
-        //To Do
-        return "user@example.com".equals(email) && "password".equals(password);
-    }
+//    private boolean validateLogin(String email, String password){
+//        //To Do
+//        return "user@example.com".equals(email) && "password".equals(password);
+//    }
 
 }

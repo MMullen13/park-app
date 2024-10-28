@@ -181,7 +181,7 @@ public class SignUpFormPanel extends JPanel {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                UserIF user = (User) UserFactory.createUser(email, password, true);
+                UserIF user = (User) UserFactory.createUser(email, password, false);
                 UserFormEvent userEvent = new UserFormEvent(this, user);
                 if (formListener != null) {
                     formListener.formEventOccured(userEvent);
