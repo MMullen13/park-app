@@ -1,25 +1,27 @@
 package model.loginsignup;
 
-
 /**
  *
  * @author Ana
  */
-public class ProfileUser extends User{
-
+public abstract class User implements UserIF{
+    
     private String email;
     private String password;
-
-    public ProfileUser( String email, String password) {
-        super(email, password);
+    
+    public User(String email, String password){
+        this.email = email;
+        this.password = password;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
-
+    
 }

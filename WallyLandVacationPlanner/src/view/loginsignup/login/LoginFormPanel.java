@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import model.loginsignup.User;
+import model.loginsignup.UserFactory;
 import view.loginsignup.FormListenerIF;
 import view.loginsignup.signup.SignUpView;
 
@@ -135,10 +137,10 @@ public class LoginFormPanel extends JPanel {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                ProfileUser credentials = new ProfileUser(this, email, password);
+                User profileUser = (User) UserFactory.createUser( email, password, false);
 
                 if (formListener != null) {
-                    formListener.formEventOccured(credentials);
+                    formListener.formEventOccured(profileUser);
                 }
 
                 boolean isCorrectPassword = checkPassword(password);
