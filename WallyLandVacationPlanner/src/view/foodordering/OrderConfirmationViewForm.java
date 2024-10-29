@@ -26,17 +26,118 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        orderConfirmation = new javax.swing.JLabel();
+        orderNumber = new javax.swing.JLabel();
+        orderNumberLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderSummaryTable = new javax.swing.JTable();
+        totalLabel = new javax.swing.JLabel();
+        totalCost = new javax.swing.JLabel();
+        pickupTime = new javax.swing.JLabel();
+        pickupTimeLabel = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+
+        orderConfirmation.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        orderConfirmation.setText("Order Confirmation");
+
+        orderNumber.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        orderNumber.setText("123456");
+
+        orderNumberLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        orderNumberLabel.setText("Order Number:");
+
+        orderSummaryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Order Summary"
+            }
+        ));
+        jScrollPane1.setViewportView(orderSummaryTable);
+
+        totalLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        totalLabel.setText("Total:");
+
+        totalCost.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        totalCost.setText("123456");
+
+        pickupTime.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pickupTime.setText("10:00 AM");
+
+        pickupTimeLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pickupTimeLabel.setText("Pickup Time:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(194, 194, 194)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(orderConfirmation)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(orderNumberLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(orderNumber)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(171, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(164, 164, 164))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalLabel)
+                            .addComponent(pickupTimeLabel))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pickupTime, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalCost, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(183, 183, 183))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(orderConfirmation)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(orderNumber)
+                    .addComponent(orderNumberLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalLabel)
+                    .addComponent(totalCost))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pickupTimeLabel)
+                    .addComponent(pickupTime))
+                .addGap(22, 22, 22))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -78,5 +179,15 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel orderConfirmation;
+    private javax.swing.JLabel orderNumber;
+    private javax.swing.JLabel orderNumberLabel;
+    private javax.swing.JTable orderSummaryTable;
+    private javax.swing.JLabel pickupTime;
+    private javax.swing.JLabel pickupTimeLabel;
+    private javax.swing.JLabel totalCost;
+    private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
 }
