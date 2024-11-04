@@ -1,14 +1,13 @@
 package view.loginsignup;
 
 import java.util.EventListener;
-import model.loginsignup.UserFormEvent;
-import model.loginsignup.UserIF;
+import java.util.EventObject;
 
 /**
- * FormListenerIF interface extends EventListener 
- and listens for events to transmit data from view to model
+ *
  * @author Ana
  */
-public interface FormListenerIF extends EventListener{
-    public void formEventOccured(UserFormEvent e);
+public interface FormListenerIF extends EventListener {
+    void formEventOccured(EventObject e); // Accepts any EventObject
 }
+

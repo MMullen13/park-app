@@ -1,6 +1,5 @@
 package view.loginsignup.signup;
 
-import model.loginsignup.ProfileUser;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,22 +7,24 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import model.loginsignup.NewUser;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
-import model.loginsignup.UserFormEvent;
-import model.loginsignup.UserIF;
-import view.loginsignup.FormListenerIF;
+import model.loginsignup.RegisterFormEvent;
+import view.loginsignup.RegisterFormListenerIF;
 
 /**
  *
  * @author Ana
  */
-public class SignUpFormPanel extends JPanel {
+public class RegisterFormPanel extends JPanel {
 
     private JLabel emailLabel;
     private JLabel passwordLabel;
@@ -35,16 +36,16 @@ public class SignUpFormPanel extends JPanel {
     private JTextField passwordField;
     private JTextField firstNameField;
     private JTextField lastNameField;
-    private JTextField ageField;
     private JTextField phoneField;    
     private JButton registerBtn;
+    private JList ageList;
 
-    private FormListenerIF formListener;
-
+    private RegisterFormListenerIF formListener;
+                       
     /**
      * Constructor
      */
-    public SignUpFormPanel() {
+    public RegisterFormPanel() {
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
         firstNameLabel = new JLabel("First Name");
@@ -55,8 +56,18 @@ public class SignUpFormPanel extends JPanel {
         passwordField = new JTextField(16);
         firstNameField = new JTextField(16);
         lastNameField = new JTextField(16);
-        ageField = new JTextField(16);
         phoneField = new JTextField(16);
+        ageList = new JList();
+        
+        DefaultListModel ageModel = new DefaultListModel();
+        ageModel.addElement(new AgeCategory(0, "Under 3"));
+        ageModel.addElement(new AgeCategory(1,"3 to 18"));
+        ageModel.addElement(new AgeCategory(2,"18 to 65"));
+        ageModel.addElement(new AgeCategory(3,"65 or over"));
+        ageList.setModel(ageModel);
+        ageList.setPreferredSize(new Dimension(145, 75));
+        ageList.setBorder(BorderFactory.createEtchedBorder());
+        ageList.setSelectedIndex(1);
 
         registerBtn = new JButton("Register");
         registerBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
@@ -147,7 +158,7 @@ public class SignUpFormPanel extends JPanel {
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
-        add(ageField, gc);
+        add(ageList, gc);
 
         // Sixth row: Phone label and field
         gc.gridy++;
@@ -180,9 +191,19 @@ public class SignUpFormPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
                 String password = passwordField.getText();
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String phoneNum = phoneField.getText();
+                AgeCategory ageCategory = (AgeCategory)ageList.getSelectedValue();
 
-                UserIF user = (User) UserFactory.createUser(email, password, false);
-                UserFormEvent userEvent = new UserFormEvent(this, user);
+                User user = (User) UserFactory.createUser(email, password, true);
+                
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setAge(ageCategory.getID());
+                user.setPhoneNum(phoneNum);
+                
+                RegisterFormEvent userEvent = new RegisterFormEvent(this, (NewUser) user);
                 if (formListener != null) {
                     formListener.formEventOccured(userEvent);
                 }
@@ -197,11 +218,40 @@ public class SignUpFormPanel extends JPanel {
 
     }
 
-    public void setFormListener(FormListenerIF formListener) {
+    public void setFormListener(RegisterFormListenerIF formListener) {
         this.formListener = formListener;
     }
 
     private boolean checkPassword(String password) {
         return "password".equals(password);
+    }
+}
+
+/**
+ * An utility class for age category string
+ * @author Ana
+ */
+class AgeCategory{
+    private int id;
+    private String text;
+//    private Age age;
+    
+    public AgeCategory(int id, String text){
+        this.id = id;
+        this.text = text;
+//        this.age = age;
+    }
+    
+//    public Age getAge(){
+//        return age;
+//    }
+    
+    public int getID(){
+        return id;
+    }
+    
+    @Override
+    public String toString(){
+     return text;   
     }
 }

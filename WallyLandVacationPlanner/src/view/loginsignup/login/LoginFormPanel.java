@@ -1,5 +1,6 @@
 package view.loginsignup.login;
 
+import controller.loginsignup.LoginController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,10 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
-import model.loginsignup.UserFormEvent;
-import model.loginsignup.UserIF;
-import view.loginsignup.FormListenerIF;
-import view.loginsignup.signup.SignUpView;
+import model.loginsignup.LoginFormEvent;
+import view.loginsignup.signup.RegisterView;
+import view.loginsignup.LoginFormListenerIF;
 
 /**
  *
@@ -31,9 +31,10 @@ public class LoginFormPanel extends JPanel {
     private JTextField passwordField;
     private JButton loginBtn;
     private JButton signUpBtn;
-    private FormListenerIF formListener;
+    private LoginFormListenerIF formListener;
     private JLabel signUpExplanationLabel;
     protected JLabel incorrectPassword;
+    private LoginController controller;
 
     public LoginFormPanel() {
         emailLabel = new JLabel("Email");
@@ -137,8 +138,8 @@ public class LoginFormPanel extends JPanel {
                 String email = emailField.getText();
                 String password = passwordField.getText();
 
-                UserIF user = (User) UserFactory.createUser(email, password, false);
-                UserFormEvent userEvent = new UserFormEvent(this, user);
+                User user = (User) UserFactory.createUser(email, password, false);
+                LoginFormEvent userEvent = new LoginFormEvent(this, user);
                 
                 if (formListener != null) {
                     formListener.formEventOccured(userEvent);
@@ -152,18 +153,14 @@ public class LoginFormPanel extends JPanel {
             }
         });
 
-        signUpBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SignUpView signUpView = new SignUpView();
-                signUpView.setVisible(true);
-            }
-
+        signUpBtn.addActionListener((ActionEvent e) -> {
+            RegisterView signUpView = new RegisterView();
+            signUpView.setVisible(true);
         });
 
     }
 
-    public void setFormListener(FormListenerIF formListener) {
+    public void setFormListener(LoginFormListenerIF formListener) {
         this.formListener = formListener;
     }
 

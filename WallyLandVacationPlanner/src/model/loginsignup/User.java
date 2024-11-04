@@ -1,38 +1,56 @@
 package model.loginsignup;
 
+
 /**
  *
  * @author Ana
  */
-public abstract class User implements UserIF{
-    
-    private String email;
+public abstract class User implements UserIF {
+
+    String email;
     private String password;
     private String firstName;
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
     private String lastName;
-    
-    public User(String email, String password){
+    private String phoneNumber;
+    private int age;
+
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    @Override
+//    @Override
     public String getEmail() {
         return email;
     }
 
-    @Override
+//    @Override
     public String getPassword() {
         return password;
     }
     
+    public String getFirstName(){
+        return firstName;
+    }
     
+    public String getLastName(){
+        return lastName;
+    }
+    
+    public String getPhoneNum(){
+        return phoneNumber;
+    }
+    
+    public int getAge(){
+        return age;
+    }
+
+    public abstract void setFirstName(String firstName);
+
+    public abstract void setLastName(String lastName);
+    
+    public abstract void setPhoneNum(String phoneNum);
+    
+    public abstract void setAge(int age);
+
 }

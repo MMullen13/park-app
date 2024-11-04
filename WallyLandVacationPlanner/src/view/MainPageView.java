@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
  * @author Ana
  */
 public class MainPageView extends JFrame {
+    Controller controller;
     
     /**
      * Constructor
@@ -20,6 +22,7 @@ public class MainPageView extends JFrame {
     public MainPageView() {
         super("WallyLand Park Application");
         
+        controller = new Controller();
         setLayout(new BorderLayout());
        
         setJMenuBar(createMenuBar());

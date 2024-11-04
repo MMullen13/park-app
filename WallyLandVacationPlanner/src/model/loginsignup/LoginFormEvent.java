@@ -15,7 +15,7 @@ import java.util.EventObject;
  * 
  * Usage example:
  * <pre>
-     UserFormEvent userEvent = new UserFormEvent(this, user);
+     LoginFormEvent userEvent = new LoginFormEvent(this, user);
      if (userEvent.isNewUser()) {
          // Handle new user registration
      }
@@ -24,17 +24,17 @@ import java.util.EventObject;
  * @author Ana
  */
 
-public class UserFormEvent extends EventObject {
+public class LoginFormEvent extends EventObject {
 
-    private UserIF user;
+    private User user;
 
-    public UserFormEvent(Object source, UserIF user) {
+    public LoginFormEvent(Object source, User user) {
         super(source);
 
         this.user = user;
     }
 
-    public UserIF getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -45,21 +45,37 @@ public class UserFormEvent extends EventObject {
     public String getPassword() {
         return user.getPassword();
     }
-
-    /**
-     * Checks if the user is an existing user based on the type. This can be
-     * useful to handle different actions for new and existing users.
+    
+        /**
+     * User First Name getter
+     * @return user first name of type String
      */
-    public boolean isExistingUser() {
-        return user instanceof ProfileUser;
+    public String getFirstName() {
+        return user.getFirstName();
     }
 
     /**
-     * Checks if the user is a new user based on the type. This can be useful to
-     * handle different actions for new and existing users.
+     * User Last Name getter
+     * @return user last name of type String
      */
-    public boolean isNewUser() {
-        return user instanceof NewUser;
+    public String getLastName() {
+        return user.getLastName();
+    }
+    
+    /**
+     * User Phone Number getter
+     * @return user phone number of type String
+     */
+    public String getPhone() {
+        return user.getPhoneNum();
+    }
+
+    /**
+     * User Age getter
+     * @return user age of type Age
+     */
+    public int getAge() {
+        return user.getAge();
     }
 
     /**
@@ -68,7 +84,6 @@ public class UserFormEvent extends EventObject {
      */
     @Override
     public String toString() {
-        return "UserEvent [source=" + getSource() + ", email=" + getEmail()
-                + ", userType=" + (isNewUser() ? "NewUser" : "ExistingUser") + "]";
+        return "UserEvent [source=" + getSource() + ", email=" + getEmail();               
     }
 }
