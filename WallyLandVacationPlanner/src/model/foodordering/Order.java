@@ -57,8 +57,7 @@ public class Order implements OrderIF {
         for (MenuItem item : orderItems){
             total += item.getPrice();
         }
-        total = (total * 0.07);
-        return total;
+        return total * .07;
     }
 
     /**
@@ -92,6 +91,7 @@ public class Order implements OrderIF {
     public String getPickupTime() {
         return pickupTime;
     }
+    
 
     /**
      * gets the menu associated with the order
@@ -118,6 +118,14 @@ public class Order implements OrderIF {
     @Override
     public Eatery getEatery() {
         return eatery;
+    }
+    
+    /**
+     * Sets the pickup time chosen by user
+     * @param pickupTime Desired Pickup Time
+     */
+    public void setPickupTime(String pickupTime){
+        this.pickupTime = pickupTime;
     }
 
     
