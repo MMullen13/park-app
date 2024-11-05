@@ -8,9 +8,6 @@ package model.foodordering;
  *
  * @author theme
  */
-public class Order {
-    
-    
-    
+public class MenuItem {
     
 }
