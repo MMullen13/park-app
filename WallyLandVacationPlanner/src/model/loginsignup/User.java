@@ -1,11 +1,13 @@
 package model.loginsignup;
 
+import java.io.Serializable;
+
 
 /**
  *
  * @author Ana
  */
-public abstract class User implements UserIF {
+public abstract class User implements UserIF, Serializable {
 
     String email;
     private String password;

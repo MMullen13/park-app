@@ -76,6 +76,7 @@ public class RegisterFormPanel extends JPanel {
         Dimension dim = getPreferredSize();
         dim.width = 250;
         setPreferredSize(dim);
+        
 
         Border innerBorder = BorderFactory.createTitledBorder("New User Sign Up");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);

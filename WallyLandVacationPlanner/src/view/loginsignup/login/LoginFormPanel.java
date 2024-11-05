@@ -1,6 +1,5 @@
 package view.loginsignup.login;
 
-import controller.loginsignup.LoginController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import model.loginsignup.User;
@@ -28,28 +28,29 @@ public class LoginFormPanel extends JPanel {
     private JLabel emailLabel;
     private JLabel passwordLabel;
     private JTextField emailField;
-    private JTextField passwordField;
+    private JPasswordField passField;
     private JButton loginBtn;
     private JButton signUpBtn;
     private LoginFormListenerIF formListener;
     private JLabel signUpExplanationLabel;
     protected JLabel incorrectPassword;
-    private LoginController controller;
+    
 
     public LoginFormPanel() {
         emailLabel = new JLabel("Email");
         passwordLabel = new JLabel("Password");
         emailField = new JTextField(14);
-        passwordField = new JTextField(14);
-
+        passField = new JPasswordField(14);
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
+        incorrectPassword = new JLabel("");
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
         signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
 
         signUpExplanationLabel = new JLabel("New User, Sign Up Here");
-        incorrectPassword = new JLabel("");
-
+        
+        passField.setEchoChar('*');
+        
         Dimension dim = getPreferredSize();
         dim.width = 250;
         setPreferredSize(dim);
@@ -90,7 +91,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(10, 0, 5, 0);
-        add(passwordField, gc);
+        add(passField, gc);
 
         // Third row: Login button
         gc.gridy++;
@@ -136,7 +137,8 @@ public class LoginFormPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
-                String password = passwordField.getText();
+                char[] pass = passField.getPassword();
+                String password = new String(pass);
 
                 User user = (User) UserFactory.createUser(email, password, false);
                 LoginFormEvent userEvent = new LoginFormEvent(this, user);
@@ -145,7 +147,7 @@ public class LoginFormPanel extends JPanel {
                     formListener.formEventOccured(userEvent);
                 }
 
-                boolean isCorrectPassword = checkPassword(password);
+               boolean isCorrectPassword = checkPassword(password);
 
                 if (!isCorrectPassword) {
                     incorrectPassword.setText("Invalid Login Credentials!");

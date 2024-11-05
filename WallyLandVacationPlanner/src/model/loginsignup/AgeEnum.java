@@ -4,7 +4,7 @@ package model.loginsignup;
  *
  * @author Ana
  */
-public enum Age {
+public enum AgeEnum {
     toddler,
     child,
     adult,

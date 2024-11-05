@@ -1,60 +1,50 @@
 package view.loginsignup.login;
 
 import controller.loginsignup.LoginController;
-import view.MainPageView;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import model.loginsignup.LoginFormEvent;
-import view.loginsignup.LoginFormListenerIF;
 
 /**
+ * The LoginView class represents the main window of the WallyLand Park
+ * Application. It sets up the user interface with a login form panel and
+ * connects it to a controller. This class extends JFrame and manages the
+ * layout, size, and initial positioning of the application's main frame.
  *
  * @author Ana
  */
 public class LoginView extends JFrame {
 
     private LoginFormPanel formPanel;
-    private MainPageView mainPage;
     private LoginController controller;
 
+    /**
+     * Constructs a LoginView frame, sets the layout and initializes components.
+     * The frame is centered on the screen when opened, and the login form panel
+     * is added to the frame.
+     */
     public LoginView() {
         super("WallyLand Park Application");
-        
-        setLayout(new BorderLayout());
+
+        setLayout(new BorderLayout()); // Set up the main layout and components
 
         formPanel = new LoginFormPanel();
         controller = new LoginController();
         controller.setLoginView(this);
-        
-        formPanel.setFormListener(new LoginFormListenerIF(){
-            public void formEventOccured(LoginFormEvent e){
-//                String email = e.getEmail();
-//                String password = e.getPassword();
-//                
-//                System.out.println(email + "\n" + password + "\n");
-//                
-//                if(validateLogin(email, password)){
-//                    dispose();
-//                    mainPage = new MainPageView();
-//                    mainPage.setVisible(true);
-//                } else{
-//                    System.out.println("Invalid Login Credentials\n");
-//                }
-                controller.handleProfileUser(e);
-            }
+
+        // Register a listener to handle login form events
+        formPanel.setFormListener((LoginFormEvent e) -> {
+            controller.handleProfileUser(e);
         });
 
-        //for testing purposses
+        // Add the form panel to the frame's center
         add(formPanel, BorderLayout.CENTER);
-               
+
+        // Configure frame properties
         setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
         setVisible(true);
     }
-    
-//    private boolean validateLogin(String email, String password){
-//        //To Do
-//        return "user@example.com".equals(email) && "password".equals(password);
-//    }
-
 }
