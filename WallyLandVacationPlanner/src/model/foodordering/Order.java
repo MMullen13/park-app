@@ -10,6 +10,21 @@ package model.foodordering;
  */
 public class Order {
     
+    private String orderID;
+    private Eatery eatery;
+    private Menu menu;
+    private String pickupTime;
+
+    public Order(String orderID, Eatery eatery, Menu menu) {
+        this.orderID = orderID;
+        this.eatery = eatery;
+        this.menu = menu;
+    }
+
+    
+    
+    
+    
     
     
     
