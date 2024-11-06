@@ -2,6 +2,9 @@ package view.loginsignup.login;
 
 import controller.loginsignup.LoginController;
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.LoginFormEvent;
 
@@ -17,6 +20,7 @@ public class LoginView extends JFrame {
 
     private LoginFormPanel formPanel;
     private LoginController controller;
+    private ImageIcon wallylandIcon;
 
     /**
      * Constructs a LoginView frame, sets the layout and initializes components.
@@ -25,6 +29,11 @@ public class LoginView extends JFrame {
      */
     public LoginView() {
         super("WallyLand Park Application");
+
+        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        if (wallylandIcon != null) {
+            setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
+        }
 
         setLayout(new BorderLayout()); // Set up the main layout and components
 
@@ -44,7 +53,20 @@ public class LoginView extends JFrame {
         setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         setVisible(true);
+    }
+
+    private ImageIcon createIcon(String path, int w, int l) {
+        URL url = getClass().getResource(path);
+
+        if (url == null) {
+            System.err.println("Unable to load image icon: " + path);
+        }
+
+        ImageIcon icon = new ImageIcon(url);
+        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        return resizedIcon;
     }
 }

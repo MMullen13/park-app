@@ -1,18 +1,25 @@
 package view.loginsignup.signup;
 
+import view.loginsignup.AgeCategoryUtils;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import model.loginsignup.NewUser;
 import model.loginsignup.User;
@@ -36,47 +43,56 @@ public class RegisterFormPanel extends JPanel {
     private JTextField passwordField;
     private JTextField firstNameField;
     private JTextField lastNameField;
-    private JTextField phoneField;    
+    private JTextField phoneField;
     private JButton registerBtn;
     private JList ageList;
+    private Icon emailIcon;
+    private Icon passwordIcon;
+    private Icon firstNameIcon;
+    private Icon ageIcon;
+    private Icon phoneIcon;
 
     private RegisterFormListenerIF formListener;
-                       
+
     /**
      * Constructor
      */
     public RegisterFormPanel() {
-        emailLabel = new JLabel("Email");
-        passwordLabel = new JLabel("Password");
-        firstNameLabel = new JLabel("First Name");
-        lastNameLabel = new JLabel("Last Name");
-        ageLabel = new JLabel("Age");
-        phoneLabel = new JLabel("Phone Number");
         emailField = new JTextField(16);
         passwordField = new JTextField(16);
         firstNameField = new JTextField(16);
         lastNameField = new JTextField(16);
         phoneField = new JTextField(16);
         ageList = new JList();
-        
+        emailIcon = createIcon("/images/icons8-email.png", 40, 40);
+        passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
+        firstNameIcon = createIcon("/images/icons8-name-tag.png", 50, 50);
+        ageIcon = createIcon("/images/icons8-calendar.png", 60, 60);
+        phoneIcon = createIcon("/images/icons8-phone.png", 40, 40);
+
+        emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
+        passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
+        firstNameLabel = new JLabel("First Name", firstNameIcon, SwingConstants.RIGHT);
+        lastNameLabel = new JLabel("Last Name");
+        ageLabel = new JLabel("Age", ageIcon, SwingConstants.RIGHT);
+        phoneLabel = new JLabel("Phone Number", phoneIcon, SwingConstants.LEFT);
+
         DefaultListModel ageModel = new DefaultListModel();
-        ageModel.addElement(new AgeCategory(0, "Under 3"));
-        ageModel.addElement(new AgeCategory(1,"3 to 18"));
-        ageModel.addElement(new AgeCategory(2,"18 to 65"));
-        ageModel.addElement(new AgeCategory(3,"65 or over"));
+        ageModel.addElement(new AgeCategoryUtils(0, "Under 3"));
+        ageModel.addElement(new AgeCategoryUtils(1, "3 to 18"));
+        ageModel.addElement(new AgeCategoryUtils(2, "18 to 65"));
+        ageModel.addElement(new AgeCategoryUtils(3, "65 or over"));
         ageList.setModel(ageModel);
         ageList.setPreferredSize(new Dimension(145, 75));
         ageList.setBorder(BorderFactory.createEtchedBorder());
         ageList.setSelectedIndex(1);
 
         registerBtn = new JButton("Register");
-        registerBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
-
+        registerBtn.setPreferredSize(new Dimension(140, 40)); // Width: 130, Height: 30
 
         Dimension dim = getPreferredSize();
         dim.width = 250;
         setPreferredSize(dim);
-        
 
         Border innerBorder = BorderFactory.createTitledBorder("New User Sign Up");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
@@ -100,7 +116,7 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(emailField, gc);
-        
+
         // Second row: Password label and field
         gc.gridy++;
         gc.weightx = 1;
@@ -115,7 +131,7 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(passwordField, gc);
-        
+
         // Third row: First Name label and field
         gc.gridy++;
         gc.weightx = 1;
@@ -155,7 +171,7 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0, 0, 5, 5);
         add(ageLabel, gc);
-        
+
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
@@ -170,12 +186,12 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0, 0, 5, 5);
         add(phoneLabel, gc);
-        
+
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(phoneField, gc);
-        
+
         // Seventh row: Register button
         gc.gridy++;
         gc.weightx = 1;
@@ -185,8 +201,7 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
         add(registerBtn, gc);
-        
-        
+
         registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,15 +210,15 @@ public class RegisterFormPanel extends JPanel {
                 String firstName = firstNameField.getText();
                 String lastName = lastNameField.getText();
                 String phoneNum = phoneField.getText();
-                AgeCategory ageCategory = (AgeCategory)ageList.getSelectedValue();
+                AgeCategoryUtils ageCategory = (AgeCategoryUtils) ageList.getSelectedValue();
 
                 User user = (User) UserFactory.createUser(email, password, true);
-                
+
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setAge(ageCategory.getID());
                 user.setPhoneNum(phoneNum);
-                
+
                 RegisterFormEvent userEvent = new RegisterFormEvent(this, (NewUser) user);
                 if (formListener != null) {
                     formListener.formEventOccured(userEvent);
@@ -216,7 +231,10 @@ public class RegisterFormPanel extends JPanel {
                 }
             }
         });
+        
+        registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
 
+        setBackground(new Color(227, 236, 241));
     }
 
     public void setFormListener(RegisterFormListenerIF formListener) {
@@ -226,33 +244,17 @@ public class RegisterFormPanel extends JPanel {
     private boolean checkPassword(String password) {
         return "password".equals(password);
     }
-}
 
-/**
- * An utility class for age category string
- * @author Ana
- */
-class AgeCategory{
-    private int id;
-    private String text;
-//    private Age age;
-    
-    public AgeCategory(int id, String text){
-        this.id = id;
-        this.text = text;
-//        this.age = age;
-    }
-    
-//    public Age getAge(){
-//        return age;
-//    }
-    
-    public int getID(){
-        return id;
-    }
-    
-    @Override
-    public String toString(){
-     return text;   
+    private ImageIcon createIcon(String path, int w, int l) {
+        URL url = getClass().getResource(path);
+
+        if (url == null) {
+            System.err.println("Unable to load image icon: " + path);
+        }
+
+        ImageIcon icon = new ImageIcon(url);
+        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        return resizedIcon;
     }
 }

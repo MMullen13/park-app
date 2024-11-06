@@ -2,6 +2,8 @@ package view.loginsignup.signup;
 
 import controller.loginsignup.LoginController;
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.login.LoginView;
@@ -38,18 +40,24 @@ public class RegisterView extends JFrame {
 //            completeRegistration();
         });
         
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent ev){
+                System.out.println("Registration window clossiing");
+                dispose(); //dispose the registration window
+                System.gc(); //run the garbage collector
+            }
+        });
+        
         // Add the form panel to the frame's center
         add(formPanel, BorderLayout.CENTER);
 
         // Configure frame properties
         setSize(700, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setVisible(true);
     }
 
-    private void completeRegistration(){
-        dispose();
-    }
 }
