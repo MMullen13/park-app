@@ -3,11 +3,15 @@ package controller.loginsignup;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import model.loginsignup.AgeEnum;
 import model.loginsignup.UserDatabase;
 import model.loginsignup.LoginFormEvent;
+import model.loginsignup.uservalidator.NameValidator;
+import model.loginsignup.uservalidator.PhoneNumberValidator;
 import model.loginsignup.RegisterFormEvent;
 import model.loginsignup.User;
+import model.loginsignup.uservalidator.ValidatorIF;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
 import view.loginsignup.signup.RegisterView;
@@ -23,13 +27,16 @@ public class LoginController {
     private UserDatabase dataBase;
     private LoginView loginView;
     private RegisterView registerView;
+    private PhoneNumberValidator phoneValidator;
+    private NameValidator nameValidator;
 
     /**
-     * Constructor
-     * initializes the user database 
+     * Constructor initializes the user database and the phone phoneValidator
      */
     public LoginController() {
         dataBase = new UserDatabase();
+        phoneValidator = new PhoneNumberValidator();
+        nameValidator = new NameValidator();
     }
 
     /**
@@ -111,24 +118,41 @@ public class LoginController {
 
         AgeEnum age;
 
+        // validate 
+        String validEmail;
+        String validPassword;
+        String validNumber = "";
+        String validFirstName = new String();
+        String validLastName = new String();
+
         // Determine the age category based on ageID and map it to AgeEnum
         switch (ageID) {
-            case 0:
+            case 0 ->
                 age = AgeEnum.toddler;
-                break;
-            case 1:
+            case 1 ->
                 age = AgeEnum.child;
-                break;
-            case 2:
+            case 2 ->
                 age = AgeEnum.adult;
-                break;
-            case 3:
+            case 3 ->
                 age = AgeEnum.senior;
-                break;
         }
 
-        //for testing purposes
-        System.out.println(email + "\n" + password + "\n" + firstName + "\n" + lastName + "\n" + ageID + "\n" + phoneNum);
+//        validatePhoneCredentials(validNumber, phoneNum);
+        validateCredentials(validFirstName, firstName, nameValidator,
+                registerView::clearFirstNameError,
+                registerView::displayFirstNameError, 
+                "first name");
+
+        validateCredentials(validLastName, lastName, nameValidator,
+                registerView::clearLastNameError,
+                registerView::displayLastNameError, 
+                "last name");
+
+        validateCredentials(validNumber, phoneNum, phoneValidator,
+                registerView::clearPhoneError,
+                registerView::displayPhoneError,
+                "(215)123-4567");
+
     }
 
     //hard coded email and pasword for testing purposes
@@ -154,6 +178,20 @@ public class LoginController {
             }
         }
         return false;
+    }
+
+    private void validateCredentials(String data, String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError, String placeholder) {
+        try {
+            // Check if rawData matches the placeholder or is empty
+            if (rawData.equals(placeholder) || rawData.trim().isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty.");
+            }
+            data = validator.validate(rawData);
+            System.out.println(data);
+            clearError.run();
+        } catch (IllegalArgumentException ex) {
+            displayError.accept(ex.getMessage());
+        }
     }
 
     /**

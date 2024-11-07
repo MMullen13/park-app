@@ -67,7 +67,7 @@ public class LoginFormPanel extends JPanel {
 
         emailField.setForeground(Color.LIGHT_GRAY);
         passField.setForeground(Color.LIGHT_GRAY);
-        passField.setText("password");
+        passField.setText("Password");
         passField.setEchoChar((char) 0);
 
         setTextField(emailField, "user@example.com");
@@ -77,7 +77,7 @@ public class LoginFormPanel extends JPanel {
             @Override
             public void focusGained(FocusEvent e) {
                 // check if the placeholder text is present
-                if (new String(passField.getPassword()).equals("password")) {
+                if (new String(passField.getPassword()).equals("Password")) {
                     passField.setText("");  // clear the placeholder text
                     passField.setForeground(Color.BLACK);  // set text color for black
                     passField.setEchoChar('*');  // hide characters with the echo char
@@ -89,7 +89,7 @@ public class LoginFormPanel extends JPanel {
                 // if the field is empty, reset to placeholder
                 if (new String(passField.getPassword()).isEmpty()) {
                     passField.setForeground(Color.LIGHT_GRAY); 
-                    passField.setText("password");  // reset placeholder text
+                    passField.setText("Password");  // reset placeholder text
                     passField.setEchoChar((char) 0);  // show text as plain (no echo char)
                 }
             }
@@ -238,8 +238,8 @@ public class LoginFormPanel extends JPanel {
         add(passField, gc);
 
         gc.gridx = 2;
-        gc.anchor = GridBagConstraints.LINE_START; // Align to the left side of eyeLabel's cell
-        gc.insets = new Insets(10, -90, 0, 0); // Set negative left padding to bring eyeLabel closer
+        gc.anchor = GridBagConstraints.LINE_START; 
+        gc.insets = new Insets(10, -90, 0, 0); // set negative left padding to bring eyeLabel closer
         add(eyeLabel, gc);
 
         // Third row: Login button
@@ -250,7 +250,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;
-        gc.insets = new Insets(0, 0, 5, 0); // Adding some top padding for spacing
+        gc.insets = new Insets(0, 0, 5, 0); 
         add(loginBtn, gc);
 
         // Fourth row: Sign up explanation label
@@ -261,7 +261,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;
-        gc.insets = new Insets(25, 0, 0, 0); // Adding some top padding for spacing
+        gc.insets = new Insets(25, 0, 0, 0);
         add(signUpExplanationLabel, gc);
 
         // Fifth row: Sign up button
@@ -280,10 +280,10 @@ public class LoginFormPanel extends JPanel {
         gc.weightx = 0;
         gc.weighty = 0;
 
-        gc.gridx = 0; // Set to 0 to make sure it starts from the left side of the panel
-        gc.gridwidth = 3;  // Span across the width of the panel
-        gc.anchor = GridBagConstraints.CENTER;  // Center the icon within the grid cell
-        gc.insets = new Insets(30, 0, 0, 0);  // Adjust the bottom padding as needed
+        gc.gridx = 0; // set to 0 to make sure it starts from the left side of the panel
+        gc.gridwidth = 3;  // span across the width of the panel
+        gc.anchor = GridBagConstraints.CENTER;  
+        gc.insets = new Insets(30, 0, 0, 0);  
         add(incorrectPasswordIcon, gc);
 
         // Sixth row: Incorrect password label
@@ -294,8 +294,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
-        gc.insets = new Insets(0, 0, 50, 0); // Adding space at the bottom
+        gc.insets = new Insets(0, 0, 50, 0); 
         add(incorrectPassword, gc);
-
     }
 }
