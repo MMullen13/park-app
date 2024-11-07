@@ -11,6 +11,8 @@ import model.loginsignup.uservalidator.NameValidator;
 import model.loginsignup.uservalidator.PhoneNumberValidator;
 import model.loginsignup.RegisterFormEvent;
 import model.loginsignup.User;
+import model.loginsignup.uservalidator.EmailValidator;
+import model.loginsignup.uservalidator.PasswordValidator;
 import model.loginsignup.uservalidator.ValidatorIF;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
@@ -29,6 +31,8 @@ public class LoginController {
     private RegisterView registerView;
     private PhoneNumberValidator phoneValidator;
     private NameValidator nameValidator;
+    private EmailValidator emailValidator;
+    private PasswordValidator passwordValidator;
 
     /**
      * Constructor initializes the user database and the phone phoneValidator
@@ -37,6 +41,8 @@ public class LoginController {
         dataBase = new UserDatabase();
         phoneValidator = new PhoneNumberValidator();
         nameValidator = new NameValidator();
+        emailValidator = new EmailValidator();
+        passwordValidator = new PasswordValidator();
     }
 
     /**
@@ -119,11 +125,11 @@ public class LoginController {
         AgeEnum age;
 
         // validate 
-        String validEmail;
-        String validPassword;
+        String validEmail = "";
+        String validPassword = "";
         String validNumber = "";
-        String validFirstName = new String();
-        String validLastName = new String();
+        String validFirstName = "";
+        String validLastName = "";
 
         // Determine the age category based on ageID and map it to AgeEnum
         switch (ageID) {
@@ -137,21 +143,25 @@ public class LoginController {
                 age = AgeEnum.senior;
         }
 
-//        validatePhoneCredentials(validNumber, phoneNum);
+        validateCredentials(validEmail, email, emailValidator,
+                registerView::clearEmailError,
+                registerView::displayEmailError);
+        
+        validateCredentials(validPassword, password, passwordValidator,
+                registerView::clearPasswordError,
+                registerView::displayPasswordError);
+
         validateCredentials(validFirstName, firstName, nameValidator,
                 registerView::clearFirstNameError,
-                registerView::displayFirstNameError, 
-                "first name");
+                registerView::displayFirstNameError);
 
         validateCredentials(validLastName, lastName, nameValidator,
                 registerView::clearLastNameError,
-                registerView::displayLastNameError, 
-                "last name");
+                registerView::displayLastNameError);
 
         validateCredentials(validNumber, phoneNum, phoneValidator,
                 registerView::clearPhoneError,
-                registerView::displayPhoneError,
-                "(215)123-4567");
+                registerView::displayPhoneError);
 
     }
 
@@ -180,12 +190,8 @@ public class LoginController {
         return false;
     }
 
-    private void validateCredentials(String data, String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError, String placeholder) {
+    private void validateCredentials(String data, String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError) {
         try {
-            // Check if rawData matches the placeholder or is empty
-            if (rawData.equals(placeholder) || rawData.trim().isEmpty()) {
-                throw new IllegalArgumentException("Name cannot be empty.");
-            }
             data = validator.validate(rawData);
             System.out.println(data);
             clearError.run();

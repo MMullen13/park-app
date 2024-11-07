@@ -14,7 +14,7 @@ public class PhoneNumberValidator implements ValidatorIF {
      * number such as 2151234567 and returns a String containing a formatted
      * telephone number such as (215)123-4567
      *
-     * @param number
+     * @param input
      * @return
      */
     @Override
@@ -24,7 +24,7 @@ public class PhoneNumberValidator implements ValidatorIF {
             throw new IllegalArgumentException("Phone number must be 13 characters.");
         }
 
-        // Check for invalid characters using regular expression
+        // check for invalid characters using regular expression
         if (!input.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) {
             throw new IllegalArgumentException("Invalid phone number format.");
         }

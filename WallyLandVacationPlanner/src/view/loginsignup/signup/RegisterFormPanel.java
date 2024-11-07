@@ -43,6 +43,7 @@ public class RegisterFormPanel extends JPanel {
     private JLabel lastNameLabel;
     protected JLabel emailErrorLabel;
     protected JLabel passwordErrorLabel;
+    protected JLabel passwordExplanationLabel;
     protected JLabel firstNameErrorLabel;
     protected JLabel lastNameErrorLabel;
     protected JLabel phoneErrorLabel;
@@ -65,7 +66,7 @@ public class RegisterFormPanel extends JPanel {
      * Constructor
      */
     public RegisterFormPanel() {
-        emailField = new JTextField("user@example.com", 18);
+        emailField = new JTextField("Email", 18);
         passwordField = new JTextField("Password", 18);
         firstNameField = new JTextField("First Name", 18);
         lastNameField = new JTextField("Last Name", 18);
@@ -83,7 +84,7 @@ public class RegisterFormPanel extends JPanel {
         lastNameField.setForeground(Color.LIGHT_GRAY);
         phoneField.setForeground(Color.LIGHT_GRAY);
 
-        setTextField(emailField, "user@example.com");
+        setTextField(emailField, "Email");
         setTextField(passwordField, "Password");
         setTextField(firstNameField, "First Name");
         setTextField(lastNameField, "Last Name");
@@ -98,8 +99,11 @@ public class RegisterFormPanel extends JPanel {
         phoneErrorLabel = new JLabel("");
         emailErrorLabel = new JLabel("");
         passwordErrorLabel = new JLabel("");
+        passwordExplanationLabel = new JLabel("Must be at least 8 haracters long, one capital letter and one digit");
         firstNameErrorLabel = new JLabel("");
         lastNameErrorLabel = new JLabel("");
+        
+        passwordExplanationLabel.setForeground(Color.GRAY);
 
         DefaultListModel ageModel = new DefaultListModel();
 
@@ -252,10 +256,12 @@ public class RegisterFormPanel extends JPanel {
         gc.insets = new Insets(0, 0, 5, 0);
         add(passwordField, gc);
 
-        gc.gridx = 2;
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -100, 5, 0);
-        add(passwordErrorLabel, gc);
+        
+        gc.gridy++;
+        gc.weighty = 0.05;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.insets = new Insets(0, -130, 20, 0);
+        add(passwordExplanationLabel, gc);
 
         // Third row: First Name label and field
         gc.gridy++;
@@ -339,7 +345,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
+        gc.insets = new Insets(10, 0, 5, 0);
         add(registerBtn, gc);
     }
 }

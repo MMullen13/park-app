@@ -64,6 +64,8 @@ public class LoginFormPanel extends JPanel {
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
         incorrPassIcon = createIcon("/images/icons8-error.png", 50, 50);
         eyeIcon = createIcon("/images/icons8-eye.png", 35, 35);
+        
+        signUpExplanationLabel.setForeground(Color.GRAY);
 
         emailField.setForeground(Color.LIGHT_GRAY);
         passField.setForeground(Color.LIGHT_GRAY);

@@ -10,7 +10,6 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.RegisterFormEvent;
-import view.loginsignup.login.LoginView;
 
 /**
  * The RegisterView class represents the main window of the WallyLand Park
@@ -65,7 +64,7 @@ public class RegisterView extends JFrame {
         add(formPanel, BorderLayout.CENTER);
 
         // Configure frame properties
-        setSize(700, 500);
+        setSize(700, 600);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -85,9 +84,6 @@ public class RegisterView extends JFrame {
         return resizedIcon;
     }
 
-    public void clearPhoneError() {
-        formPanel.phoneErrorLabel.setText("");
-    }
 
     public void displayPhoneError(String message) {
         formPanel.phoneErrorLabel.setText("Invalid Phone Format");
@@ -103,6 +99,16 @@ public class RegisterView extends JFrame {
         formPanel.lastNameErrorLabel.setForeground(Color.RED);
         formPanel.lastNameErrorLabel.setText("Invalid Last Name");
     }
+    
+    public void displayEmailError(String message) {
+        formPanel.emailErrorLabel.setForeground(Color.RED);
+        formPanel.emailErrorLabel.setText("Invalid Email");
+    }
+    
+    public void displayPasswordError(String message) {
+        formPanel.passwordErrorLabel.setForeground(Color.RED);
+        formPanel.passwordErrorLabel.setText("Invalid Password");
+    }
 
     public void clearFirstNameError() {
         formPanel.firstNameErrorLabel.setText("");
@@ -110,6 +116,18 @@ public class RegisterView extends JFrame {
 
     public void clearLastNameError() {
         formPanel.lastNameErrorLabel.setText("");
+    }
+    
+    public void clearEmailError() {
+        formPanel.emailErrorLabel.setText("");
+    }
+    
+    public void clearPasswordError() {
+        formPanel.phoneErrorLabel.setText("");
+    }
+    
+    public void clearPhoneError() {
+        formPanel.phoneErrorLabel.setText("");
     }
 
 }
