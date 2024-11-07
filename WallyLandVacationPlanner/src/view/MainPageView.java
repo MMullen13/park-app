@@ -25,7 +25,7 @@ public class MainPageView extends JFrame {
      * Constructor
      */
     public MainPageView() {
-        super("WallyLand Park Application");
+        super("WallyLand");
         
 //        controller = new Controller();
         setLayout(new BorderLayout());

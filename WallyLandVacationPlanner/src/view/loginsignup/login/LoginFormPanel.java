@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -47,8 +49,8 @@ public class LoginFormPanel extends JPanel {
 
     public LoginFormPanel() {
 
-        emailField = new JTextField(14);
-        passField = new JPasswordField(14);
+        emailField = new JTextField("user@example.com", 18);
+        passField = new JPasswordField(18);
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
         incorrectPassword = new JLabel("");
@@ -58,10 +60,54 @@ public class LoginFormPanel extends JPanel {
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
         incorrPassIcon = createIcon("/images/icons8-error.png", 50, 50);
 
+        emailField.setForeground(Color.LIGHT_GRAY);
+        passField.setForeground(Color.LIGHT_GRAY);
+        passField.setText("password");
+        passField.setEchoChar((char) 0);
+
+        emailField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (emailField.getText().equals("user@example.com")) {
+                    emailField.setText("");
+                    emailField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (emailField.getText().isEmpty()) {
+                    emailField.setForeground(Color.LIGHT_GRAY);
+                    emailField.setText("user@example.com");
+                }
+            }
+        });
+
+        passField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                // Check if the placeholder text is present
+                if (new String(passField.getPassword()).equals("password")) {
+                    passField.setText("");  // Clear the placeholder text
+                    passField.setForeground(Color.BLACK);  // Set text color for real input
+                    passField.setEchoChar('*');  // Hide characters with the echo char
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                // If the field is empty, reset to placeholder
+                if (new String(passField.getPassword()).isEmpty()) {
+                    passField.setForeground(Color.LIGHT_GRAY);  // Placeholder color
+                    passField.setText("password");  // Reset placeholder text
+                    passField.setEchoChar((char) 0);  // Show text as plain (no echo char)
+                }
+            }
+        });
+
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
 
-        passField.setEchoChar('*');
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
         signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
 
@@ -73,91 +119,8 @@ public class LoginFormPanel extends JPanel {
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
-        setLayout(new GridBagLayout());
+        layoutControls(); //add the layout controllers
 
-        GridBagConstraints gc = new GridBagConstraints();
-
-        // First row: Email label and field
-        gc.gridy = 0;
-        gc.weightx = 1;
-        gc.weighty = 0.3;
-
-        gc.gridx = 0;
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(10, 0, 5, 5);
-        add(emailLabel, gc);
-
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(10, 0, 5, 0);
-        add(emailField, gc);
-
-        // Second row: Password label and field
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 0.3;
-
-        gc.gridx = 0;
-        gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(10, 0, 5, 5);
-        add(passwordLabel, gc);
-
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(10, 0, 5, 0);
-        add(passField, gc);
-
-        // Third row: Login button
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 0.4;
-
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
-        add(loginBtn, gc);
-
-        // Fourth row: Sign up explanation label
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 0.1;
-
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(15, 0, 0, 0); // Adding some top padding for spacing
-        add(signUpExplanationLabel, gc);
-
-        // Fifth row: Sign up button
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 2.0;
-
-        gc.gridx = 1;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(5, 0, 0, 0);
-        add(signUpBtn, gc);
-
-        // Seventh row: Incorrect password icon label
-        gc.gridy++; 
-        gc.weightx = 0; 
-        gc.weighty = 0; 
-
-        gc.gridx = 0; // Set to 0 to make sure it starts from the left side of the panel
-        gc.gridwidth = 3;  // Span across the width of the panel
-        gc.anchor = GridBagConstraints.CENTER;  // Center the icon within the grid cell
-        gc.insets = new Insets(10, 0, 0, 0);  // Adjust the bottom padding as needed
-        add(incorrectPasswordIcon, gc);
-
-        // Sixth row: Incorrect password label
-        gc.gridy++;
-        gc.weightx = 1;
-        gc.weighty = 1;
-
-        gc.gridx = 0;
-        gc.gridwidth = 3;  
-        gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
-        gc.insets = new Insets(0, 0, 35, 0); // Adding space at the bottom
-        add(incorrectPassword, gc);
         loginBtn.setIcon(createIcon("/images/icons8-user.png", 20, 20));
         loginBtn.addActionListener(new ActionListener() {
             @Override
@@ -213,5 +176,96 @@ public class LoginFormPanel extends JPanel {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
+    }
+
+    private void layoutControls() {
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gc = new GridBagConstraints();
+        // First row: Email label and field
+        gc.gridy = 0;
+        gc.weightx = 1;
+        gc.weighty = 0.1;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(10, 0, 0, 5);
+        add(emailLabel, gc);
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(10, 0, 0, 0);
+        add(emailField, gc);
+
+        // Second row: Password label and field
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.1;
+
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(10, 0, 0, 5);
+        add(passwordLabel, gc);
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(10, 0, 0, 0);
+        add(passField, gc);
+
+        // Third row: Login button
+        gc.gridy++;
+        gc.weightx = 0;
+        gc.weighty = 0.5;
+
+        gc.gridx = 0;
+        gc.gridwidth = 3;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.insets = new Insets(0, 0, 5, 0); // Adding some top padding for spacing
+        add(loginBtn, gc);
+
+        // Fourth row: Sign up explanation label
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.1;
+
+        gc.gridx = 0;
+        gc.gridwidth = 3;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.insets = new Insets(25, 0, 0, 0); // Adding some top padding for spacing
+        add(signUpExplanationLabel, gc);
+
+        // Fifth row: Sign up button
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 0.2;
+
+        gc.gridx = 0;
+        gc.gridwidth = 3;
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.insets = new Insets(0, 0, 0, 0);
+        add(signUpBtn, gc);
+
+        // Seventh row: Incorrect password icon label
+        gc.gridy++;
+        gc.weightx = 0;
+        gc.weighty = 0;
+
+        gc.gridx = 0; // Set to 0 to make sure it starts from the left side of the panel
+        gc.gridwidth = 3;  // Span across the width of the panel
+        gc.anchor = GridBagConstraints.CENTER;  // Center the icon within the grid cell
+        gc.insets = new Insets(30, 0, 0, 0);  // Adjust the bottom padding as needed
+        add(incorrectPasswordIcon, gc);
+
+        // Sixth row: Incorrect password label
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridwidth = 3;
+        gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
+        gc.insets = new Insets(0, 0, 50, 0); // Adding space at the bottom
+        add(incorrectPassword, gc);
+
     }
 }

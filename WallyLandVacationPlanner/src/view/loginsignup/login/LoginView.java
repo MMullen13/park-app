@@ -28,7 +28,7 @@ public class LoginView extends JFrame {
      * is added to the frame.
      */
     public LoginView() {
-        super("WallyLand Park Application");
+        super("WallyLand");
 
         wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
@@ -50,7 +50,7 @@ public class LoginView extends JFrame {
         add(formPanel, BorderLayout.CENTER);
 
         // Configure frame properties
-        setSize(600, 500);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

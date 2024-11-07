@@ -2,8 +2,11 @@ package view.loginsignup.signup;
 
 import controller.loginsignup.LoginController;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.login.LoginView;
@@ -20,6 +23,7 @@ public class RegisterView extends JFrame {
 
     private RegisterFormPanel formPanel;
     private LoginController controller;
+    private ImageIcon wallylandIcon;
 
        /**
      * Constructs a RegisterView frame, sets the layout and initializes components.
@@ -27,8 +31,13 @@ public class RegisterView extends JFrame {
      * is added to the frame.
      */
     public RegisterView() {
-        super("WallyLand Park Application");
+        super("WallyLand");
         this.controller = new LoginController();
+        
+        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        if (wallylandIcon != null) {
+            setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
+        }
 
         setLayout(new BorderLayout());
 
@@ -58,6 +67,19 @@ public class RegisterView extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
+    }
+    
+        private ImageIcon createIcon(String path, int w, int l) {
+        URL url = getClass().getResource(path);
+
+        if (url == null) {
+            System.err.println("Unable to load image icon: " + path);
+        }
+
+        ImageIcon icon = new ImageIcon(url);
+        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        return resizedIcon;
     }
 
 }

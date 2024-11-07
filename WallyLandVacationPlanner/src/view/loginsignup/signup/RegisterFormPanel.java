@@ -9,6 +9,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -69,6 +72,8 @@ public class RegisterFormPanel extends JPanel {
         firstNameIcon = createIcon("/images/icons8-name-tag.png", 50, 50);
         ageIcon = createIcon("/images/icons8-calendar.png", 60, 60);
         phoneIcon = createIcon("/images/icons8-phone.png", 40, 40);
+        
+        
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
@@ -78,12 +83,19 @@ public class RegisterFormPanel extends JPanel {
         phoneLabel = new JLabel("Phone Number", phoneIcon, SwingConstants.LEFT);
 
         DefaultListModel ageModel = new DefaultListModel();
-        ageModel.addElement(new AgeCategoryUtils(0, "Under 3"));
-        ageModel.addElement(new AgeCategoryUtils(1, "3 to 18"));
-        ageModel.addElement(new AgeCategoryUtils(2, "18 to 65"));
-        ageModel.addElement(new AgeCategoryUtils(3, "65 or over"));
+
+        ageModel.addElement(
+                new AgeCategoryUtils(0, "Under 3"));
+        ageModel.addElement(
+                new AgeCategoryUtils(1, "3 to 18"));
+        ageModel.addElement(
+                new AgeCategoryUtils(2, "18 to 65"));
+        ageModel.addElement(
+                new AgeCategoryUtils(3, "65 or over"));
         ageList.setModel(ageModel);
-        ageList.setPreferredSize(new Dimension(145, 75));
+
+        ageList.setPreferredSize(
+                new Dimension(145, 75));
         ageList.setBorder(BorderFactory.createEtchedBorder());
         ageList.setSelectedIndex(1);
 
@@ -92,12 +104,86 @@ public class RegisterFormPanel extends JPanel {
 
         Dimension dim = getPreferredSize();
         dim.width = 250;
+
         setPreferredSize(dim);
 
         Border innerBorder = BorderFactory.createTitledBorder("New User Sign Up");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
+        setControls();
+
+        registerBtn.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                String email = emailField.getText();
+                String password = passwordField.getText();
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String phoneNum = phoneField.getText();
+                AgeCategoryUtils ageCategory = (AgeCategoryUtils) ageList.getSelectedValue();
+
+                User user = (User) UserFactory.createUser(email, password, true);
+
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setAge(ageCategory.getID());
+                user.setPhoneNum(phoneNum);
+
+                RegisterFormEvent userEvent = new RegisterFormEvent(this, (NewUser) user);
+                if (formListener != null) {
+                    formListener.formEventOccured(userEvent);
+                }
+
+                boolean isCorrectPassword = checkPassword(password);
+
+                if (!isCorrectPassword) {
+//                    incorrectPassword.setText("Invalid Login Credentials!");
+                }
+            }
+        }
+        );
+
+        registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
+
+        setBackground(
+                new Color(227, 236, 241));
+    }
+
+    public void setFormListener(RegisterFormListenerIF formListener) {
+        this.formListener = formListener;
+    }
+
+    private boolean checkPassword(String password) {
+        return "password".equals(password);
+    }
+
+    private ImageIcon createIcon(String path, int w, int l) {
+        URL url = getClass().getResource(path);
+
+        if (url == null) {
+            System.err.println("Unable to load image icon: " + path);
+        }
+
+        ImageIcon icon = new ImageIcon(url);
+        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        return resizedIcon;
+    }
+
+    private void setControls() {
+
+        JPanel controlsPanel = new JPanel();
+        JPanel buttonsPanel = new JPanel();
+
+        controlsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        buttonsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        controlsPanel.setLayout(new GridBagLayout());
+        buttonsPanel.setLayout(new GridBagLayout());
         setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
@@ -201,60 +287,5 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(10, 0, 5, 0); // Adding some top padding for spacing
         add(registerBtn, gc);
-
-        registerBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String email = emailField.getText();
-                String password = passwordField.getText();
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String phoneNum = phoneField.getText();
-                AgeCategoryUtils ageCategory = (AgeCategoryUtils) ageList.getSelectedValue();
-
-                User user = (User) UserFactory.createUser(email, password, true);
-
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setAge(ageCategory.getID());
-                user.setPhoneNum(phoneNum);
-
-                RegisterFormEvent userEvent = new RegisterFormEvent(this, (NewUser) user);
-                if (formListener != null) {
-                    formListener.formEventOccured(userEvent);
-                }
-
-                boolean isCorrectPassword = checkPassword(password);
-
-                if (!isCorrectPassword) {
-//                    incorrectPassword.setText("Invalid Login Credentials!");
-                }
-            }
-        });
-        
-        registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
-
-        setBackground(new Color(227, 236, 241));
-    }
-
-    public void setFormListener(RegisterFormListenerIF formListener) {
-        this.formListener = formListener;
-    }
-
-    private boolean checkPassword(String password) {
-        return "password".equals(password);
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
 }
