@@ -61,19 +61,29 @@ public class RegisterFormPanel extends JPanel {
      * Constructor
      */
     public RegisterFormPanel() {
-        emailField = new JTextField(16);
-        passwordField = new JTextField(16);
-        firstNameField = new JTextField(16);
-        lastNameField = new JTextField(16);
-        phoneField = new JTextField(16);
+        emailField = new JTextField("user@example.com", 18);
+        passwordField = new JTextField("password", 18);
+        firstNameField = new JTextField("John", 18);
+        lastNameField = new JTextField("Doe", 18);
+        phoneField = new JTextField("(215) 123-4567", 18);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
         firstNameIcon = createIcon("/images/icons8-name-tag.png", 50, 50);
         ageIcon = createIcon("/images/icons8-calendar.png", 60, 60);
         phoneIcon = createIcon("/images/icons8-phone.png", 40, 40);
-        
-        
+
+        emailField.setForeground(Color.LIGHT_GRAY);
+        passwordField.setForeground(Color.LIGHT_GRAY);
+        firstNameField.setForeground(Color.LIGHT_GRAY);
+        lastNameField.setForeground(Color.LIGHT_GRAY);
+        phoneField.setForeground(Color.LIGHT_GRAY);
+
+        setTextField(emailField, "user@example.com");
+        setTextField(passwordField, "password");
+        setTextField(firstNameField, "John");
+        setTextField(lastNameField, "Doe");
+        setTextField(phoneField, "(215) 123-4567");
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
@@ -95,7 +105,7 @@ public class RegisterFormPanel extends JPanel {
         ageList.setModel(ageModel);
 
         ageList.setPreferredSize(
-                new Dimension(145, 75));
+                new Dimension(165, 75));
         ageList.setBorder(BorderFactory.createEtchedBorder());
         ageList.setSelectedIndex(1);
 
@@ -172,6 +182,26 @@ public class RegisterFormPanel extends JPanel {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
+    }
+
+    private void setTextField(JTextField field, String message) {
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(message)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(Color.LIGHT_GRAY);
+                    field.setText(message);
+                }
+            }
+        });
     }
 
     private void setControls() {

@@ -49,8 +49,8 @@ public class LoginFormPanel extends JPanel {
 
     public LoginFormPanel() {
 
-        emailField = new JTextField("user@example.com", 18);
-        passField = new JPasswordField(18);
+        emailField = new JTextField("user@example.com", 16);
+        passField = new JPasswordField(16);
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
         incorrectPassword = new JLabel("");
@@ -65,23 +65,7 @@ public class LoginFormPanel extends JPanel {
         passField.setText("password");
         passField.setEchoChar((char) 0);
 
-        emailField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (emailField.getText().equals("user@example.com")) {
-                    emailField.setText("");
-                    emailField.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (emailField.getText().isEmpty()) {
-                    emailField.setForeground(Color.LIGHT_GRAY);
-                    emailField.setText("user@example.com");
-                }
-            }
-        });
+        setTextField(emailField, "user@example.com");
 
         passField.addFocusListener(new FocusAdapter() {
             @Override
@@ -176,6 +160,26 @@ public class LoginFormPanel extends JPanel {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
+    }
+
+    private void setTextField(JTextField field, String message) {
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (field.getText().equals(message)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setForeground(Color.LIGHT_GRAY);
+                    field.setText(message);
+                }
+            }
+        });
     }
 
     private void layoutControls() {
