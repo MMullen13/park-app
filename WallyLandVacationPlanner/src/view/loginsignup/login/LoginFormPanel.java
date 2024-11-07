@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -43,9 +44,12 @@ public class LoginFormPanel extends JPanel {
     private JLabel signUpExplanationLabel;
     private JLabel incorrectPassword;
     private JLabel incorrectPasswordIcon;
+    private JLabel eyeLabel;
     private Icon emailIcon;
     private Icon passwordIcon;
     private Icon incorrPassIcon;
+    private Icon eyeIcon;
+    private boolean passwordVisible = false;
 
     public LoginFormPanel() {
 
@@ -59,6 +63,7 @@ public class LoginFormPanel extends JPanel {
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
         incorrPassIcon = createIcon("/images/icons8-error.png", 50, 50);
+        eyeIcon = createIcon("/images/icons8-eye.png", 35, 35);
 
         emailField.setForeground(Color.LIGHT_GRAY);
         passField.setForeground(Color.LIGHT_GRAY);
@@ -67,30 +72,46 @@ public class LoginFormPanel extends JPanel {
 
         setTextField(emailField, "user@example.com");
 
+        // add a focus listener to enter the password into the password field
         passField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                // Check if the placeholder text is present
+                // check if the placeholder text is present
                 if (new String(passField.getPassword()).equals("password")) {
-                    passField.setText("");  // Clear the placeholder text
-                    passField.setForeground(Color.BLACK);  // Set text color for real input
-                    passField.setEchoChar('*');  // Hide characters with the echo char
+                    passField.setText("");  // clear the placeholder text
+                    passField.setForeground(Color.BLACK);  // set text color for black
+                    passField.setEchoChar('*');  // hide characters with the echo char
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                // If the field is empty, reset to placeholder
+                // if the field is empty, reset to placeholder
                 if (new String(passField.getPassword()).isEmpty()) {
-                    passField.setForeground(Color.LIGHT_GRAY);  // Placeholder color
-                    passField.setText("password");  // Reset placeholder text
-                    passField.setEchoChar((char) 0);  // Show text as plain (no echo char)
+                    passField.setForeground(Color.LIGHT_GRAY); 
+                    passField.setText("password");  // reset placeholder text
+                    passField.setEchoChar((char) 0);  // show text as plain (no echo char)
                 }
             }
         });
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
+        eyeLabel = new JLabel(eyeIcon);
+        eyeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        // add a mouse listener to toggle password visibility
+        eyeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                passwordVisible = !passwordVisible;  // toggle visibility state
+                if (passwordVisible) {
+                    passField.setEchoChar((char) 0);  // show password
+                } else {
+                    passField.setEchoChar('*');  // hide password
+                }
+            }
+        });
 
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
         signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
@@ -215,6 +236,11 @@ public class LoginFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(10, 0, 0, 0);
         add(passField, gc);
+
+        gc.gridx = 2;
+        gc.anchor = GridBagConstraints.LINE_START; // Align to the left side of eyeLabel's cell
+        gc.insets = new Insets(10, -90, 0, 0); // Set negative left padding to bring eyeLabel closer
+        add(eyeLabel, gc);
 
         // Third row: Login button
         gc.gridy++;
