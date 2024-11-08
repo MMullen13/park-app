@@ -41,6 +41,7 @@ public class RegisterFormPanel extends JPanel {
     private JLabel phoneLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
+    protected JLabel successLabel;
     public JLabel emailErrorLabel;
     public JLabel passwordErrorLabel;
     public JLabel passwordExplanationLabel;
@@ -52,13 +53,14 @@ public class RegisterFormPanel extends JPanel {
     private JTextField firstNameField;
     private JTextField lastNameField;
     private JTextField phoneField;
-    private JButton registerBtn;
+    protected JButton registerBtn;
     private JList ageList;
     private Icon emailIcon;
     private Icon passwordIcon;
     private Icon firstNameIcon;
     private Icon ageIcon;
     private Icon phoneIcon;
+    private Icon successIcon;
 
     private RegisterFormListenerIF formListener;
 
@@ -77,6 +79,7 @@ public class RegisterFormPanel extends JPanel {
         firstNameIcon = createIcon("/images/icons8-name-tag.png", 50, 50);
         ageIcon = createIcon("/images/icons8-calendar.png", 60, 60);
         phoneIcon = createIcon("/images/icons8-phone.png", 40, 40);
+        successIcon = createIcon("/images/icons8-success.png", 40, 40);
 
         emailField.setForeground(Color.LIGHT_GRAY);
         passwordField.setForeground(Color.LIGHT_GRAY);
@@ -96,12 +99,24 @@ public class RegisterFormPanel extends JPanel {
         lastNameLabel = new JLabel("Last Name");
         ageLabel = new JLabel("Age", ageIcon, SwingConstants.RIGHT);
         phoneLabel = new JLabel("Phone Number", phoneIcon, SwingConstants.LEFT);
+        successLabel = new JLabel("Success", successIcon, SwingConstants.LEFT);
         phoneErrorLabel = new JLabel("");
         emailErrorLabel = new JLabel("");
         passwordErrorLabel = new JLabel("");
         passwordExplanationLabel = new JLabel("Password must be at least 8 haracters long, one capital letter and one digit");
         firstNameErrorLabel = new JLabel("");
         lastNameErrorLabel = new JLabel("");
+        
+        emailLabel.setForeground(Color.GRAY);
+        passwordLabel.setForeground(Color.GRAY);
+        firstNameLabel.setForeground(Color.GRAY);
+        lastNameLabel.setForeground(Color.GRAY);
+        ageLabel.setForeground(Color.GRAY);
+        phoneLabel.setForeground(Color.GRAY);
+        successLabel.setForeground(Color.GRAY);
+        
+        successLabel.setVisible(false);
+
         
         passwordExplanationLabel.setForeground(Color.GRAY);
 
@@ -119,6 +134,7 @@ public class RegisterFormPanel extends JPanel {
         ageList.setSelectedIndex(1);
 
         registerBtn = new JButton("Register");
+        registerBtn.setForeground(Color.DARK_GRAY);
         registerBtn.setPreferredSize(new Dimension(140, 40)); // Width: 130, Height: 30
 
         Dimension dim = getPreferredSize();
@@ -348,5 +364,10 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = new Insets(10, 0, 5, 0);
         add(registerBtn, gc);
+
+        gc.gridx = 2;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gc.insets = new Insets(10, -170, 5, 0);
+        add(successLabel, gc);
     }
 }

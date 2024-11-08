@@ -107,7 +107,9 @@ public class LoginFormPanel extends JPanel {
         });
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
+        emailLabel.setForeground(Color.GRAY);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
+        passwordLabel.setForeground(Color.GRAY);
         eyeLabel = new JLabel(eyeIcon);
         eyeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -126,6 +128,8 @@ public class LoginFormPanel extends JPanel {
 
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
         signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+        loginBtn.setForeground(Color.DARK_GRAY);
+        signUpBtn.setForeground(Color.DARK_GRAY);
 
         Dimension dim = getPreferredSize();
         dim.width = 250;

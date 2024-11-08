@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import model.loginsignup.RegisterFormEvent;
 
 /**
@@ -65,7 +64,7 @@ public class RegisterView extends JFrame {
         add(formPanel, BorderLayout.CENTER);
 
         // Configure frame properties
-        setSize(700, 600);
+        setSize(600, 700);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -88,55 +87,69 @@ public class RegisterView extends JFrame {
     public void displayPhoneError(String message) {
         formPanel.phoneErrorLabel.setText("Invalid Phone Format");
         formPanel.phoneErrorLabel.setForeground(Color.red);
+        updateSuccessState();
     }
 
     public void displayFirstNameError(String message) {
         formPanel.firstNameErrorLabel.setForeground(Color.RED);
         formPanel.firstNameErrorLabel.setText("Invalid First Name");
+        updateSuccessState();
     }
 
     public void displayLastNameError(String message) {
         formPanel.lastNameErrorLabel.setForeground(Color.RED);
         formPanel.lastNameErrorLabel.setText("Invalid Last Name");
+        updateSuccessState();
     }
 
     public void displayEmailError(String message) {
         formPanel.emailErrorLabel.setForeground(Color.RED);
         formPanel.emailErrorLabel.setText("Invalid Email");
+        updateSuccessState();
     }
 
     public void displayPasswordError(String message) {
         formPanel.passwordErrorLabel.setForeground(Color.RED);
         formPanel.passwordErrorLabel.setText("Invalid Password");
+        updateSuccessState();
     }
-
-//    public void displayError(JLabel errorLabel, String message) {
-//        errorLabel.setText(message);  // Set the error message
-//        errorLabel.setForeground(Color.RED);  // Change text color to red
-//    }
-//
-//    public void clearError(JLabel errorLabel) {
-//        errorLabel.setText("");  // Clear the error message
-//    }
 
     public void clearFirstNameError() {
         formPanel.firstNameErrorLabel.setText("");
+        updateSuccessState();
     }
 
     public void clearLastNameError() {
         formPanel.lastNameErrorLabel.setText("");
+        updateSuccessState();
     }
 
     public void clearEmailError() {
         formPanel.emailErrorLabel.setText("");
+        updateSuccessState();
     }
 
     public void clearPasswordError() {
         formPanel.passwordErrorLabel.setText("");
+        updateSuccessState();
     }
 
     public void clearPhoneError() {
         formPanel.phoneErrorLabel.setText("");
+        updateSuccessState();
     }
+    
+    public void updateSuccessState() {
+    // Check if any error label has text
+    boolean hasError = !formPanel.firstNameErrorLabel.getText().isEmpty() ||
+                       !formPanel.lastNameErrorLabel.getText().isEmpty() ||
+                       !formPanel.emailErrorLabel.getText().isEmpty() ||
+                       !formPanel.passwordErrorLabel.getText().isEmpty() ||
+                       !formPanel.phoneErrorLabel.getText().isEmpty();
+
+    // Disable or enable the success label based on whether there are errors
+    formPanel.successLabel.setVisible(!hasError);
+}
+
 
 }
