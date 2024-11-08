@@ -54,7 +54,7 @@ public class RegisterView extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent ev) {
-                System.out.println("Registration window clossiing");
+                System.out.println("Registration window closing");
                 dispose(); //dispose the registration window
                 System.gc(); //run the garbage collector
             }
@@ -123,7 +123,7 @@ public class RegisterView extends JFrame {
     }
     
     public void clearPasswordError() {
-        formPanel.phoneErrorLabel.setText("");
+        formPanel.passwordErrorLabel.setText("");
     }
     
     public void clearPhoneError() {

@@ -124,12 +124,12 @@ public class LoginController {
 
         AgeEnum age;
 
-        // validate 
-        String validEmail = "";
-        String validPassword = "";
-        String validNumber = "";
-        String validFirstName = "";
-        String validLastName = "";
+        // Use the updated validateCredentials to capture validated data
+        String validEmail = validateCredentials(email, emailValidator, registerView::clearEmailError, registerView::displayEmailError);
+        String validPassword = validateCredentials(password, passwordValidator, registerView::clearPasswordError, registerView::displayPasswordError);
+        String validFirstName = validateCredentials(firstName, nameValidator, registerView::clearFirstNameError, registerView::displayFirstNameError);
+        String validLastName = validateCredentials(lastName, nameValidator, registerView::clearLastNameError, registerView::displayLastNameError);
+        String validNumber = validateCredentials(phoneNum, phoneValidator, registerView::clearPhoneError, registerView::displayPhoneError);
 
         // Determine the age category based on ageID and map it to AgeEnum
         switch (ageID) {
@@ -143,26 +143,11 @@ public class LoginController {
                 age = AgeEnum.senior;
         }
 
-        validateCredentials(validEmail, email, emailValidator,
-                registerView::clearEmailError,
-                registerView::displayEmailError);
-        
-        validateCredentials(validPassword, password, passwordValidator,
-                registerView::clearPasswordError,
-                registerView::displayPasswordError);
-
-        validateCredentials(validFirstName, firstName, nameValidator,
-                registerView::clearFirstNameError,
-                registerView::displayFirstNameError);
-
-        validateCredentials(validLastName, lastName, nameValidator,
-                registerView::clearLastNameError,
-                registerView::displayLastNameError);
-
-        validateCredentials(validNumber, phoneNum, phoneValidator,
-                registerView::clearPhoneError,
-                registerView::displayPhoneError);
-
+        System.out.println(validEmail);
+        System.out.println(validPassword);
+        System.out.println(validFirstName);
+        System.out.println(validLastName);
+        System.out.println(validNumber);
     }
 
     //hard coded email and pasword for testing purposes
@@ -190,13 +175,16 @@ public class LoginController {
         return false;
     }
 
-    private void validateCredentials(String data, String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError) {
+    private String validateCredentials(String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError) {
         try {
-            data = validator.validate(rawData);
-            System.out.println(data);
-            clearError.run();
+            // Validate the raw data using the provided validator
+            String validatedData = validator.validate(rawData);
+            clearError.run();  // Clear any existing error message
+            return validatedData;
         } catch (IllegalArgumentException ex) {
-            displayError.accept(ex.getMessage());
+            System.out.println("Validation failed: " + ex.getMessage());  // Debug output
+            displayError.accept(ex.getMessage());  // Display the specific validation error
+            return "";  // Return an empty string if validation fails
         }
     }
 

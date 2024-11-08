@@ -99,7 +99,7 @@ public class RegisterFormPanel extends JPanel {
         phoneErrorLabel = new JLabel("");
         emailErrorLabel = new JLabel("");
         passwordErrorLabel = new JLabel("");
-        passwordExplanationLabel = new JLabel("Must be at least 8 haracters long, one capital letter and one digit");
+        passwordExplanationLabel = new JLabel("Password must be at least 8 haracters long, one capital letter and one digit");
         firstNameErrorLabel = new JLabel("");
         lastNameErrorLabel = new JLabel("");
         
@@ -238,7 +238,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -100, 5, 0);
+        gc.insets = new Insets(0, -170, 5, 0);
         add(emailErrorLabel, gc);
 
         // Second row: Password label and field
@@ -255,9 +255,15 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(passwordField, gc);
-
         
+        gc.gridx = 2;
+        gc.anchor = GridBagConstraints.LINE_START;
+        gc.insets = new Insets(0, -170, 5, 0);
+        add(passwordErrorLabel, gc);
+
+        // password instruction row
         gc.gridy++;
+        gc.gridx = 1;
         gc.weighty = 0.05;
         gc.anchor = GridBagConstraints.CENTER;
         gc.insets = new Insets(0, -130, 20, 0);
@@ -280,7 +286,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -100, 5, 0);
+        gc.insets = new Insets(0, -170, 5, 0);
         add(firstNameErrorLabel, gc);
 
         // Fourth row: Last Name label and field
@@ -300,7 +306,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -100, 5, 0);
+        gc.insets = new Insets(0, -170, 5, 0);
         add(lastNameErrorLabel, gc);
 
         // Fifth row: Age label and field
@@ -335,7 +341,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -100, 5, 0);
+        gc.insets = new Insets(0, -170, 5, 0);
         add(phoneErrorLabel, gc);
 
         // Seventh row: Register button
