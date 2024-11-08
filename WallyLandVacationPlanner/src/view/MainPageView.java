@@ -1,64 +1,48 @@
 package view;
 
-import model.loginsignup.ProfileUser;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import view.loginsignup.LoginFormPanel;
-import view.loginsignup.Toolbar;
-import view.loginsignup.TextPanel;
-import view.loginsignup.StringListenerIF;
-import view.loginsignup.FormListenerIF;
 
 /**
  * 
  * @author Ana
  */
 public class MainPageView extends JFrame {
+//    Controller controller;
     
-//    private TextPanel textPanel;
-//    private Toolbar toolbar; //top position toolbar
-//    private LoginFormPanel formPanel;
-
+    /**
+     * Constructor
+     */
     public MainPageView() {
-        super("WallyLand Park Application");
+        super("WallyLand");
         
+//        controller = new Controller();
         setLayout(new BorderLayout());
-//        toolbar = new Toolbar();
-//        textPanel = new TextPanel();
-//        formPanel = new LoginFormPanel();
-        
+       
         setJMenuBar(createMenuBar());
         
-//        toolbar.setStringListener(new StringListenerIF(){
-//            @Override
-//            public void textEmmited(String text) {
-//               textPanel.appendText(text);
-//            }
-//            
-//        });
-//        
-//        formPanel.setFormListener(new FormListenerIF(){
-//            public void formEventOccured(ProfileUser e){
-//                String email = e.getEmail();
-//                String password = e.getPassword();
-//                
-//                textPanel.appendText(email + "\n" + password + "\n");
-//            }
-//        });
-//        
-//        add(toolbar, BorderLayout.NORTH);
-//        add(textPanel, BorderLayout.CENTER);
-//        add(formPanel, BorderLayout.WEST);
-        
+        addWindowListener(new WindowAdapter(){
+           @Override
+           public void windowClosing(WindowEvent e){
+               System.out.println("Main Page closing");
+               dispose(); //dispose this window
+               System.gc(); //run the garbage collector
+           } 
+        });
         
         setSize(700, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
     
@@ -110,11 +94,26 @@ public class MainPageView extends JFrame {
         signOut.addActionListener((ActionEvent e) -> {
             int action = JOptionPane.showConfirmDialog(MainPageView.this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
             if(action == JOptionPane.OK_OPTION){
-                System.exit(0);
+                WindowListener[] listeners = getWindowListeners();
+                for(WindowListener listener: listeners){
+                    listener.windowClosing(new WindowEvent(MainPageView.this, 0));
+                }
             }
         });
         
         return menuBar;
     }
 
+    private ImageIcon createIcon(String path){
+        URL url = getClass().getResource(path);
+        
+        if(url == null){
+            System.err.println("Unable to load image icon: " + path);
+            return null;
+        }
+        
+        ImageIcon icon = new ImageIcon(url);
+        Image scaledImage = icon.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH); // Larger size
+        return new ImageIcon(scaledImage);
+    }
 }

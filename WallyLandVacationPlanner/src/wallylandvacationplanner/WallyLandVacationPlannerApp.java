@@ -1,8 +1,9 @@
 package wallylandvacationplanner;
 
 import view.MainPageView;
-import view.loginsignup.UserView;
+import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
+import view.loginsignup.signup.RegisterView;
 
 /**
  * This is the main class for the WLVP Application
@@ -20,8 +21,10 @@ public class WallyLandVacationPlannerApp {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new UserView();
+                new LoginView();
 //                new MainPageView();
+//                  new RegisterView();
+
             }
 
         });
