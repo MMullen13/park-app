@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import model.loginsignup.RegisterFormEvent;
 
 /**
@@ -84,7 +85,6 @@ public class RegisterView extends JFrame {
         return resizedIcon;
     }
 
-
     public void displayPhoneError(String message) {
         formPanel.phoneErrorLabel.setText("Invalid Phone Format");
         formPanel.phoneErrorLabel.setForeground(Color.red);
@@ -99,16 +99,25 @@ public class RegisterView extends JFrame {
         formPanel.lastNameErrorLabel.setForeground(Color.RED);
         formPanel.lastNameErrorLabel.setText("Invalid Last Name");
     }
-    
+
     public void displayEmailError(String message) {
         formPanel.emailErrorLabel.setForeground(Color.RED);
         formPanel.emailErrorLabel.setText("Invalid Email");
     }
-    
+
     public void displayPasswordError(String message) {
         formPanel.passwordErrorLabel.setForeground(Color.RED);
         formPanel.passwordErrorLabel.setText("Invalid Password");
     }
+
+//    public void displayError(JLabel errorLabel, String message) {
+//        errorLabel.setText(message);  // Set the error message
+//        errorLabel.setForeground(Color.RED);  // Change text color to red
+//    }
+//
+//    public void clearError(JLabel errorLabel) {
+//        errorLabel.setText("");  // Clear the error message
+//    }
 
     public void clearFirstNameError() {
         formPanel.firstNameErrorLabel.setText("");
@@ -117,15 +126,15 @@ public class RegisterView extends JFrame {
     public void clearLastNameError() {
         formPanel.lastNameErrorLabel.setText("");
     }
-    
+
     public void clearEmailError() {
         formPanel.emailErrorLabel.setText("");
     }
-    
+
     public void clearPasswordError() {
         formPanel.passwordErrorLabel.setText("");
     }
-    
+
     public void clearPhoneError() {
         formPanel.phoneErrorLabel.setText("");
     }

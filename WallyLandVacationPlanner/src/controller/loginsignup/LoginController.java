@@ -7,10 +7,13 @@ import java.util.function.Consumer;
 import model.loginsignup.AgeEnum;
 import model.loginsignup.UserDatabase;
 import model.loginsignup.LoginFormEvent;
+import model.loginsignup.NewUser;
+import model.loginsignup.ProfileUser;
 import model.loginsignup.uservalidator.NameValidator;
 import model.loginsignup.uservalidator.PhoneNumberValidator;
 import model.loginsignup.RegisterFormEvent;
 import model.loginsignup.User;
+import model.loginsignup.UserFileService;
 import model.loginsignup.uservalidator.EmailValidator;
 import model.loginsignup.uservalidator.PasswordValidator;
 import model.loginsignup.uservalidator.ValidatorIF;
@@ -33,9 +36,14 @@ public class LoginController {
     private NameValidator nameValidator;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
+    private NewUser newUser;
+    private UserFileService userFileService;
+    private ProfileUser existingUser;
+    private String validEmail;
+    private String validPassword;
 
     /**
-     * Constructor initializes the user database and the phone phoneValidator
+     * Constructor
      */
     public LoginController() {
         dataBase = new UserDatabase();
@@ -43,6 +51,9 @@ public class LoginController {
         nameValidator = new NameValidator();
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
+        userFileService = new UserFileService();
+
+//        existingUser = new ProfileUser(validEmail, validPassword);
     }
 
     /**
@@ -122,11 +133,11 @@ public class LoginController {
         int ageID = ev.getAge();
         String phoneNum = ev.getPhone();
 
-        AgeEnum age;
+        AgeEnum age = null;
 
         // Use the updated validateCredentials to capture validated data
-        String validEmail = validateCredentials(email, emailValidator, registerView::clearEmailError, registerView::displayEmailError);
-        String validPassword = validateCredentials(password, passwordValidator, registerView::clearPasswordError, registerView::displayPasswordError);
+        validEmail = validateCredentials(email, emailValidator, registerView::clearEmailError, registerView::displayEmailError);
+        validPassword = validateCredentials(password, passwordValidator, registerView::clearPasswordError, registerView::displayPasswordError);
         String validFirstName = validateCredentials(firstName, nameValidator, registerView::clearFirstNameError, registerView::displayFirstNameError);
         String validLastName = validateCredentials(lastName, nameValidator, registerView::clearLastNameError, registerView::displayLastNameError);
         String validNumber = validateCredentials(phoneNum, phoneValidator, registerView::clearPhoneError, registerView::displayPhoneError);
@@ -148,12 +159,22 @@ public class LoginController {
         System.out.println(validFirstName);
         System.out.println(validLastName);
         System.out.println(validNumber);
+        System.out.println("Age: " + age);
+
+        newUser = new NewUser(validEmail, validPassword);
+        newUser.setFirstName(validFirstName);
+        newUser.setLastName(validLastName);
+        newUser.setAge(ageID);
+        newUser.setPhoneNum(validNumber);
+
+        userFileService.addUserToFile(newUser);
+
     }
 
-    //hard coded email and pasword for testing purposes
+
     private boolean login(String email, String password) {
-        //To Do
-        return "user@example.com".equals(email) && "password".equals(password);
+        // Use UserFileService to check if credentials exist in the file
+        return userFileService.checkCredentials(email, password);
     }
 
     /**
@@ -175,16 +196,27 @@ public class LoginController {
         return false;
     }
 
+    /**
+     * Validates raw input data using the provided validator. Clears any
+     * existing error messages and displays new error messages if validation
+     * fails.
+     *
+     * @param rawData The raw data to be validated.
+     * @param validator The validator used for data validation.
+     * @param clearError A runnable to clear existing error messages.
+     * @param displayError A consumer to display validation error messages.
+     * @return The validated data, or an empty string if validation fails.
+     */
     private String validateCredentials(String rawData, ValidatorIF validator, Runnable clearError, Consumer<String> displayError) {
         try {
-            // Validate the raw data using the provided validator
+            // validate the raw data using the provided validator
             String validatedData = validator.validate(rawData);
-            clearError.run();  // Clear any existing error message
+            clearError.run();  // clear any existing error message
             return validatedData;
         } catch (IllegalArgumentException ex) {
-            System.out.println("Validation failed: " + ex.getMessage());  // Debug output
-            displayError.accept(ex.getMessage());  // Display the specific validation error
-            return "";  // Return an empty string if validation fails
+            System.out.println("Validation failed: " + ex.getMessage());  // debug output
+            displayError.accept(ex.getMessage());  // display the specific validation error
+            return "";  // return an empty string if validation fails
         }
     }
 

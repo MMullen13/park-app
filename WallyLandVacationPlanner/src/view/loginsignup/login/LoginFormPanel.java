@@ -29,8 +29,11 @@ import view.loginsignup.signup.RegisterView;
 import view.loginsignup.LoginFormListenerIF;
 
 /**
+ * A JPanel class that represents a login form panel, where users can input
+ * their email and password to log in. The panel typically includes text fields
+ * for user credentials and buttons for submitting the form.
  *
- * @author Ana
+ * Author: Ana
  */
 public class LoginFormPanel extends JPanel {
 
@@ -51,6 +54,12 @@ public class LoginFormPanel extends JPanel {
     private Icon eyeIcon;
     private boolean passwordVisible = false;
 
+    /**
+     * Constructor for the LoginFormPanel class. Initializes the components and
+     * layout of the login form panel. This constructor sets up the necessary
+     * elements (e.g., text fields, buttons) for user login and handles their
+     * layout.
+     */
     public LoginFormPanel() {
 
         emailField = new JTextField("user@example.com", 16);
@@ -64,7 +73,7 @@ public class LoginFormPanel extends JPanel {
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
         incorrPassIcon = createIcon("/images/icons8-error.png", 50, 50);
         eyeIcon = createIcon("/images/icons8-eye.png", 35, 35);
-        
+
         signUpExplanationLabel.setForeground(Color.GRAY);
 
         emailField.setForeground(Color.LIGHT_GRAY);
@@ -90,7 +99,7 @@ public class LoginFormPanel extends JPanel {
             public void focusLost(FocusEvent e) {
                 // if the field is empty, reset to placeholder
                 if (new String(passField.getPassword()).isEmpty()) {
-                    passField.setForeground(Color.LIGHT_GRAY); 
+                    passField.setForeground(Color.LIGHT_GRAY);
                     passField.setText("Password");  // reset placeholder text
                     passField.setEchoChar((char) 0);  // show text as plain (no echo char)
                 }
@@ -164,6 +173,12 @@ public class LoginFormPanel extends JPanel {
 
     }
 
+    /**
+     * Sets the form listener for handling form events.
+     *
+     * @param formListener The listener to handle form-related events (e.g.,
+     * login attempts).
+     */
     public void setFormListener(LoginFormListenerIF formListener) {
         this.formListener = formListener;
     }
@@ -172,6 +187,15 @@ public class LoginFormPanel extends JPanel {
         return "password".equals(password);
     }
 
+    /**
+     * Creates an ImageIcon from the specified file path, resizes it to the
+     * given width and height, and returns the resized icon.
+     *
+     * @param path The path to the image file.
+     * @param w The desired width of the icon.
+     * @param l The desired length (height) of the icon.
+     * @return A resized ImageIcon.
+     */
     private ImageIcon createIcon(String path, int w, int l) {
         URL url = getClass().getResource(path);
 
@@ -185,6 +209,15 @@ public class LoginFormPanel extends JPanel {
         return resizedIcon;
     }
 
+    /**
+     * Sets up a focus listener on a text field to display a placeholder message
+     * when the field is empty and to clear the placeholder message when the
+     * user focuses on the text field.
+     *
+     * @param field The text field to which the focus listener will be added.
+     * @param message The placeholder message to be displayed when the text
+     * field is empty.
+     */
     private void setTextField(JTextField field, String message) {
         field.addFocusListener(new FocusAdapter() {
             @Override
@@ -205,6 +238,12 @@ public class LoginFormPanel extends JPanel {
         });
     }
 
+    /**
+     * Arranges the controls (components) within the panel in a specific layout.
+     * This method sets up the positioning and alignment of components such as
+     * text fields, labels, buttons, and other GUI elements within the
+     * container.
+     */
     private void layoutControls() {
         setLayout(new GridBagLayout());
 
@@ -240,7 +279,7 @@ public class LoginFormPanel extends JPanel {
         add(passField, gc);
 
         gc.gridx = 2;
-        gc.anchor = GridBagConstraints.LINE_START; 
+        gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(10, -90, 0, 0); // set negative left padding to bring eyeLabel closer
         add(eyeLabel, gc);
 
@@ -252,7 +291,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;
-        gc.insets = new Insets(0, 0, 5, 0); 
+        gc.insets = new Insets(0, 0, 5, 0);
         add(loginBtn, gc);
 
         // Fourth row: Sign up explanation label
@@ -284,8 +323,8 @@ public class LoginFormPanel extends JPanel {
 
         gc.gridx = 0; // set to 0 to make sure it starts from the left side of the panel
         gc.gridwidth = 3;  // span across the width of the panel
-        gc.anchor = GridBagConstraints.CENTER;  
-        gc.insets = new Insets(30, 0, 0, 0);  
+        gc.anchor = GridBagConstraints.CENTER;
+        gc.insets = new Insets(30, 0, 0, 0);
         add(incorrectPasswordIcon, gc);
 
         // Sixth row: Incorrect password label
@@ -296,7 +335,7 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
-        gc.insets = new Insets(0, 0, 50, 0); 
+        gc.insets = new Insets(0, 0, 50, 0);
         add(incorrectPassword, gc);
     }
 }

@@ -20,7 +20,7 @@ public class NameValidator implements ValidatorIF {
         String regex = "^[a-zA-Z]+$";
 
         if (!name.matches(regex)) {
-            throw new IllegalArgumentException("Name can only contain letters and no spaces.");
+            throw new IllegalArgumentException("Invalid Name.");
         }
 
         //capitalize the first letter

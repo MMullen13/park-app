@@ -29,6 +29,12 @@ public class RegisterFormEvent extends EventObject {
 
     private User user;
 
+    /**
+     * Constructor
+     * 
+     * @param source
+     * @param user 
+     */
     public RegisterFormEvent(Object source, User user) {
         super(source);
 

@@ -1,6 +1,6 @@
 package view.loginsignup.signup;
 
-import view.loginsignup.AgeCategoryUtils;
+import view.loginsignup.AgeCategoryUtility;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -41,12 +41,12 @@ public class RegisterFormPanel extends JPanel {
     private JLabel phoneLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
-    protected JLabel emailErrorLabel;
-    protected JLabel passwordErrorLabel;
-    protected JLabel passwordExplanationLabel;
-    protected JLabel firstNameErrorLabel;
-    protected JLabel lastNameErrorLabel;
-    protected JLabel phoneErrorLabel;
+    public JLabel emailErrorLabel;
+    public JLabel passwordErrorLabel;
+    public JLabel passwordExplanationLabel;
+    public JLabel firstNameErrorLabel;
+    public JLabel lastNameErrorLabel;
+    public JLabel phoneErrorLabel;
     private JTextField emailField;
     private JTextField passwordField;
     private JTextField firstNameField;
@@ -107,14 +107,10 @@ public class RegisterFormPanel extends JPanel {
 
         DefaultListModel ageModel = new DefaultListModel();
 
-        ageModel.addElement(
-                new AgeCategoryUtils(0, "Under 3"));
-        ageModel.addElement(
-                new AgeCategoryUtils(1, "3 to 18"));
-        ageModel.addElement(
-                new AgeCategoryUtils(2, "18 to 65"));
-        ageModel.addElement(
-                new AgeCategoryUtils(3, "65 or over"));
+        ageModel.addElement(new AgeCategoryUtility(0, "Under 3"));
+        ageModel.addElement(new AgeCategoryUtility(1, "3 to 18"));
+        ageModel.addElement(new AgeCategoryUtility(2, "18 to 65"));
+        ageModel.addElement(new AgeCategoryUtility(3, "65 or over"));
         ageList.setModel(ageModel);
 
         ageList.setPreferredSize(
@@ -137,8 +133,7 @@ public class RegisterFormPanel extends JPanel {
 
         setControls();
 
-        registerBtn.addActionListener(
-                new ActionListener() {
+        registerBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
@@ -147,7 +142,7 @@ public class RegisterFormPanel extends JPanel {
                 String firstName = firstNameField.getText();
                 String lastName = lastNameField.getText();
                 String phoneNum = phoneField.getText();
-                AgeCategoryUtils ageCategory = (AgeCategoryUtils) ageList.getSelectedValue();
+                AgeCategoryUtility ageCategory = (AgeCategoryUtility) ageList.getSelectedValue();
 
                 User user = (User) UserFactory.createUser(email, password, true);
 

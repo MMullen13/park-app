@@ -57,6 +57,15 @@ public class LoginView extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Creates an ImageIcon from the specified file path, resizes it to the
+     * given width and height, and returns the resized icon.
+     *
+     * @param path The path to the image file.
+     * @param w The desired width of the icon.
+     * @param l The desired length (height) of the icon.
+     * @return A resized ImageIcon.
+     */
     private ImageIcon createIcon(String path, int w, int l) {
         URL url = getClass().getResource(path);
 
