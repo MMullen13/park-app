@@ -2,6 +2,7 @@ package model.loginsignup;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,12 +40,12 @@ public class UserFileService {
      * @return A formatted string with user data.
      */
     private String formatUserData(NewUser user) {
-        return user.getEmail() + "," +
-               user.getPassword() + "," +
-               user.getFirstName() + "," +
-               user.getLastName() + "," +
-               user.getAge() + "," +
-               user.getPhoneNum();
+        return user.getEmail() + ","
+                + user.getPassword() + ","
+                + user.getFirstName() + ","
+                + user.getLastName() + ","
+                + user.getAge() + ","
+                + user.getPhoneNum();
     }
 
     /**
@@ -79,5 +80,23 @@ public class UserFileService {
             System.err.println("Error reading user file: " + e.getMessage());
         }
         return false;
+    }
+
+    public UserFileService() {
+        // Register the shutdown hook to delete the file when the application exits
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            deleteFileOnExit();
+        }));
+    }
+
+    private void deleteFileOnExit() {
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("File deleted successfully on exit.");
+            } else {
+                System.err.println("Failed to delete the file.");
+            }
+        }
     }
 }
