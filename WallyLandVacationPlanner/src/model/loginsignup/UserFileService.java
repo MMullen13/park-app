@@ -44,7 +44,7 @@ public class UserFileService {
                 + user.getPassword() + ","
                 + user.getFirstName() + ","
                 + user.getLastName() + ","
-                + user.getAge() + ","
+                + user.getAgeCategory() + ","
                 + user.getPhoneNum();
     }
 

@@ -164,7 +164,7 @@ public class RegisterFormPanel extends JPanel {
 
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
-                user.setAge(ageCategory.getID());
+                user.setAgeID(ageCategory.getID());
                 user.setPhoneNum(phoneNum);
 
                 RegisterFormEvent userEvent = new RegisterFormEvent(this, (NewUser) user);

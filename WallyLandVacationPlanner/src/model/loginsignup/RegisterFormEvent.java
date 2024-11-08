@@ -90,11 +90,19 @@ public class RegisterFormEvent extends EventObject {
     }
 
     /**
+     * User AgeID getter
+     * @return user age of type Age
+     */
+    public int getAgeID() {
+        return user.getAgeID();
+    }
+    
+    /**
      * User Age getter
      * @return user age of type Age
      */
-    public int getAge() {
-        return user.getAge();
+    public AgeEnum getAge() {
+        return user.getAgeCategory();
     }
 
 }

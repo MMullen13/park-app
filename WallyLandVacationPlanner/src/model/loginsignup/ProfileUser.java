@@ -60,7 +60,7 @@ public class ProfileUser extends User {
      * @return UnsupportedOperationException when called.
      */
     @Override
-    public int getAge() {
+    public int getAgeID() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -98,13 +98,24 @@ public class ProfileUser extends User {
     }
 
     /**
+     * Method to set the user's age id.
+     * Currently, this method is not implemented and will throw an exception if called.
+     * 
+     * @param age id The user's age.
+     */
+    @Override
+    public void setAgeID(int age) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
      * Method to set the user's age.
      * Currently, this method is not implemented and will throw an exception if called.
      * 
      * @param age The user's age.
      */
     @Override
-    public void setAge(int age) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setAge(AgeEnum age) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

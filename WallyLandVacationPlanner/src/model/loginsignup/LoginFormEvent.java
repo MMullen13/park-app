@@ -101,7 +101,7 @@ public class LoginFormEvent extends EventObject {
      * @return user age of type Age
      */
     public int getAge() {
-        return user.getAge();
+        return user.getAgeID();
     }
 
     /**

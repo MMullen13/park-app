@@ -26,7 +26,8 @@ public abstract class User implements UserIF, Serializable {
     private String firstName; // User's first name
     private String lastName; // User's last name
     private String phoneNumber; // User's phone number
-    private int age; // User's age
+    private int ageID; // User's ageID
+    private AgeEnum age;
 
     /**
      * Constructor to initialize the User object with email and password.
@@ -85,11 +86,20 @@ public abstract class User implements UserIF, Serializable {
     }
     
     /**
+     * Retrieves the user's ageID.
+     * 
+     * @return The ageID of the user.
+     */
+    public int getAgeID() {
+        return ageID;
+    }
+    
+    /**
      * Retrieves the user's age.
      * 
      * @return The age of the user.
      */
-    public int getAge() {
+    public AgeEnum getAgeCategory(){
         return age;
     }
 
@@ -118,10 +128,18 @@ public abstract class User implements UserIF, Serializable {
     public abstract void setPhoneNum(String phoneNum);
     
     /**
+     * Abstract method for setting the user's age id.
+     * This must be implemented by subclasses.
+     * 
+     * @param age The ageID to set for the user.
+     */
+    public abstract void setAgeID(int age);
+    
+    /**
      * Abstract method for setting the user's age.
      * This must be implemented by subclasses.
      * 
-     * @param age The age to set for the user.
+     * @param age The age enumerator to set for the user.
      */
-    public abstract void setAge(int age);
+    public abstract void setAge(AgeEnum age);
 }

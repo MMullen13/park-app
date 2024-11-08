@@ -130,7 +130,7 @@ public class LoginController {
         String password = ev.getPassword();
         String firstName = ev.getFirstName();
         String lastName = ev.getLastName();
-        int ageID = ev.getAge();
+        int ageID = ev.getAgeID();
         String phoneNum = ev.getPhone();
 
         AgeEnum age = null;
@@ -164,7 +164,7 @@ public class LoginController {
         newUser = new NewUser(validEmail, validPassword);
         newUser.setFirstName(validFirstName);
         newUser.setLastName(validLastName);
-        newUser.setAge(ageID);
+        newUser.setAge(age);
         newUser.setPhoneNum(validNumber);
 
         userFileService.addUserToFile(newUser);

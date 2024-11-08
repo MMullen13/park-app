@@ -138,18 +138,17 @@ public class RegisterView extends JFrame {
         formPanel.phoneErrorLabel.setText("");
         updateSuccessState();
     }
-    
+
     public void updateSuccessState() {
-    // Check if any error label has text
-    boolean hasError = !formPanel.firstNameErrorLabel.getText().isEmpty() ||
-                       !formPanel.lastNameErrorLabel.getText().isEmpty() ||
-                       !formPanel.emailErrorLabel.getText().isEmpty() ||
-                       !formPanel.passwordErrorLabel.getText().isEmpty() ||
-                       !formPanel.phoneErrorLabel.getText().isEmpty();
+        // Check if any error label has text
+        boolean hasError = !formPanel.firstNameErrorLabel.getText().isEmpty()
+                || !formPanel.lastNameErrorLabel.getText().isEmpty()
+                || !formPanel.emailErrorLabel.getText().isEmpty()
+                || !formPanel.passwordErrorLabel.getText().isEmpty()
+                || !formPanel.phoneErrorLabel.getText().isEmpty();
 
-    // Disable or enable the success label based on whether there are errors
-    formPanel.successLabel.setVisible(!hasError);
-}
-
+        // Disable or enable the success label based on whether there are errors
+        formPanel.successLabel.setVisible(!hasError);
+    }
 
 }

@@ -12,7 +12,8 @@ public class NewUser extends User {
     private String firstName; // User's first name
     private String lastName;  // User's last name
     private String phoneNum;  // User's phone number
-    private int age;          // User's age
+    private int ageID;          // User's ageID
+    private AgeEnum age;
     private int id;           // Unique ID for the user
     private static int count = 0; // Static counter to create unique IDs for each user
 
@@ -62,13 +63,13 @@ public class NewUser extends User {
     }
 
     /**
-     * Sets the user's age.
+     * Sets the user's ageID.
      * 
-     * @param age The user's age.
+     * @param age The user's ageID.
      */
     @Override
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeID(int age) {
+        this.ageID = age;
     }
 
     /**
@@ -102,13 +103,13 @@ public class NewUser extends User {
     }
 
     /**
-     * Gets the user's age.
+     * Gets the user's ageID.
      * 
-     * @return The user's age.
+     * @return The user's ageID.
      */
     @Override
-    public int getAge() {
-        return age;
+    public int getAgeID() {
+        return ageID;
     }
 
     /**
@@ -119,5 +120,16 @@ public class NewUser extends User {
     public int getID() {
         return id;
     }
+    
+    @Override
+    public void setAge(AgeEnum age){
+        this.age = age;
+    }
+    
+    @Override
+    public AgeEnum getAgeCategory(){
+        return age;
+    }
+
 }
 
