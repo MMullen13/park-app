@@ -10,4 +10,7 @@ package model.foodordering;
  */
 public interface OrderCommandIF {
     
+    public void execute();
+    public void undo();
+    
 }

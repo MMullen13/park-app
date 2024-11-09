@@ -46,6 +46,36 @@ public class Order implements OrderIF {
         }
         return randomID.toString();
     }
+    
+    /**
+     * Works with the command class to undo additions to an order
+     * @return the last item removed for undo functionality
+     */
+    public MenuItem deleteLastItem(){
+        if (!orderItems.isEmpty()){
+            MenuItem lastItem = orderItems.get(orderItems.size()-1);
+            orderItems.remove(orderItems.size()-1);
+            return lastItem;
+        }
+        else{
+            System.out.println("No Items to remove");
+            return null;
+        }
+    }
+    
+    /**
+     * Works with command class to remove all items from an order to start over
+     * @return an ArrayList of the order items to use with undo command
+     */
+    public ArrayList<MenuItem> clearAllItems(){
+        if (!orderItems.isEmpty()){
+            ArrayList<MenuItem> restoreAll = new ArrayList<>();
+            restoreAll.addAll(orderItems);
+            orderItems.clear();
+            return restoreAll;
+        }
+        return new ArrayList<>();        
+    }
 
     /**
      * Calculates the total of the order based on the items in the orderItems array
