@@ -25,7 +25,7 @@ import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
 import model.loginsignup.LoginFormEvent;
-import view.loginsignup.signup.RegisterView;
+import view.loginsignup.register.RegisterView;
 import view.loginsignup.LoginFormListenerIF;
 
 /**
@@ -41,13 +41,13 @@ public class LoginFormPanel extends JPanel {
     private JLabel passwordLabel;
     private JTextField emailField;
     private JPasswordField passField;
-    private JButton loginBtn;
+    protected JButton loginBtn;
     private JButton signUpBtn;
     private LoginFormListenerIF formListener;
     private JLabel signUpExplanationLabel;
     private JLabel incorrectPassword;
     private JLabel incorrectPasswordIcon;
-    private JLabel eyeLabel;
+    protected JLabel eyeLabel;
     private Icon emailIcon;
     private Icon passwordIcon;
     private Icon incorrPassIcon;

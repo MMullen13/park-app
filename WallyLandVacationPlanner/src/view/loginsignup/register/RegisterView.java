@@ -1,4 +1,4 @@
-package view.loginsignup.signup;
+package view.loginsignup.register;
 
 import controller.loginsignup.LoginController;
 import java.awt.BorderLayout;
@@ -22,7 +22,7 @@ import model.loginsignup.RegisterFormEvent;
 public class RegisterView extends JFrame {
 
     private RegisterFormPanel formPanel;
-    private LoginController controller;
+    public LoginController controller;
     private ImageIcon wallylandIcon;
 
     /**

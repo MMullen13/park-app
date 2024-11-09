@@ -19,7 +19,7 @@ import model.loginsignup.LoginFormEvent;
 public class LoginView extends JFrame {
 
     private LoginFormPanel formPanel;
-    private LoginController controller;
+    LoginController controller;
     private ImageIcon wallylandIcon;
 
     /**

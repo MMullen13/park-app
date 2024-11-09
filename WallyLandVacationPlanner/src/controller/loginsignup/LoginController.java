@@ -8,7 +8,6 @@ import model.loginsignup.AgeEnum;
 import model.loginsignup.UserDatabase;
 import model.loginsignup.LoginFormEvent;
 import model.loginsignup.NewUser;
-import model.loginsignup.ProfileUser;
 import model.loginsignup.uservalidator.NameValidator;
 import model.loginsignup.uservalidator.PhoneNumberValidator;
 import model.loginsignup.RegisterFormEvent;
@@ -19,7 +18,7 @@ import model.loginsignup.uservalidator.PasswordValidator;
 import model.loginsignup.uservalidator.ValidatorIF;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
-import view.loginsignup.signup.RegisterView;
+import view.loginsignup.register.RegisterView;
 
 /**
  * Controller handling login and registration logic.
@@ -28,17 +27,16 @@ import view.loginsignup.signup.RegisterView;
  */
 public class LoginController {
 
-    private MainPageView mainPage;
+    MainPageView mainPage;
     private UserDatabase dataBase;
-    private LoginView loginView;
-    private RegisterView registerView;
+    protected LoginView loginView;
+    protected RegisterView registerView;
     private PhoneNumberValidator phoneValidator;
     private NameValidator nameValidator;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
     private NewUser newUser;
     private UserFileService userFileService;
-    private ProfileUser existingUser;
     private String validEmail;
     private String validPassword;
 
@@ -52,8 +50,6 @@ public class LoginController {
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
         userFileService = new UserFileService();
-
-//        existingUser = new ProfileUser(validEmail, validPassword);
     }
 
     /**
@@ -82,6 +78,15 @@ public class LoginController {
     public void setLoginView(LoginView loginView) {
         this.loginView = loginView;
     }
+    
+    /**
+     * Retrieves the Login view.
+     *
+     * @return login view
+     */
+    public LoginView  getLoginView() {
+        return loginView;
+    }
 
     /**
      * Sets the registration view to be used by this controller.
@@ -91,6 +96,15 @@ public class LoginController {
      */
     public void setRegisterView(RegisterView registerView) {
         this.registerView = registerView;
+    }
+    
+    /**
+     * Retrieves the Register view.
+     *
+     * @return register view
+     */
+    public RegisterView  getRegisterView() {
+        return registerView;
     }
 
     /**

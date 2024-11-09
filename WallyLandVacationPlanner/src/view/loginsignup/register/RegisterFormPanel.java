@@ -1,4 +1,4 @@
-package view.loginsignup.signup;
+package view.loginsignup.register;
 
 import view.loginsignup.AgeCategoryUtility;
 import java.awt.Color;
