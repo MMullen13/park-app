@@ -28,17 +28,16 @@ import view.loginsignup.signup.RegisterView;
  */
 public class LoginController {
 
-    private MainPageView mainPage;
+    MainPageView mainPage;
     private UserDatabase dataBase;
-    private LoginView loginView;
-    private RegisterView registerView;
+    LoginView loginView;
+    RegisterView registerView;
     private PhoneNumberValidator phoneValidator;
     private NameValidator nameValidator;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
     private NewUser newUser;
     private UserFileService userFileService;
-    private ProfileUser existingUser;
     private String validEmail;
     private String validPassword;
 
@@ -52,8 +51,6 @@ public class LoginController {
         emailValidator = new EmailValidator();
         passwordValidator = new PasswordValidator();
         userFileService = new UserFileService();
-
-//        existingUser = new ProfileUser(validEmail, validPassword);
     }
 
     /**
