@@ -3,7 +3,7 @@ package wallylandvacationplanner;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
-import view.loginsignup.signup.RegisterView;
+import view.loginsignup.register.RegisterView;
 
 /**
  * This is the main class for the WLVP Application

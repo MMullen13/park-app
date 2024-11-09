@@ -8,7 +8,6 @@ import model.loginsignup.AgeEnum;
 import model.loginsignup.UserDatabase;
 import model.loginsignup.LoginFormEvent;
 import model.loginsignup.NewUser;
-import model.loginsignup.ProfileUser;
 import model.loginsignup.uservalidator.NameValidator;
 import model.loginsignup.uservalidator.PhoneNumberValidator;
 import model.loginsignup.RegisterFormEvent;
@@ -19,7 +18,7 @@ import model.loginsignup.uservalidator.PasswordValidator;
 import model.loginsignup.uservalidator.ValidatorIF;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
-import view.loginsignup.signup.RegisterView;
+import view.loginsignup.register.RegisterView;
 
 /**
  * Controller handling login and registration logic.
@@ -30,8 +29,8 @@ public class LoginController {
 
     MainPageView mainPage;
     private UserDatabase dataBase;
-    LoginView loginView;
-    RegisterView registerView;
+    protected LoginView loginView;
+    protected RegisterView registerView;
     private PhoneNumberValidator phoneValidator;
     private NameValidator nameValidator;
     private EmailValidator emailValidator;
@@ -79,6 +78,15 @@ public class LoginController {
     public void setLoginView(LoginView loginView) {
         this.loginView = loginView;
     }
+    
+    /**
+     * Retrieves the Login view.
+     *
+     * @return login view
+     */
+    public LoginView  getLoginView() {
+        return loginView;
+    }
 
     /**
      * Sets the registration view to be used by this controller.
@@ -88,6 +96,15 @@ public class LoginController {
      */
     public void setRegisterView(RegisterView registerView) {
         this.registerView = registerView;
+    }
+    
+    /**
+     * Retrieves the Register view.
+     *
+     * @return register view
+     */
+    public RegisterView  getRegisterView() {
+        return registerView;
     }
 
     /**

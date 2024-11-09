@@ -39,7 +39,7 @@ public class UserFactoryTest {
      */
     @Test
     public void testCreateProfileUser() {
-        UserIF user = UserFactory.createUser("newuser@example.com", "newpassword", false);
+        UserIF user = UserFactory.createUser("profileuser@example.com", "profilepassword", false);
         assertTrue(user instanceof ProfileUser);
 
         User profileUser = (User) user;
