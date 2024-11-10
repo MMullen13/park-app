@@ -2,6 +2,7 @@ package view.loginsignup.login;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -27,6 +29,7 @@ import model.loginsignup.UserFactory;
 import model.loginsignup.LoginFormEvent;
 import view.loginsignup.register.RegisterView;
 import view.loginsignup.LoginFormListenerIF;
+import view.loginsignup.RoundedBorder;
 
 /**
  * A JPanel class that represents a login form panel, where users can input
@@ -62,6 +65,10 @@ public class LoginFormPanel extends JPanel {
      * layout.
      */
     public LoginFormPanel() {
+        
+        Dimension dim = getPreferredSize();
+        dim.width = 250;
+        setPreferredSize(dim);
 
         emailField = new JTextField("user@example.com", 16);
         passField = new JPasswordField(16);
@@ -82,7 +89,11 @@ public class LoginFormPanel extends JPanel {
         passField.setText("Password");
         passField.setEchoChar((char) 0);
 
+        emailField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        passField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+
         setTextField(emailField, "user@example.com");
+
 
         // add a focus listener to enter the password into the password field
         passField.addFocusListener(new FocusAdapter() {
@@ -128,15 +139,30 @@ public class LoginFormPanel extends JPanel {
                 }
             }
         });
+        
+        loginBtn.setBackground(new Color(58, 115, 169));  // Navy blue
+        loginBtn.setForeground(Color.WHITE);
+        loginBtn.setFocusPainted(false);  // Removes focus border on click
+        loginBtn.setFont(new Font("Arial", Font.BOLD, 14));
+
+        signUpBtn.setBackground(new Color(200, 200, 200));  // Light gray
+        signUpBtn.setForeground(Color.DARK_GRAY);
+        signUpBtn.setFont(new Font("Arial", Font.BOLD, 14));
+
+        loginBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                loginBtn.setBackground(new Color(40, 95, 150));  // Darker blue on hover
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginBtn.setBackground(new Color(58, 115, 169)); // Original blue
+            }
+        });
 
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
         signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
-        loginBtn.setForeground(Color.DARK_GRAY);
-        signUpBtn.setForeground(Color.DARK_GRAY);
-
-        Dimension dim = getPreferredSize();
-        dim.width = 250;
-        setPreferredSize(dim);
 
         Border innerBorder = BorderFactory.createTitledBorder("Log In");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
@@ -175,6 +201,15 @@ public class LoginFormPanel extends JPanel {
             RegisterView signUpView = new RegisterView();
             signUpView.setVisible(true);
         });
+
+        Font fieldFont = new Font("Arial", Font.PLAIN, 14);
+        emailField.setFont(fieldFont);
+        passField.setFont(fieldFont);
+
+        emailLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        signUpExplanationLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        recoveryLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         setBackground(new Color(227, 236, 241));
 
@@ -287,7 +322,7 @@ public class LoginFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(10, -90, 0, 0); // set negative left padding to bring eyeLabel closer
+        gc.insets = new Insets(10, -80, 0, 0); // set negative left padding to bring eyeLabel closer
         add(eyeLabel, gc);
 
         // Third row: Login button
@@ -344,7 +379,7 @@ public class LoginFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
         gc.insets = new Insets(0, 0, 0, 0);
         add(incorrectPassword, gc);
-        
+
         // Seventh row: Recovery password label
         gc.gridy++;
         gc.weightx = 1;

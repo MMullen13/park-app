@@ -86,30 +86,30 @@ public class RegisterView extends JFrame {
 
     public void displayPhoneError(String message) {
         formPanel.phoneErrorLabel.setText("Invalid Phone Format");
-        formPanel.phoneErrorLabel.setForeground(Color.red);
+        formPanel.phoneErrorLabel.setForeground(new Color(220, 20, 60));
         updateSuccessState();
     }
 
     public void displayFirstNameError(String message) {
-        formPanel.firstNameErrorLabel.setForeground(Color.RED);
+        formPanel.firstNameErrorLabel.setForeground(new Color(220, 20, 60));
         formPanel.firstNameErrorLabel.setText("Invalid First Name");
         updateSuccessState();
     }
 
     public void displayLastNameError(String message) {
-        formPanel.lastNameErrorLabel.setForeground(Color.RED);
+        formPanel.lastNameErrorLabel.setForeground(new Color(220, 20, 60));
         formPanel.lastNameErrorLabel.setText("Invalid Last Name");
         updateSuccessState();
     }
 
     public void displayEmailError(String message) {
-        formPanel.emailErrorLabel.setForeground(Color.RED);
+        formPanel.emailErrorLabel.setForeground(new Color(220, 20, 60));
         formPanel.emailErrorLabel.setText("Invalid Email");
         updateSuccessState();
     }
 
     public void displayPasswordError(String message) {
-        formPanel.passwordErrorLabel.setForeground(Color.RED);
+        formPanel.passwordErrorLabel.setForeground(new Color(220, 20, 60));
         formPanel.passwordErrorLabel.setText("Invalid Password");
         updateSuccessState();
     }
