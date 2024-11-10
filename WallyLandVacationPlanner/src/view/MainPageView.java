@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
  * @author Ana
  */
 public class MainPageView extends JFrame {
-//    Controller controller;
+
+    private ImageIcon wallylandIcon;
     
     /**
      * Constructor
@@ -27,7 +28,10 @@ public class MainPageView extends JFrame {
     public MainPageView() {
         super("WallyLand");
         
-//        controller = new Controller();
+        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        if (wallylandIcon != null) {
+            setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
+        }
         setLayout(new BorderLayout());
        
         setJMenuBar(createMenuBar());
@@ -42,6 +46,7 @@ public class MainPageView extends JFrame {
         });
         
         setSize(700, 800);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
@@ -104,16 +109,25 @@ public class MainPageView extends JFrame {
         return menuBar;
     }
 
-    private ImageIcon createIcon(String path){
+        /**
+     * Creates an ImageIcon from the specified file path, resizes it to the
+     * given width and height, and returns the resized icon.
+     *
+     * @param path The path to the image file.
+     * @param w The desired width of the icon.
+     * @param l The desired length (height) of the icon.
+     * @return A resized ImageIcon.
+     */
+    private ImageIcon createIcon(String path, int w, int l) {
         URL url = getClass().getResource(path);
-        
-        if(url == null){
+
+        if (url == null) {
             System.err.println("Unable to load image icon: " + path);
-            return null;
         }
-        
+
         ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH); // Larger size
-        return new ImageIcon(scaledImage);
+        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        return resizedIcon;
     }
 }

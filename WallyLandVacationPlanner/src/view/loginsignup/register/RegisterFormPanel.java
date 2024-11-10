@@ -35,24 +35,24 @@ import view.loginsignup.RegisterFormListenerIF;
  */
 public class RegisterFormPanel extends JPanel {
 
-    private JLabel emailLabel;
-    private JLabel passwordLabel;
-    private JLabel ageLabel;
-    private JLabel phoneLabel;
-    private JLabel firstNameLabel;
-    private JLabel lastNameLabel;
+    protected JLabel emailLabel;
+    protected JLabel passwordLabel;
+    protected JLabel ageLabel;
+    protected JLabel phoneLabel;
+    protected JLabel firstNameLabel;
+    protected JLabel lastNameLabel;
     protected JLabel successLabel;
-    public JLabel emailErrorLabel;
-    public JLabel passwordErrorLabel;
-    public JLabel passwordExplanationLabel;
-    public JLabel firstNameErrorLabel;
-    public JLabel lastNameErrorLabel;
-    public JLabel phoneErrorLabel;
-    private JTextField emailField;
-    private JTextField passwordField;
-    private JTextField firstNameField;
-    private JTextField lastNameField;
-    private JTextField phoneField;
+    protected JLabel emailErrorLabel;
+    protected JLabel passwordErrorLabel;
+    protected JLabel passwordExplanationLabel;
+    protected JLabel firstNameErrorLabel;
+    protected JLabel lastNameErrorLabel;
+    protected JLabel phoneErrorLabel;
+    protected JTextField emailField;
+    protected JTextField passwordField;
+    protected JTextField firstNameField;
+    protected JTextField lastNameField;
+    protected JTextField phoneField;
     protected JButton registerBtn;
     private JList ageList;
     private Icon emailIcon;
@@ -62,7 +62,7 @@ public class RegisterFormPanel extends JPanel {
     private Icon phoneIcon;
     private Icon successIcon;
 
-    private RegisterFormListenerIF formListener;
+    protected RegisterFormListenerIF formListener;
 
     /**
      * Constructor
@@ -190,7 +190,7 @@ public class RegisterFormPanel extends JPanel {
         this.formListener = formListener;
     }
 
-    private boolean checkPassword(String password) {
+    protected boolean checkPassword(String password) {
         return "password".equals(password);
     }
 
