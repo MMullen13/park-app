@@ -10,6 +10,16 @@ import java.io.IOException;
 public class UserFileService {
 
     private static final String FILE_PATH = "users.txt";
+    
+        /**
+     * Constructor
+     */
+    public UserFileService() {
+        // Register the shutdown hook to delete the file when the application exits
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            deleteFileOnExit();
+        }));
+    }
 
     /**
      * Saves a NewUser object to a file by appending the user's data to the
@@ -80,13 +90,6 @@ public class UserFileService {
             System.err.println("Error reading user file: " + e.getMessage());
         }
         return false;
-    }
-
-    public UserFileService() {
-        // Register the shutdown hook to delete the file when the application exits
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            deleteFileOnExit();
-        }));
     }
 
     private void deleteFileOnExit() {

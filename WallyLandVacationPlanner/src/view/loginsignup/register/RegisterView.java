@@ -21,7 +21,7 @@ import model.loginsignup.RegisterFormEvent;
  */
 public class RegisterView extends JFrame {
 
-    private RegisterFormPanel formPanel;
+    protected RegisterFormPanel formPanel;
     public LoginController controller;
     private ImageIcon wallylandIcon;
 

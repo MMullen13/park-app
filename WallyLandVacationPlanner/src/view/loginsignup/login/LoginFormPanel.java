@@ -37,16 +37,17 @@ import view.loginsignup.LoginFormListenerIF;
  */
 public class LoginFormPanel extends JPanel {
 
-    private JLabel emailLabel;
-    private JLabel passwordLabel;
-    private JTextField emailField;
-    private JPasswordField passField;
+    protected JLabel emailLabel;
+    protected JLabel passwordLabel;
+    protected JTextField emailField;
+    protected JPasswordField passField;
     protected JButton loginBtn;
-    private JButton signUpBtn;
-    private LoginFormListenerIF formListener;
-    private JLabel signUpExplanationLabel;
-    private JLabel incorrectPassword;
-    private JLabel incorrectPasswordIcon;
+    protected JButton signUpBtn;
+    protected LoginFormListenerIF formListener;
+    protected JLabel signUpExplanationLabel;
+    protected JLabel incorrectPassword;
+    protected JLabel incorrectPasswordIcon;
+    protected JLabel recoveryLabel;
     protected JLabel eyeLabel;
     private Icon emailIcon;
     private Icon passwordIcon;
@@ -112,6 +113,8 @@ public class LoginFormPanel extends JPanel {
         passwordLabel.setForeground(Color.GRAY);
         eyeLabel = new JLabel(eyeIcon);
         eyeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        recoveryLabel = new JLabel("Forgot Password? Call (222)123-2234 to Recover Password.");
+        recoveryLabel.setForeground(Color.GRAY);
 
         // add a mouse listener to toggle password visibility
         eyeLabel.addMouseListener(new MouseAdapter() {
@@ -339,7 +342,18 @@ public class LoginFormPanel extends JPanel {
         gc.gridx = 0;
         gc.gridwidth = 3;
         gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
-        gc.insets = new Insets(0, 0, 50, 0);
+        gc.insets = new Insets(0, 0, 0, 0);
         add(incorrectPassword, gc);
+        
+        // Seventh row: Recovery password label
+        gc.gridy++;
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridwidth = 3;
+        gc.anchor = GridBagConstraints.CENTER;  // Center the label horizontally
+        gc.insets = new Insets(-10, 0, 50, 0);
+        add(recoveryLabel, gc);
     }
 }
