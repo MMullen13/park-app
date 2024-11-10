@@ -4,17 +4,57 @@
  */
 package view.foodordering;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import controller.foodordering.*;
+import model.foodordering.*;
+import java.util.ArrayList;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+
 /**
  *
  * @author theme
  */
-public class OrderViewForm extends javax.swing.JFrame {
+public class OrderViewForm extends javax.swing.JFrame implements ActionListener {
+    
+    private FoodController cntl;
+    
 
     /**
      * Creates new form OrderViewForm
      */
     public OrderViewForm() {
         initComponents();
+        cntl = new FoodController(this);
+        initManualComponents();
+        this.setVisible(true);
+        
+        
+    }
+    
+    private void initManualComponents(){
+        
+        ArrayList<Eatery> eateryList = cntl.getEateries();
+        ArrayList<String> eateryNames = new ArrayList<>();
+        
+        eaterySelector.removeAllItems();
+        
+        for (Eatery eatery : eateryList){
+            eateryNames.add(eatery.getEateryName());
+            eaterySelector.addItem(eatery.getEateryName());
+        }
+        
+        if (!eateryNames.isEmpty()){
+            eaterySelector.setSelectedIndex(0);
+        }
+        
+       
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -64,7 +104,7 @@ public class OrderViewForm extends javax.swing.JFrame {
         total = new javax.swing.JLabel();
         totalCost = new javax.swing.JLabel();
         checkoutButton = new javax.swing.JButton();
-        eaterySelector = new javax.swing.JSpinner();
+        eaterySelector = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -280,11 +320,6 @@ public class OrderViewForm extends javax.swing.JFrame {
         totalCost.setText("TotalCost");
 
         checkoutButton.setText("Complete Order");
-        checkoutButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkoutButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -325,9 +360,7 @@ public class OrderViewForm extends javax.swing.JFrame {
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        eaterySelector.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        eaterySelector.setModel(new javax.swing.SpinnerListModel(new String[] {"empty"}));
-        eaterySelector.setEditor(new javax.swing.JSpinner.ListEditor(eaterySelector));
+        eaterySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -345,7 +378,7 @@ public class OrderViewForm extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -376,15 +409,11 @@ public class OrderViewForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void checkoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -440,7 +469,7 @@ public class OrderViewForm extends javax.swing.JFrame {
     private javax.swing.JLabel drinks2;
     private javax.swing.JLabel drinks3;
     private javax.swing.JLabel drinks4;
-    private javax.swing.JSpinner eaterySelector;
+    private javax.swing.JComboBox<String> eaterySelector;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -462,4 +491,6 @@ public class OrderViewForm extends javax.swing.JFrame {
     private javax.swing.JLabel total;
     private javax.swing.JLabel totalCost;
     // End of variables declaration//GEN-END:variables
+
+    
 }

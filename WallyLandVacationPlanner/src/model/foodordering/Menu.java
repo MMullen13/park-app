@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Menu {
     
-    private ArrayList<MenuItem> menuItems;
+    private ArrayList<MenuItem> menuItems = new ArrayList<>();
     private String menuName;
     private static ArrayList<Eatery> eateries = new ArrayList<>();
 
@@ -21,7 +21,6 @@ public class Menu {
      * @param menuName name of the eatery menu
      */
     public Menu(String menuName) {
-        this.menuItems = new ArrayList<>();
         this.menuName = menuName;
     }
     
@@ -31,9 +30,7 @@ public class Menu {
     public Menu(){
         
     }
-    
-    
-    
+   
     /**
      * Adds and Item to the menu
      * @param item item to be added
@@ -91,6 +88,10 @@ public class Menu {
      */
     public ArrayList<MenuItem> getMenuItems() {
         return menuItems;
+    }
+    
+    public ArrayList<Eatery> getEateries(){
+        return eateries;
     }
 
     /**
