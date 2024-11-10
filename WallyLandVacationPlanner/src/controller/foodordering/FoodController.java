@@ -17,8 +17,28 @@ public class FoodController {
    private OrderViewForm orderView;
    private OrderConfirmationViewForm confirmationView;
    
+   private Order currentOrder;
+   private OrderHistory history;
+
+    public FoodController(OrderViewForm orderView) {
+        this.orderView = orderView;
+        initializeMenus();
+               
+    }
+    
+    /**
+     * Creates the default eateries and menus from model package
+     */
+    public void initializeMenus(){
+        Menu menu = new Menu();
+        menu.createDefaults();
+    }
+    
+    
+    
+    
+    
+    
    
-    
-    
-    
+   
 }
