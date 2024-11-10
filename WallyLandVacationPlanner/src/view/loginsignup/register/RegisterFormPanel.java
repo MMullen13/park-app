@@ -33,6 +33,7 @@ import model.loginsignup.UserFactory;
 import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.RegisterFormListenerIF;
 import view.loginsignup.RoundedBorder;
+import view.loginsignup.RoundedTextField;
 
 /**
  *
@@ -53,11 +54,11 @@ public class RegisterFormPanel extends JPanel {
     protected JLabel firstNameErrorLabel;
     protected JLabel lastNameErrorLabel;
     protected JLabel phoneErrorLabel;
-    protected JTextField emailField;
-    protected JTextField passwordField;
-    protected JTextField firstNameField;
-    protected JTextField lastNameField;
-    protected JTextField phoneField;
+    protected RoundedTextField emailField;
+    protected RoundedTextField passwordField;
+    protected RoundedTextField firstNameField;
+    protected RoundedTextField lastNameField;
+    protected RoundedTextField phoneField;
     protected JButton registerBtn;
     private JList ageList;
     private Icon emailIcon;
@@ -78,11 +79,11 @@ public class RegisterFormPanel extends JPanel {
         dim.width = 250;
         setPreferredSize(dim);
 
-        emailField = new JTextField("Email", 14);
-        passwordField = new JTextField("Password", 14);
-        firstNameField = new JTextField("First Name", 14);
-        lastNameField = new JTextField("Last Name", 14);
-        phoneField = new JTextField("(215) 123-4567", 14);
+        emailField = new RoundedTextField("Email", 14);
+        passwordField = new RoundedTextField("Password", 14);
+        firstNameField = new RoundedTextField("First Name", 14);
+        lastNameField = new RoundedTextField("Last Name", 14);
+        phoneField = new RoundedTextField("(215) 123-4567", 14);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);

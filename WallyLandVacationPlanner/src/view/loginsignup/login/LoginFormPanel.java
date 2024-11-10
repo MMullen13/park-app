@@ -30,6 +30,8 @@ import model.loginsignup.LoginFormEvent;
 import view.loginsignup.register.RegisterView;
 import view.loginsignup.LoginFormListenerIF;
 import view.loginsignup.RoundedBorder;
+import view.loginsignup.RoundedPasswordField;
+import view.loginsignup.RoundedTextField;
 
 /**
  * A JPanel class that represents a login form panel, where users can input
@@ -42,8 +44,8 @@ public class LoginFormPanel extends JPanel {
 
     protected JLabel emailLabel;
     protected JLabel passwordLabel;
-    protected JTextField emailField;
-    protected JPasswordField passField;
+    protected RoundedTextField emailField;
+    protected RoundedPasswordField passField;
     protected JButton loginBtn;
     protected JButton signUpBtn;
     protected LoginFormListenerIF formListener;
@@ -70,8 +72,8 @@ public class LoginFormPanel extends JPanel {
         dim.width = 250;
         setPreferredSize(dim);
 
-        emailField = new JTextField("user@example.com", 16);
-        passField = new JPasswordField(16);
+        emailField = new RoundedTextField("user@example.com", 16);
+        passField = new RoundedPasswordField(16);
         loginBtn = new JButton("Sign In");
         signUpBtn = new JButton("Sign Up");
         incorrectPassword = new JLabel("");
