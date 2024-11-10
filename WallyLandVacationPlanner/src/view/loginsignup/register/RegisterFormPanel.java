@@ -3,6 +3,7 @@ package view.loginsignup.register;
 import view.loginsignup.AgeCategoryUtility;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -20,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -28,6 +32,8 @@ import model.loginsignup.User;
 import model.loginsignup.UserFactory;
 import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.RegisterFormListenerIF;
+import view.loginsignup.RoundedBorder;
+import view.loginsignup.RoundedTextField;
 
 /**
  *
@@ -48,11 +54,11 @@ public class RegisterFormPanel extends JPanel {
     protected JLabel firstNameErrorLabel;
     protected JLabel lastNameErrorLabel;
     protected JLabel phoneErrorLabel;
-    protected JTextField emailField;
-    protected JTextField passwordField;
-    protected JTextField firstNameField;
-    protected JTextField lastNameField;
-    protected JTextField phoneField;
+    protected RoundedTextField emailField;
+    protected RoundedTextField passwordField;
+    protected RoundedTextField firstNameField;
+    protected RoundedTextField lastNameField;
+    protected RoundedTextField phoneField;
     protected JButton registerBtn;
     private JList ageList;
     private Icon emailIcon;
@@ -68,11 +74,16 @@ public class RegisterFormPanel extends JPanel {
      * Constructor
      */
     public RegisterFormPanel() {
-        emailField = new JTextField("Email", 18);
-        passwordField = new JTextField("Password", 18);
-        firstNameField = new JTextField("First Name", 18);
-        lastNameField = new JTextField("Last Name", 18);
-        phoneField = new JTextField("(215) 123-4567", 18);
+
+        Dimension dim = getPreferredSize();
+        dim.width = 250;
+        setPreferredSize(dim);
+
+        emailField = new RoundedTextField("Email", 14);
+        passwordField = new RoundedTextField("Password", 14);
+        firstNameField = new RoundedTextField("First Name", 14);
+        lastNameField = new RoundedTextField("Last Name", 14);
+        phoneField = new RoundedTextField("(215) 123-4567", 14);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
@@ -86,6 +97,12 @@ public class RegisterFormPanel extends JPanel {
         firstNameField.setForeground(Color.LIGHT_GRAY);
         lastNameField.setForeground(Color.LIGHT_GRAY);
         phoneField.setForeground(Color.LIGHT_GRAY);
+
+        emailField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        passwordField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        firstNameField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        lastNameField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+        phoneField.setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(15), BorderFactory.createEmptyBorder(5, 10, 5, 10)));
 
         setTextField(emailField, "Email");
         setTextField(passwordField, "Password");
@@ -106,7 +123,7 @@ public class RegisterFormPanel extends JPanel {
         passwordExplanationLabel = new JLabel("Password must be at least 8 haracters long, one capital letter and one digit");
         firstNameErrorLabel = new JLabel("");
         lastNameErrorLabel = new JLabel("");
-        
+
         emailLabel.setForeground(Color.GRAY);
         passwordLabel.setForeground(Color.GRAY);
         firstNameLabel.setForeground(Color.GRAY);
@@ -114,10 +131,9 @@ public class RegisterFormPanel extends JPanel {
         ageLabel.setForeground(Color.GRAY);
         phoneLabel.setForeground(Color.GRAY);
         successLabel.setForeground(Color.GRAY);
-        
+
         successLabel.setVisible(false);
 
-        
         passwordExplanationLabel.setForeground(Color.GRAY);
 
         DefaultListModel ageModel = new DefaultListModel();
@@ -128,19 +144,28 @@ public class RegisterFormPanel extends JPanel {
         ageModel.addElement(new AgeCategoryUtility(3, "65 or over"));
         ageList.setModel(ageModel);
 
-        ageList.setPreferredSize(
-                new Dimension(165, 75));
-        ageList.setBorder(BorderFactory.createEtchedBorder());
-        ageList.setSelectedIndex(1);
+        ageList.setPreferredSize(new Dimension(175, 85));
+        ageList.setSelectedIndex(0);
+
+        // Customize ageList appearance
+        ageList.setFont(new Font("Arial", Font.PLAIN, 14));
+        ageList.setForeground(Color.DARK_GRAY);
+        ageList.setSelectionBackground(new Color(58, 115, 169)); // Same navy blue as register button
+        ageList.setSelectionForeground(Color.WHITE);
+        
+        ageList.setBorder(BorderFactory.createCompoundBorder(
+                new RoundedBorder(10),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5))
+        );
+
+// Adding ageList to a scroll pane
+        JScrollPane ageListScrollPane = new JScrollPane(ageList);
+        ageListScrollPane.setPreferredSize(new Dimension(165, 75));
+        ageListScrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove default scroll pane border
 
         registerBtn = new JButton("Register");
         registerBtn.setForeground(Color.DARK_GRAY);
         registerBtn.setPreferredSize(new Dimension(140, 40)); // Width: 130, Height: 30
-
-        Dimension dim = getPreferredSize();
-        dim.width = 250;
-
-        setPreferredSize(dim);
 
         Border innerBorder = BorderFactory.createTitledBorder("New User Sign Up");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
@@ -148,6 +173,23 @@ public class RegisterFormPanel extends JPanel {
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
         setControls();
+
+        registerBtn.setBackground(new Color(58, 115, 169));  // Navy blue
+        registerBtn.setForeground(Color.WHITE);
+        registerBtn.setFocusPainted(false);  // Removes focus border on click
+        registerBtn.setFont(new Font("Arial", Font.BOLD, 14));
+
+        registerBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                registerBtn.setBackground(new Color(40, 95, 150));  // Darker blue on hover
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                registerBtn.setBackground(new Color(58, 115, 169)); // Original blue
+            }
+        });
 
         registerBtn.addActionListener(new ActionListener() {
             @Override
@@ -182,6 +224,15 @@ public class RegisterFormPanel extends JPanel {
         );
 
         registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
+
+        Font fieldFont = new Font("Arial", Font.PLAIN, 14);
+        emailField.setFont(fieldFont);
+        passwordField.setFont(fieldFont);
+        firstNameField.setFont(fieldFont);
+        lastNameField.setFont(fieldFont);
+        phoneField.setFont(fieldFont);
+
+        passwordExplanationLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         setBackground(new Color(227, 236, 241));
     }
@@ -249,7 +300,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -170, 5, 0);
+        gc.insets = new Insets(0, -130, 5, 0);
         add(emailErrorLabel, gc);
 
         // Second row: Password label and field
@@ -266,10 +317,10 @@ public class RegisterFormPanel extends JPanel {
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = new Insets(0, 0, 5, 0);
         add(passwordField, gc);
-        
+
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -170, 5, 0);
+        gc.insets = new Insets(0, -130, 5, 0);
         add(passwordErrorLabel, gc);
 
         // password instruction row
@@ -297,7 +348,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -170, 5, 0);
+        gc.insets = new Insets(0, -130, 5, 0);
         add(firstNameErrorLabel, gc);
 
         // Fourth row: Last Name label and field
@@ -317,7 +368,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -170, 5, 0);
+        gc.insets = new Insets(0, -130, 5, 0);
         add(lastNameErrorLabel, gc);
 
         // Fifth row: Age label and field
@@ -352,7 +403,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(0, -170, 5, 0);
+        gc.insets = new Insets(0, -130, 5, 0);
         add(phoneErrorLabel, gc);
 
         // Seventh row: Register button
@@ -367,7 +418,7 @@ public class RegisterFormPanel extends JPanel {
 
         gc.gridx = 2;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gc.insets = new Insets(10, -170, 5, 0);
+        gc.insets = new Insets(10, -140, 5, 0);
         add(successLabel, gc);
     }
 }
