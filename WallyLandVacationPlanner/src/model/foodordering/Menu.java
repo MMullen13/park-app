@@ -14,7 +14,7 @@ public class Menu {
     
     private ArrayList<MenuItem> menuItems = new ArrayList<>();
     private String menuName;
-    private static ArrayList<Eatery> eateries = new ArrayList<>();
+    private ArrayList<Eatery> eateries = new ArrayList<>();
 
     /**
      * Constructor. Creates instance of the class

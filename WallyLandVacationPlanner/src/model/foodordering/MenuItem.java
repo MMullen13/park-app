@@ -16,6 +16,10 @@ public class MenuItem {
     private String itemName;
     private double price;
 
+    public MenuItem() {
+    }
+
+    
     /**
      * MenuItem Constructor
      * @param itemName Name of the menu item

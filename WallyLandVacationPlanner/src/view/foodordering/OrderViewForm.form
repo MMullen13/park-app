@@ -120,74 +120,36 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="drinks" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="drink1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="drink2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="drink3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="drink4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="drinks1" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="app1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="app2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="app3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="app4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="drinks2" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="main1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="main2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="main3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="main4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="drinks3" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="side1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="side2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="side3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="side4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="drinks4" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="dessert1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="dessert2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="dessert3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="dessert4" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="foodType" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                              <Component id="options" min="-2" pref="318" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="quantity" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="addToOrder" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -196,52 +158,18 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="drinks" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="drink1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="drink2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="drink3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="drink4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="drinks1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="app1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="app2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="app3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="app4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="drinks2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="main1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="main4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="drinks3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="side1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="side2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="side3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="side4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="drinks4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="dessert1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dessert2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dessert3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="dessert4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="foodType" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="options" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="quantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <Component id="addToOrder" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="21" max="32767" attributes="0"/>
                   </Group>
@@ -256,146 +184,6 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Menu"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="drink1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Drink_1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="drink2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Drink_2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="drink3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Drink_3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="drink4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Drink_4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="drinks">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Drinks"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="drinks1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Appetizers"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="app1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="App_1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="app2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="App_2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="app3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="App_3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="app4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="App_4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="drinks2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Mains"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="main1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Main_1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="main2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Main_2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="main3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Main_3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="main4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Main_4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="drinks3">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Sides"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="side1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Side_1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="side2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Side_2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="side3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Side_3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="side4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Side_4"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="drinks4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="12" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Desserts"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="dessert1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dessert_1"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="dessert2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dessert_2"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="dessert3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dessert_3"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="dessert4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Dessert_4"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -419,6 +207,48 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JComboBox" name="foodType">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="options">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JTextField" name="quantity">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Quantity"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="addToOrder">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Add to Order"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
