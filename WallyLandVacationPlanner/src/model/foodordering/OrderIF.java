@@ -12,9 +12,8 @@ public interface OrderIF {
     
     /**
      * Calculate the order total. Include all taxes and fees
-     * @return total cost of order
      */
-    public double calculateTotal();
+    public void calculateTotal(int quantity, double price);
     
     /**
      * Adds Item to the order

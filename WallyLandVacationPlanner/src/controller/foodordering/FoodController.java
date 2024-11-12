@@ -35,6 +35,7 @@ public class FoodController {
         this.menu = new Menu();
         this.menuItem = new MenuItem();
         this.eateries = menu.getEateries();
+        this.currentOrder = new Order();
         initializeMenus();
         
                
@@ -56,7 +57,7 @@ public class FoodController {
         
         for(Eatery eatery : eateries){
             if(eatery.getEateryName().equals(eateryName)){
-                Menu menu = eatery.getMenu();
+                //Menu menu = eatery.getMenu();
                 itemByCategory.get("Drinks").addAll(MenuItem.getDrinks(eateryName));
                 itemByCategory.get("Appitizers").addAll(MenuItem.getApps(eateryName));
                 itemByCategory.get("Mains").addAll(MenuItem.getMains(eateryName));
@@ -67,6 +68,22 @@ public class FoodController {
         }
         return itemByCategory;
         
+    }
+    
+    public void calculateTotal(int quantity, double item){
+        currentOrder.calculateTotal(quantity, item);
+    }
+    
+    public double getTotal(){
+        return currentOrder.getTotal();
+    }
+    
+    public void newOrder(Eatery eatery){
+        currentOrder = new Order(eatery);
+    }
+    
+    public String getOrderNumber(){
+        return currentOrder.getOrderID();
     }
     
     

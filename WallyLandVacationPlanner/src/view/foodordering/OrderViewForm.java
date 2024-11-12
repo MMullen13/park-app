@@ -10,8 +10,9 @@ import controller.foodordering.*;
 import model.foodordering.*;
 import java.util.ArrayList;
 import java.util.Map;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -31,28 +32,19 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         initManualComponents();
         eaterySelector.addActionListener(this);
         foodType.addActionListener(this);
+        addToOrder.addActionListener(this);
         this.setVisible(true);
         
         
     }
     
     private void initManualComponents(){
+        optionPane.setVisible(false);
         
-        ArrayList<Eatery> eateryList = cntl.getEateries();
-        ArrayList<String> eateryNames = new ArrayList<>();
-
-        eaterySelector.removeAllItems();
-        
-        for (Eatery eatery : eateryList){
-            eateryNames.add(eatery.getEateryName());
-            eaterySelector.addItem(eatery.getEateryName());
-        }
-        
-        if (!eateryNames.isEmpty()){
-            eaterySelector.setSelectedIndex(0);
-        }
-        
-               
+        eaterySelector.addItem(new Eatery("Bistro Bella"));
+        eaterySelector.addItem(new Eatery("Grill & Chill"));
+        eaterySelector.addItem(new Eatery("Chicken Kitchen"));
+       
         foodType.removeAllItems();
         
         foodType.addItem("Drinks");
@@ -63,19 +55,28 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         
         populateItems();
         
+        quantity.setText("1");
+        
+        createNewOrder();
+        
+    }
+    
+    public void createNewOrder(){
+        cntl.newOrder((Eatery) eaterySelector.getSelectedItem());
+        orderNumber.setText(cntl.getOrderNumber());
     }
     
     public void populateItems(){
-        String selectedEatery = (String) eaterySelector.getSelectedItem();
+        Eatery selectedEatery = (Eatery) eaterySelector.getSelectedItem();
         String selectedType = (String) foodType.getSelectedItem();
         
         options.removeAllItems();
         
-        Map<String, ArrayList<MenuItem>> itemByCategory = cntl.getMenuItems(selectedEatery);
+        Map<String, ArrayList<MenuItem>> itemByCategory = cntl.getMenuItems(selectedEatery.getEateryName());
         
         if (itemByCategory.containsKey(selectedType)){
             for (MenuItem item : itemByCategory.get(selectedType)){
-                options.addItem(item.getItemName() + "  " + String.format("%.2f", item.getPrice()));
+                options.addItem(item.getItemName() + "  $" + String.format("%.2f", item.getPrice()));
             }
         
         }
@@ -89,6 +90,28 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         
         if (e.getSource() == eaterySelector || e.getSource() == foodType){
             populateItems();
+        }
+        
+        
+        if (e.getSource() == addToOrder){
+            DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            String selectedItem = (String) options.getSelectedItem();
+            
+            if(selectedItem != null){
+                String[] parts = selectedItem.split("  \\$");
+                String itemName = parts[0];
+                double price = Double.parseDouble(parts[1]);
+                try{
+                int numberOfItems = Integer.parseInt(quantity.getText());
+                tableModel.addRow(new Object[]{itemName, price, numberOfItems});
+                cntl.calculateTotal(numberOfItems, price);
+                totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+                } catch (NumberFormatException n){
+                    JOptionPane.showMessageDialog(this, "Please enter a valid number for the quantity");
+                }
+                
+            }
+            
         }
               
             
@@ -109,20 +132,23 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        priceInfoField = new javax.swing.JTextArea();
         foodType = new javax.swing.JComboBox<>();
         options = new javax.swing.JComboBox<>();
         quantity = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        quantityLabel = new javax.swing.JLabel();
         addToOrder = new javax.swing.JButton();
+        optionPane = new javax.swing.JOptionPane();
         jPanel3 = new javax.swing.JPanel();
         orderDetails = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        orderTable = new javax.swing.JTable();
         total = new javax.swing.JLabel();
         totalCost = new javax.swing.JLabel();
         checkoutButton = new javax.swing.JButton();
         eaterySelector = new javax.swing.JComboBox<>();
+        orderText = new javax.swing.JLabel();
+        orderNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,17 +166,24 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         jLabel2.setText("Menu");
         jLabel2.setToolTipText("");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Prices include all taxes. Order will be\ncharged to the credit card that was\nused to purchase park tickets.");
-        jTextArea1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        priceInfoField.setBackground(new java.awt.Color(51, 255, 255));
+        priceInfoField.setColumns(20);
+        priceInfoField.setRows(5);
+        priceInfoField.setText("Prices include all taxes. Order will be\ncharged to the credit card that was\nused to purchase park tickets.");
+        priceInfoField.setBorder(null);
+        jScrollPane1.setViewportView(priceInfoField);
 
         foodType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         options.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel3.setText("Quantity");
+        quantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        quantity.setPreferredSize(new java.awt.Dimension(22, 22));
+
+        quantityLabel.setText("Quantity");
 
         addToOrder.setText("Add to Order");
 
@@ -159,28 +192,33 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(foodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(options, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(addToOrder)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addToOrder)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(152, 152, 152)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(foodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(124, 124, 124)
+                            .addComponent(quantityLabel)
+                            .addGap(18, 18, 18)
+                            .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76))
+                .addGap(0, 66, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(options, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(16, 16, 16)))
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(optionPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,17 +227,19 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(foodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(40, 40, 40)
                 .addComponent(options, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(139, 139, 139)
+                .addGap(136, 136, 136)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(quantityLabel)
                     .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addGap(55, 55, 55)
                 .addComponent(addToOrder)
-                .addGap(59, 59, 59)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(optionPane, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         jPanel3.setBackground(new java.awt.Color(51, 255, 255));
@@ -208,22 +248,22 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         orderDetails.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         orderDetails.setText("Order Details");
 
-        jTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        orderTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Item", "Price"
+                "Item", "Price", "Quantity"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(orderTable);
 
         total.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         total.setText("Total:");
 
         totalCost.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        totalCost.setText("TotalCost");
+        totalCost.setText("$0.00");
 
         checkoutButton.setText("Complete Order");
 
@@ -232,23 +272,24 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(total)
-                .addGap(18, 18, 18)
-                .addComponent(totalCost)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 33, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(orderDetails)
                         .addGap(125, 125, 125))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(checkoutButton)
                         .addGap(162, 162, 162))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(total)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalCost)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,12 +302,15 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(total)
                     .addComponent(totalCost))
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addComponent(checkoutButton)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        eaterySelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        orderText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        orderText.setText("Order #: ");
+
+        orderNumber.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -274,18 +318,20 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(orderText)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(orderNumber)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(285, 285, 285))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,11 +339,13 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(eaterySelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderText)
+                    .addComponent(orderNumber))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -307,15 +355,15 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 791, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -359,21 +407,24 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToOrder;
     private javax.swing.JButton checkoutButton;
-    private javax.swing.JComboBox<String> eaterySelector;
+    private javax.swing.JComboBox<Eatery> eaterySelector;
     private javax.swing.JComboBox<String> foodType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JOptionPane optionPane;
     private javax.swing.JComboBox<String> options;
     private javax.swing.JLabel orderDetails;
+    private javax.swing.JLabel orderNumber;
+    private javax.swing.JTable orderTable;
+    private javax.swing.JLabel orderText;
+    private javax.swing.JTextArea priceInfoField;
     private javax.swing.JTextField quantity;
+    private javax.swing.JLabel quantityLabel;
     private javax.swing.JLabel total;
     private javax.swing.JLabel totalCost;
     // End of variables declaration//GEN-END:variables

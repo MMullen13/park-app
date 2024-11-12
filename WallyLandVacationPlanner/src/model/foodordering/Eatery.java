@@ -13,6 +13,11 @@ public class Eatery {
     private String eateryName;
     private Menu menu;
 
+    public Eatery(String eateryName) {
+        this.eateryName = eateryName;
+    }
+
+    
     /**
      * Eatery Constructor
      * @param eateryName Name of the eatery
@@ -37,6 +42,11 @@ public class Eatery {
      */
     public Menu getMenu() {
         return menu;
+    }
+    
+    @Override
+    public String toString() {
+        return eateryName; // Return the name of the eatery
     }
     
     
