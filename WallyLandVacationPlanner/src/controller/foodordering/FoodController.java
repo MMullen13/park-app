@@ -86,6 +86,19 @@ public class FoodController {
         return currentOrder.getOrderID();
     }
     
+    public void updateEatery(Eatery newEatery){
+        currentOrder.setEatery(newEatery);
+    }
+    
+    public Eatery getEatery(){
+        return currentOrder.getEatery();
+    }
+    
+    public void setPickupInfo(String pickupTime, String pickupDate){
+        currentOrder.setPickupTime(pickupTime);
+        currentOrder.setPickupDate(pickupDate);
+    }
+    
     
     
     /**

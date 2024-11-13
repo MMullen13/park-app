@@ -17,6 +17,7 @@ public class Order implements OrderIF {
     private Eatery eatery;
     private Menu menu;
     private String pickupTime;
+    private String pickupDate;
     private ArrayList<MenuItem> orderItems;
     private double total;
 
@@ -169,6 +170,16 @@ public class Order implements OrderIF {
     public void setEatery(Eatery eatery) {
         this.eatery = eatery;
     }
+
+    public String getPickupDate() {
+        return pickupDate;
+    }
+
+    public void setPickupDate(String pickupDate) {
+        this.pickupDate = pickupDate;
+    }
+    
+    
     
     
 

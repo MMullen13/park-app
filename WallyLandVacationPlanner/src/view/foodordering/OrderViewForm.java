@@ -7,10 +7,15 @@ package view.foodordering;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controller.foodordering.*;
+import java.text.SimpleDateFormat;
 import model.foodordering.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -30,16 +35,26 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         initComponents();
         cntl = new FoodController(this);
         initManualComponents();
-        eaterySelector.addActionListener(this);
-        foodType.addActionListener(this);
-        addToOrder.addActionListener(this);
+        setListeners();
         this.setVisible(true);
         
         
     }
     
+    private void setListeners(){
+        eaterySelector.addActionListener(this);
+        foodType.addActionListener(this);
+        addToOrder.addActionListener(this);
+        checkoutButton.addActionListener(this);
+    }
+    
     private void initManualComponents(){
         optionPane.setVisible(false);
+        
+        pickupTimeSpinner.setModel(new SpinnerDateModel(new Date(),null, null, Calendar.MINUTE));
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(pickupTimeSpinner, "MM/dd/yy hh:mm a");
+        pickupTimeSpinner.setEditor(timeEditor);
+        pickupTimeSpinner.setValue(new Date());
         
         eaterySelector.addItem(new Eatery("Bistro Bella"));
         eaterySelector.addItem(new Eatery("Grill & Chill"));
@@ -90,6 +105,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         
         if (e.getSource() == eaterySelector || e.getSource() == foodType){
             populateItems();
+            Eatery updatedEatery = (Eatery) eaterySelector.getSelectedItem();
+            cntl.updateEatery(updatedEatery);
+            
         }
         
         
@@ -111,6 +129,19 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 }
                 
             }
+            
+        }
+        
+        if (e.getSource() == checkoutButton){
+            Date orderDate = (Date) pickupTimeSpinner.getValue();
+            SimpleDateFormat formatDate = new SimpleDateFormat("MM/dd/yy");
+            SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
+            
+            String confirmedPickupDate = formatDate.format(orderDate);
+            String confirmedPickupTime = formatTime.format(orderDate);
+            
+            cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
+            
             
         }
               
@@ -146,6 +177,8 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         total = new javax.swing.JLabel();
         totalCost = new javax.swing.JLabel();
         checkoutButton = new javax.swing.JButton();
+        pickupTimeSpinner = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
         eaterySelector = new javax.swing.JComboBox<>();
         orderText = new javax.swing.JLabel();
         orderNumber = new javax.swing.JLabel();
@@ -267,6 +300,10 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
 
         checkoutButton.setText("Complete Order");
 
+        pickupTimeSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
+
+        jLabel3.setText("Chose Pickup Time");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -282,13 +319,17 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                         .addComponent(orderDetails)
                         .addGap(125, 125, 125))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(checkoutButton)
-                        .addGap(162, 162, 162))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(total)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(totalCost)
+                            .addComponent(pickupTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(82, 82, 82))))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(total)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(totalCost)
+                .addGap(132, 132, 132)
+                .addComponent(checkoutButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -303,8 +344,12 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                     .addComponent(total)
                     .addComponent(totalCost))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pickupTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(checkoutButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         orderText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -411,6 +456,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     private javax.swing.JComboBox<String> foodType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -422,6 +468,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     private javax.swing.JLabel orderNumber;
     private javax.swing.JTable orderTable;
     private javax.swing.JLabel orderText;
+    private javax.swing.JSpinner pickupTimeSpinner;
     private javax.swing.JTextArea priceInfoField;
     private javax.swing.JTextField quantity;
     private javax.swing.JLabel quantityLabel;
