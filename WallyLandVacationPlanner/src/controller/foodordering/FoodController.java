@@ -92,6 +92,16 @@ public class FoodController {
         return commandManager.undoLastCommand();
     }
     
+    public OrderCommandIF getLastCommand(){
+        return commandManager.getLastCommand();
+    }
+    
+    public MenuItem getremovedItem(){
+        MenuItem itemRemoved = currentOrder.getLastItemRemoved();
+        return itemRemoved;
+              
+    }
+    
     public void calculateTotal(int quantity, double item){
         currentOrder.calculateTotal(quantity, item);
     }

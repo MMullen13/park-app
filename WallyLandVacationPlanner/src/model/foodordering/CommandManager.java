@@ -13,10 +13,12 @@ import java.util.Stack;
 public class CommandManager {
     
     private Stack<OrderCommandIF> commandHisotry = new Stack<>();
+    private OrderCommandIF lastCommand;
     
     public void executeCommand(OrderCommandIF command){
         command.execute();
         commandHisotry.push(command);
+        lastCommand = command;
         //System.out.println(commandHisotry);
     }
     
@@ -28,6 +30,10 @@ public class CommandManager {
             
         }   
         return false;
+    }
+    
+     public OrderCommandIF getLastCommand() {
+        return lastCommand;
     }
 
     @Override

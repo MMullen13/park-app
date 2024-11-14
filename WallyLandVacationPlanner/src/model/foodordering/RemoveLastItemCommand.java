@@ -38,5 +38,11 @@ public class RemoveLastItemCommand implements OrderCommandIF {
             undoCompleted = true;
         }
     }
+
+    public MenuItem getRemovedItem() {
+        return removedItem;
+    }
+    
+    
     
 }

@@ -155,7 +155,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             tableModel.setRowCount(0);
             //System.out.println(cntl.getOrderItems());
             cntl.resetTotal();
-            totalCost.setText("0.00");
+            totalCost.setText("$0.00");
         }
         
         if (e.getSource() == undoButton){
@@ -163,18 +163,50 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             boolean commandCompleted = cntl.undoLastCommand();
             
             if(commandCompleted){
-                for (MenuItem item : cntl.getOrderItems()){
-                    tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
-                    cntl.calculateTotal(item.getQuantity(), item.getPrice());
+                
+                OrderCommandIF lastCommand = cntl.getLastCommand();
+                
+                tableModel.setRowCount(0);
+                cntl.resetTotal();
+                
+                if(lastCommand instanceof ClearAllItemsCommand){
+                    for (MenuItem item : cntl.getOrderItems()){
+                        tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
+                        cntl.calculateTotal(item.getQuantity(), item.getPrice());
+                    }
                 }
+                else if (lastCommand instanceof RemoveLastItemCommand){
+                    MenuItem removedItem = cntl.getremovedItem();
+                    tableModel.addRow(new Object[] {removedItem.getItemName(), removedItem.getPrice(), removedItem.getQuantity()});
+                    cntl.calculateTotal(removedItem.getQuantity(), removedItem.getPrice());
+                }
+                
             }
             
             totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
-            //System.out.println(cntl.getOrderItems());
+                 System.out.println(cntl.getOrderItems());
         }
         
         if (e.getSource() == removeLastItem){
-            cntl.removeLastItem();
+            DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            
+            
+            try{
+                cntl.removeLastItem();
+                tableModel.removeRow(tableModel.getRowCount() - 1);
+                cntl.resetTotal();
+         
+                for (MenuItem item : cntl.getOrderItems()){
+                    
+                    cntl.calculateTotal(item.getQuantity(), item.getPrice());
+                    
+                }
+            
+                totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+            }
+            catch(ArrayIndexOutOfBoundsException a){
+                JOptionPane.showMessageDialog(this, "Order is empty, nothing to remove");
+            }
         }
         
               

@@ -20,6 +20,7 @@ public class Order implements OrderIF {
     private String pickupDate;
     private ArrayList<MenuItem> orderItems;
     private double total;
+    MenuItem lastItemRemoved;
 
     public Order() {
     }
@@ -60,10 +61,10 @@ public class Order implements OrderIF {
     public MenuItem deleteLastItem(){
         System.out.println(orderItems);
         if (!orderItems.isEmpty()){
-            MenuItem lastItem = orderItems.get(orderItems.size()-1);
-            orderItems.remove(lastItem);
+            lastItemRemoved = orderItems.get(orderItems.size()-1);
+            orderItems.remove(orderItems.size() - 1);
             System.out.println(orderItems);
-            return lastItem;
+            return lastItemRemoved;
             
         }
         else{
@@ -185,6 +186,12 @@ public class Order implements OrderIF {
     public ArrayList<MenuItem> getOrderItems() {
         return orderItems;
     }
+
+    public MenuItem getLastItemRemoved() {
+        return lastItemRemoved;
+    }
+    
+    
     
     
     
