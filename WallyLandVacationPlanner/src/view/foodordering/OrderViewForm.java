@@ -46,6 +46,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         foodType.addActionListener(this);
         addToOrder.addActionListener(this);
         checkoutButton.addActionListener(this);
+        undoButton.addActionListener(this);
+        removeLastItem.addActionListener(this);
+        clearAllItems.addActionListener(this);
     }
     
     private void initManualComponents(){
@@ -124,12 +127,14 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 tableModel.addRow(new Object[]{itemName, price, numberOfItems});
                 cntl.calculateTotal(numberOfItems, price);
                 totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+                MenuItem menuItem = new MenuItem(itemName, price, numberOfItems);
+                cntl.addItemToOrder(menuItem);
                 } catch (NumberFormatException n){
                     JOptionPane.showMessageDialog(this, "Please enter a valid number for the quantity");
                 }
                 
             }
-            
+            //System.out.println(cntl.getOrderItems());
         }
         
         if (e.getSource() == checkoutButton){
@@ -142,8 +147,36 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             
             cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
             
-            
         }
+        
+        if (e.getSource() == clearAllItems){
+            DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            cntl.clearAllItems();
+            tableModel.setRowCount(0);
+            //System.out.println(cntl.getOrderItems());
+            cntl.resetTotal();
+            totalCost.setText("0.00");
+        }
+        
+        if (e.getSource() == undoButton){
+            DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            boolean commandCompleted = cntl.undoLastCommand();
+            
+            if(commandCompleted){
+                for (MenuItem item : cntl.getOrderItems()){
+                    tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
+                    cntl.calculateTotal(item.getQuantity(), item.getPrice());
+                }
+            }
+            
+            totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+            //System.out.println(cntl.getOrderItems());
+        }
+        
+        if (e.getSource() == removeLastItem){
+            cntl.removeLastItem();
+        }
+        
               
             
        
@@ -179,6 +212,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         checkoutButton = new javax.swing.JButton();
         pickupTimeSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
+        removeLastItem = new javax.swing.JButton();
+        clearAllItems = new javax.swing.JButton();
+        undoButton = new javax.swing.JButton();
         eaterySelector = new javax.swing.JComboBox<>();
         orderText = new javax.swing.JLabel();
         orderNumber = new javax.swing.JLabel();
@@ -304,14 +340,16 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
 
         jLabel3.setText("Chose Pickup Time");
 
+        removeLastItem.setText("Remove Last Item Added");
+
+        clearAllItems.setText("Clear All Items");
+
+        undoButton.setText("Undo");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 33, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,9 +366,23 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                             .addComponent(pickupTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(82, 82, 82))))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(checkoutButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(checkoutButton))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(removeLastItem)
+                                .addGap(18, 18, 18)
+                                .addComponent(clearAllItems, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(34, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(undoButton)
+                .addGap(158, 158, 158))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,8 +390,14 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 .addContainerGap()
                 .addComponent(orderDetails)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeLastItem)
+                    .addComponent(clearAllItems))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(undoButton)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(total)
                     .addComponent(totalCost))
@@ -452,6 +510,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToOrder;
     private javax.swing.JButton checkoutButton;
+    private javax.swing.JButton clearAllItems;
     private javax.swing.JComboBox<Eatery> eaterySelector;
     private javax.swing.JComboBox<String> foodType;
     private javax.swing.JLabel jLabel1;
@@ -472,8 +531,10 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     private javax.swing.JTextArea priceInfoField;
     private javax.swing.JTextField quantity;
     private javax.swing.JLabel quantityLabel;
+    private javax.swing.JButton removeLastItem;
     private javax.swing.JLabel total;
     private javax.swing.JLabel totalCost;
+    private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
 
     

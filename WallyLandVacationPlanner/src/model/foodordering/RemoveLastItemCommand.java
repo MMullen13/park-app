@@ -13,7 +13,8 @@ import java.util.Stack;
 public class RemoveLastItemCommand implements OrderCommandIF {
     
     private Order order;
-    private Stack<MenuItem>removedItemStack;
+    private MenuItem removedItem;
+    private boolean undoCompleted = false;
 
     /**
      * Class constructor. Sets the Order to work on
@@ -21,23 +22,20 @@ public class RemoveLastItemCommand implements OrderCommandIF {
      */
     public RemoveLastItemCommand(Order order) {
         this.order = order;
-        this.removedItemStack = new Stack<>();
+       
     }
     
     
     @Override
     public void execute() {
-        MenuItem removedItem = order.deleteLastItem();
-        if (removedItem != null){
-            removedItemStack.push(removedItem);
-        }
+        removedItem = order.deleteLastItem();
     }
 
     @Override
     public void undo() {
-        if (!removedItemStack.isEmpty()){
-            MenuItem restoreItem = removedItemStack.pop();
-            order.addItem(restoreItem);
+        if (!undoCompleted && removedItem != null){
+            order.addItem(removedItem);
+            undoCompleted = true;
         }
     }
     

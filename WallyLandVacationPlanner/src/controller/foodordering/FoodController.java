@@ -22,6 +22,7 @@ public class FoodController {
    private Menu menu;
    private MenuItem menuItem;
    private ArrayList<Eatery> eateries;
+   private CommandManager commandManager;
    
    private Order currentOrder;
    private OrderHistory history;
@@ -37,6 +38,7 @@ public class FoodController {
         this.eateries = menu.getEateries();
         this.currentOrder = new Order();
         initializeMenus();
+        this.commandManager = new CommandManager();
         
                
     }
@@ -70,8 +72,32 @@ public class FoodController {
         
     }
     
+    public void addItemToOrder(MenuItem item){
+        currentOrder.addItem(item);
+    }
+    
+    public void removeLastItem(){
+        RemoveLastItemCommand removeCommand = new RemoveLastItemCommand(currentOrder);
+        commandManager.executeCommand(removeCommand);
+        
+    }
+    
+    public void clearAllItems(){
+        ClearAllItemsCommand clearCommand = new ClearAllItemsCommand(currentOrder);
+        commandManager.executeCommand(clearCommand);
+        
+    }
+    
+    public boolean undoLastCommand(){
+        return commandManager.undoLastCommand();
+    }
+    
     public void calculateTotal(int quantity, double item){
         currentOrder.calculateTotal(quantity, item);
+    }
+    
+    public void resetTotal(){
+        currentOrder.resetTotal();
     }
     
     public double getTotal(){
@@ -94,13 +120,15 @@ public class FoodController {
         return currentOrder.getEatery();
     }
     
+    public ArrayList<MenuItem> getOrderItems(){
+        return currentOrder.getOrderItems();
+    }
+    
     public void setPickupInfo(String pickupTime, String pickupDate){
         currentOrder.setPickupTime(pickupTime);
         currentOrder.setPickupDate(pickupDate);
     }
-    
-    
-    
+   
     /**
      * Creates the default eateries and menus from model package
      */

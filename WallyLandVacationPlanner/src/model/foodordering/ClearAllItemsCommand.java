@@ -13,25 +13,34 @@ import java.util.ArrayList;
 public class ClearAllItemsCommand implements OrderCommandIF {
     
     private Order order;
-    private ArrayList<MenuItem> restoreAll;
+    private ArrayList<MenuItem> backupItems;
+    private boolean undoCompleted = false;
 
     public ClearAllItemsCommand(Order order) {
         this.order = order;
-        this.restoreAll = new ArrayList<>();
+        
     }
     
 
     @Override
     public void execute() {
-        restoreAll = order.clearAllItems();
+        backupItems = order.clearAllItems();
                
     }
 
     @Override
     public void undo() {
-        for(MenuItem items : restoreAll){
-            order.addItem(items);            
+        if (!undoCompleted && backupItems != null){
+            for(MenuItem item : backupItems){
+                order.addItem(item);            
+            }
+            
+            undoCompleted = true;
+            System.out.println(undoCompleted);
         }
+        backupItems.clear();
+        
+        
     }
     
 }

@@ -58,10 +58,13 @@ public class Order implements OrderIF {
      * @return the last item removed for undo functionality
      */
     public MenuItem deleteLastItem(){
+        System.out.println(orderItems);
         if (!orderItems.isEmpty()){
             MenuItem lastItem = orderItems.get(orderItems.size()-1);
-            orderItems.remove(orderItems.size()-1);
+            orderItems.remove(lastItem);
+            System.out.println(orderItems);
             return lastItem;
+            
         }
         else{
             System.out.println("No Items to remove");
@@ -74,13 +77,9 @@ public class Order implements OrderIF {
      * @return an ArrayList of the order items to use with undo command
      */
     public ArrayList<MenuItem> clearAllItems(){
-        if (!orderItems.isEmpty()){
-            ArrayList<MenuItem> restoreAll = new ArrayList<>();
-            restoreAll.addAll(orderItems);
-            orderItems.clear();
-            return restoreAll;
-        }
-        return new ArrayList<>();        
+        ArrayList<MenuItem> removedItems = new ArrayList<>(orderItems);
+        orderItems.clear();
+        return removedItems;        
     }
 
     /**
@@ -116,6 +115,10 @@ public class Order implements OrderIF {
         else{
             orderItems.remove(item);
         }
+    }
+    
+    public void resetTotal(){
+        total = 0.00;
     }
 
     /**
@@ -178,6 +181,11 @@ public class Order implements OrderIF {
     public void setPickupDate(String pickupDate) {
         this.pickupDate = pickupDate;
     }
+
+    public ArrayList<MenuItem> getOrderItems() {
+        return orderItems;
+    }
+    
     
     
     

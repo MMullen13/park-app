@@ -15,8 +15,14 @@ public class MenuItem {
     
     private String itemName;
     private double price;
+    private int quantity;
 
     public MenuItem() {
+    }
+    
+    public MenuItem(String itemName, double price){
+        this.itemName = itemName;
+        this.price = price;
     }
 
     
@@ -24,10 +30,12 @@ public class MenuItem {
      * MenuItem Constructor
      * @param itemName Name of the menu item
      * @param price price for the item
+     * @param quantity
      */
-    public MenuItem(String itemName, double price) {
+    public MenuItem(String itemName, double price, int quantity) {
         this.itemName = itemName;
         this.price = price;
+        this.quantity = quantity;
     }
     
     /**
@@ -209,6 +217,10 @@ public class MenuItem {
      */
     public double getPrice() {
         return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
     
     
