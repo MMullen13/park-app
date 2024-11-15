@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import model.foodordering.MenuItem;
-import model.foodordering.OrderHistory;
 
 /**
  *
