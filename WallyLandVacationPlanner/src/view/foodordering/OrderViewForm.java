@@ -209,6 +209,11 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             }
         }
         
+        if (e.getSource() == checkoutButton){
+            OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
+            this.setVisible(false);
+        }
+        
               
             
        

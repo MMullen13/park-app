@@ -4,18 +4,66 @@
  */
 package view.foodordering;
 
+import controller.foodordering.FoodController;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import model.foodordering.MenuItem;
+
 /**
  *
  * @author theme
  */
-public class OrderConfirmationViewForm extends javax.swing.JFrame {
+public class OrderConfirmationViewForm extends javax.swing.JFrame implements ActionListener {
+    
+    private FoodController cntl;
 
     /**
      * Creates new form OrderConfirmationViewForm
+     * @param cntl
      */
-    public OrderConfirmationViewForm() {
+    public OrderConfirmationViewForm(FoodController cntl) {
         initComponents();
+        this.cntl = cntl;
+        this.setVisible(true);
+        populateConfirmationForm();
+        setActionListeners();
+        
     }
+    
+    private void populateConfirmationForm(){
+        DefaultTableModel tableModel = (DefaultTableModel) orderSummaryTable.getModel();
+        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodOrderImages/barcode-306926_1280.png"));
+        orderNumber.setText(cntl.getOrderNumber());
+        pickupTime.setText(cntl.getPickupTime());
+        totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+        
+        for (MenuItem item : cntl.getOrderItems()){
+            tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
+        }
+        
+        Image image = barcodeIcon.getImage();
+        Image scaledImage = image.getScaledInstance(200, 100, Image.SCALE_SMOOTH); 
+        ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
+        barCode.setIcon(scaledBarcodeIcon);
+        barCode.setHorizontalAlignment(SwingConstants.CENTER);
+        
+    }
+    
+    private void setActionListeners(){
+        exitButton.addActionListener(this);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == exitButton){
+            //return to landing page
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,6 +84,9 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
         totalCost = new javax.swing.JLabel();
         pickupTime = new javax.swing.JLabel();
         pickupTimeLabel = new javax.swing.JLabel();
+        exitButton = new javax.swing.JButton();
+        barCode = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +106,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Order Summary"
+                "Item", "Price", "Quantity"
             }
         ));
         jScrollPane1.setViewportView(orderSummaryTable);
@@ -72,12 +123,38 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
         pickupTimeLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         pickupTimeLabel.setText("Pickup Time:");
 
+        exitButton.setText("Close");
+
+        jLabel1.setText("Show this Bar Code to Cashier at Pick Up");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(107, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalLabel)
+                            .addComponent(pickupTimeLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(totalCost)
+                            .addComponent(pickupTime))
+                        .addGap(31, 31, 31)
+                        .addComponent(exitButton)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(barCode, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(102, 102, 102))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(194, 194, 194)
+                .addGap(116, 116, 116)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(orderConfirmation)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -85,52 +162,43 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(orderNumber)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(164, 164, 164))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(totalLabel)
-                            .addComponent(pickupTimeLabel))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pickupTime, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(totalCost, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(183, 183, 183))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(orderConfirmation)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(orderNumber)
-                    .addComponent(orderNumberLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalLabel)
-                    .addComponent(totalCost))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pickupTimeLabel)
-                    .addComponent(pickupTime))
-                .addGap(22, 22, 22))
+                    .addComponent(orderNumberLabel)
+                    .addComponent(orderNumber))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(barCode, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(exitButton)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totalCost)
+                            .addComponent(totalLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(pickupTimeLabel)
+                            .addComponent(pickupTime))
+                        .addGap(12, 12, 12))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,12 +241,16 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderConfirmationViewForm().setVisible(true);
+                FoodController cntl = new FoodController();
+                new OrderConfirmationViewForm(cntl).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barCode;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel orderConfirmation;
@@ -190,4 +262,6 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame {
     private javax.swing.JLabel totalCost;
     private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
+
+    
 }

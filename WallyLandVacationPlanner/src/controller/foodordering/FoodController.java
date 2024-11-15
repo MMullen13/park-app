@@ -138,6 +138,15 @@ public class FoodController {
         currentOrder.setPickupTime(pickupTime);
         currentOrder.setPickupDate(pickupDate);
     }
+    
+    public String getPickupDate(){
+        return currentOrder.getPickupDate();
+        
+    }
+    
+    public String getPickupTime(){
+        return currentOrder.getPickupTime();
+    }
    
     /**
      * Creates the default eateries and menus from model package
