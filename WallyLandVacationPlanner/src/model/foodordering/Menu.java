@@ -17,18 +17,18 @@ public class Menu {
     private ArrayList<Eatery> eateries = new ArrayList<>();
 
     /**
+     * Empty Constructor. Creates an empty menu without a predefined name.
+     */
+    public Menu(){
+        
+    }
+    
+    /**
      * Constructor. Creates instance of the class
      * @param menuName name of the eatery menu
      */
     public Menu(String menuName) {
         this.menuName = menuName;
-    }
-    
-    /**
-     * Empty Constructor
-     */
-    public Menu(){
-        
     }
    
     /**
@@ -47,6 +47,9 @@ public class Menu {
         menuItems.remove(item);
     }
     
+    /**
+     * Creates the default menus and eateries for the application
+     */
     public void createDefaults(){
         Menu bistroMenu = new Menu("Bistro Bella");
         menuItems.addAll(MenuItem.getApps("Bistro Bella"));
@@ -68,20 +71,18 @@ public class Menu {
         Eatery grillChill = new Eatery("Grill & Chill", grillMenu);
         eateries.add(grillChill);
         
-        Menu chickenlMenu = new Menu("Chicken Kitchen");
+        Menu chickenMenu = new Menu("Chicken Kitchen");
         menuItems.addAll(MenuItem.getApps("Chicken Kitchen"));
         menuItems.addAll(MenuItem.getDrinks("Chicken Kitchen"));
         menuItems.addAll(MenuItem.getMains("Chicken Kitchen"));
         menuItems.addAll(MenuItem.getSides("Chicken Kitchen"));
         menuItems.addAll(MenuItem.getDesserts("Chicken Kitchen"));
         
-        Eatery chickenKitchen = new Eatery("Chicken Kitchen", grillMenu);
+        Eatery chickenKitchen = new Eatery("Chicken Kitchen", chickenMenu);
         eateries.add(chickenKitchen);
         
     }
-    
-    
-
+   
     /**
      * Returns a list of items on the menu
      * @return 
@@ -90,6 +91,10 @@ public class Menu {
         return menuItems;
     }
     
+    /**
+     * Gets the list of eateries and their associated menus
+     * @return The list of eateries and their menus
+     */
     public ArrayList<Eatery> getEateries(){
         return eateries;
     }
@@ -101,9 +106,5 @@ public class Menu {
     public String getMenuName() {
         return menuName;
     }
-    
-    
-    
-   
-    
+ 
 }

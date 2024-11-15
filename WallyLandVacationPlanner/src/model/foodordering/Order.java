@@ -22,14 +22,16 @@ public class Order implements OrderIF {
     private double total;
     MenuItem lastItemRemoved;
 
+    /**
+     * Creates an order without a defined eatery
+     */
     public Order() {
     }
     
-    
-
+   
     /**
      * Class Constructor. Generates random Order ID. Creates Array of Menu Items
-     * @param eatery  
+     * @param eatery The eatery that the order will be created for. 
      */
     public Order(Eatery eatery) {
         this.orderID = generateOrderID(7);
@@ -55,8 +57,9 @@ public class Order implements OrderIF {
     }
     
     /**
-     * Works with the command class to undo additions to an order
-     * @return the last item removed for undo functionality
+     * Deletes the last item that was added to the order. Allows command pattern
+     * implementation.
+     * @return the last item removed or null if no item was removed.
      */
     public MenuItem deleteLastItem(){
         System.out.println(orderItems);
@@ -74,8 +77,8 @@ public class Order implements OrderIF {
     }
     
     /**
-     * Works with command class to remove all items from an order to start over
-     * @return an ArrayList of the order items to use with undo command
+     * remove all items from an order. Allows command pattern implementation
+     * @return an ArrayList of the order items that were removed.
      */
     public ArrayList<MenuItem> clearAllItems(){
         ArrayList<MenuItem> removedItems = new ArrayList<>(orderItems);
@@ -85,8 +88,8 @@ public class Order implements OrderIF {
 
     /**
      * Calculates the total of the order based on the items in the orderItems array
-     * @param quantity
-     * @param price
+     * @param quantity Number of the items
+     * @param price Price of the item
      */
     @Override
     public void calculateTotal(int quantity, double price) {
@@ -118,6 +121,9 @@ public class Order implements OrderIF {
         }
     }
     
+    /**
+     * Resets the total of the order to 0.00
+     */
     public void resetTotal(){
         total = 0.00;
     }
@@ -167,26 +173,50 @@ public class Order implements OrderIF {
         this.pickupTime = pickupTime;
     }
     
+    /**
+     * gets the total of the order with tax applied.
+     * @return Total cost of order with tax
+     */
     public double getTotal(){
         return total * 1.07;
     }
 
+    /**
+     * Sets the eatery for the order that the user has chosen.
+     * @param eatery Name of the eatery to add to the order.
+     */
     public void setEatery(Eatery eatery) {
         this.eatery = eatery;
     }
 
+    /**
+     * Gets the scheduled pickup time for the order
+     * @return Pickup time as a string
+     */
     public String getPickupDate() {
         return pickupDate;
     }
 
+    /**
+     * Sets the date of the order
+     * @param pickupDate Date the order is created for
+     */
     public void setPickupDate(String pickupDate) {
         this.pickupDate = pickupDate;
     }
 
+    /**
+     * Gets the list of menu items that were added to the order
+     * @return An ArrayList of menu items currently in the order
+     */
     public ArrayList<MenuItem> getOrderItems() {
         return orderItems;
     }
 
+    /**
+     * Gets the last item that was removed from the order.
+     * @return The last removed Menu item
+     */
     public MenuItem getLastItemRemoved() {
         return lastItemRemoved;
     }

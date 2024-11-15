@@ -17,9 +17,18 @@ public class MenuItem {
     private double price;
     private int quantity;
 
+    /**
+     * Empty class constructor to create an instance of class without an item 
+     * or price associated with it.
+     */
     public MenuItem() {
     }
     
+    /**
+     * Parameterized class constructor. Does not require a quantity.
+     * @param itemName Name of the item
+     * @param price Price of the item
+     */
     public MenuItem(String itemName, double price){
         this.itemName = itemName;
         this.price = price;
@@ -27,10 +36,11 @@ public class MenuItem {
 
     
     /**
-     * MenuItem Constructor
+     * MenuItem Constructor. Allows for a new menu item to be added to an order
+     * with a quantity associated with it
      * @param itemName Name of the menu item
      * @param price price for the item
-     * @param quantity
+     * @param quantity number of the items
      */
     public MenuItem(String itemName, double price, int quantity) {
         this.itemName = itemName;
@@ -41,7 +51,7 @@ public class MenuItem {
     /**
      * Creates default drinks for eatery
      * @param eateryName Name of the eatery
-     * @return list of the drinks
+     * @return list of the drinks and the prices
      */
     public static List<MenuItem> getDrinks(String eateryName){
         List<MenuItem> drinks = new ArrayList<>();
@@ -74,7 +84,7 @@ public class MenuItem {
     /**
      * Creates default mains for eatery
      * @param eateryName Name of the eatery
-     * @return list of mains
+     * @return list of mains and the prices
      */
     public static List<MenuItem> getMains(String eateryName){
         List<MenuItem> mains = new ArrayList<>();
@@ -107,7 +117,7 @@ public class MenuItem {
     /**
      * Creates default Apps for eatery
      * @param eateryName Name of the eatery
-     * @return List of Apps
+     * @return List of Apps and the prices
      */
     public static List<MenuItem> getApps(String eateryName){
         List<MenuItem> apps = new ArrayList<>();
@@ -140,7 +150,7 @@ public class MenuItem {
     /**
      * Creates default sides for eatery
      * @param eateryName Name of the eatery
-     * @return List of sides
+     * @return List of sides and the prices
      */
     public static List<MenuItem> getSides(String eateryName){
         List<MenuItem> sides = new ArrayList<>();
@@ -173,7 +183,7 @@ public class MenuItem {
     /**
      * Creates default desserts for eatery
      * @param eateryName Name of eatery
-     * @return List of desserts
+     * @return List of desserts and the prices
      */
     public static List<MenuItem> getDesserts(String eateryName){
         List<MenuItem> desserts = new ArrayList<>();
@@ -219,12 +229,12 @@ public class MenuItem {
         return price;
     }
 
+    /**
+     * Gets the quantity of an item that was added to an order
+     * @return Number of items
+     */
     public int getQuantity() {
         return quantity;
     }
-    
-    
-    
-    
-    
+  
 }

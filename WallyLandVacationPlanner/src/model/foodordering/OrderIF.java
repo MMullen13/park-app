@@ -5,13 +5,15 @@
 package model.foodordering;
 
 /**
- *
+ * Interface defines the required methods each order must contain
  * @author theme
  */
 public interface OrderIF {
     
     /**
      * Calculate the order total. Include all taxes and fees
+     * @param quantity
+     * @param price
      */
     public void calculateTotal(int quantity, double price);
     

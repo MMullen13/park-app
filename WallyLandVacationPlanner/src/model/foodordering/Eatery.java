@@ -13,13 +13,17 @@ public class Eatery {
     private String eateryName;
     private Menu menu;
 
+    /**
+     * Creates an eatery without an attached menu
+     * @param eateryName name of the eatery to create
+     */
     public Eatery(String eateryName) {
         this.eateryName = eateryName;
     }
 
     
     /**
-     * Eatery Constructor
+     * Creates an eatery with a predefined menu
      * @param eateryName Name of the eatery
      * @param menu the menu for the Eatery
      */
@@ -43,11 +47,13 @@ public class Eatery {
     public Menu getMenu() {
         return menu;
     }
-    
+
     @Override
     public String toString() {
-        return eateryName; // Return the name of the eatery
+        return eateryName;
     }
+    
+    
     
     
     

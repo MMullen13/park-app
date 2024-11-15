@@ -29,7 +29,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     
 
     /**
-     * Creates new form OrderViewForm
+     * Creates new form OrderViewForm. Initializes the components. Creates a new
+     * instance of the food controller. Updates the UI with defaults. Sets the 
+     * action listeners, and sets the UI to visible.
      */
     public OrderViewForm() {
         initComponents();
@@ -38,9 +40,11 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         setListeners();
         this.setVisible(true);
         
-        
     }
     
+    /**
+     * Helper method to set the action listeners. 
+     */
     private void setListeners(){
         eaterySelector.addActionListener(this);
         foodType.addActionListener(this);
@@ -51,6 +55,11 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         clearAllItems.addActionListener(this);
     }
     
+    /**
+     * Helper method to populate the UI components. Sets up the spinner for pickup
+     * time and date. Adds the eateries. Populates the food type drop down. Sets 
+     * default quantity number of items. Creates a new order.
+     */
     private void initManualComponents(){
         optionPane.setVisible(false);
         
@@ -64,7 +73,6 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         eaterySelector.addItem(new Eatery("Chicken Kitchen"));
        
         foodType.removeAllItems();
-        
         foodType.addItem("Drinks");
         foodType.addItem("Appitizers");
         foodType.addItem("Mains");
@@ -119,22 +127,29 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             String selectedItem = (String) options.getSelectedItem();
             
             if(selectedItem != null){
-                String[] parts = selectedItem.split("  \\$");
+                String[] parts = selectedItem.split("  \\$"); //Splits the menu item into a string item name and price for the table
                 String itemName = parts[0];
                 double price = Double.parseDouble(parts[1]);
+                
                 try{
                 int numberOfItems = Integer.parseInt(quantity.getText());
+                
+                    if (numberOfItems <= 0) {
+                        JOptionPane.showMessageDialog(this, "Please enter a quantity greater than zero");
+                        return; //Exits method if quantity is less then 1
+                    }
+                    
                 tableModel.addRow(new Object[]{itemName, price, numberOfItems});
                 cntl.calculateTotal(numberOfItems, price);
                 totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
                 MenuItem menuItem = new MenuItem(itemName, price, numberOfItems);
                 cntl.addItemToOrder(menuItem);
                 } catch (NumberFormatException n){
-                    JOptionPane.showMessageDialog(this, "Please enter a valid number for the quantity");
+                    JOptionPane.showMessageDialog(this, "Please enter a valid number for the quantity"); //ensures int and not string or double
                 }
                 
             }
-            //System.out.println(cntl.getOrderItems());
+            
         }
         
         if (e.getSource() == checkoutButton){
@@ -151,9 +166,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         
         if (e.getSource() == clearAllItems){
             DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            
             cntl.clearAllItems();
             tableModel.setRowCount(0);
-            //System.out.println(cntl.getOrderItems());
             cntl.resetTotal();
             totalCost.setText("$0.00");
         }
@@ -162,13 +177,14 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
             boolean commandCompleted = cntl.undoLastCommand();
             
-            if(commandCompleted){
+            if(commandCompleted){ //checks if undo was already ran
                 
                 OrderCommandIF lastCommand = cntl.getLastCommand();
                 
-                tableModel.setRowCount(0);
+                tableModel.setRowCount(0); //resets the table to zero rows to repopulate after undo
                 cntl.resetTotal();
                 
+                //if else if to check which last command was executed to complete proper undo
                 if(lastCommand instanceof ClearAllItemsCommand){
                     for (MenuItem item : cntl.getOrderItems()){
                         tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
@@ -512,37 +528,37 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new OrderViewForm().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(OrderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new OrderViewForm().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToOrder;

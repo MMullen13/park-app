@@ -18,19 +18,26 @@ public class RemoveLastItemCommand implements OrderCommandIF {
 
     /**
      * Class constructor. Sets the Order to work on
-     * @param order Order number
+     * @param order Current Order to execute commands on
      */
     public RemoveLastItemCommand(Order order) {
         this.order = order;
        
     }
     
-    
+    /**
+     * Removes the last item that was added to the order and saves the removed 
+     * menu item.
+     */
     @Override
     public void execute() {
         removedItem = order.deleteLastItem();
     }
 
+    /**
+     * Undoes the command. Re-adds the menu item to the order and changes the 
+     * Boolean flag set to true if the undo is ran successfully
+     */
     @Override
     public void undo() {
         if (!undoCompleted && removedItem != null){
@@ -39,6 +46,10 @@ public class RemoveLastItemCommand implements OrderCommandIF {
         }
     }
 
+    /**
+     * Gets the removed item from when the command was executed
+     * @return The removed menu item
+     */
     public MenuItem getRemovedItem() {
         return removedItem;
     }
