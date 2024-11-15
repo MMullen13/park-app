@@ -4,8 +4,6 @@
  */
 package model.foodordering;
 
-import java.util.Stack;
-
 /**
  *
  * @author theme

@@ -23,6 +23,7 @@ public class FoodController {
    private MenuItem menuItem;
    private ArrayList<Eatery> eateries;
    private CommandManager commandManager;
+   private OrderHistory orderHistory;
    
    private Order currentOrder;
    private OrderHistory history;
@@ -42,6 +43,10 @@ public class FoodController {
         this.commandManager = new CommandManager();
         
                
+    }
+    
+    public FoodController(){
+        
     }
 
     /**
@@ -165,6 +170,23 @@ public class FoodController {
      */
     public void newOrder(Eatery eatery){
         currentOrder = new Order(eatery);
+    }
+    
+    public void createNewHisotryEntry(String orderNumber, String orderDate, Eatery eatery, double totalCost){
+        orderHistory = new OrderHistory(orderNumber, orderDate, eatery, totalCost);
+        orderHistory.addToHistory();
+    }
+    
+    public void saveOrderHistory(){
+        OrderHistory.saveOrderHistory();
+    }
+    
+    public void loadOrderHistory(){
+        OrderHistory.loadOrderHistory();
+    }
+    
+    public ArrayList<OrderHistory> getOrderHistory(){
+        return OrderHistory.getHistoryList();
     }
     
     /**

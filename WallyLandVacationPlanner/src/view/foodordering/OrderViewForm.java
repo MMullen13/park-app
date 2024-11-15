@@ -36,6 +36,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     public OrderViewForm() {
         initComponents();
         cntl = new FoodController(this);
+        cntl.loadOrderHistory();
         initManualComponents();
         setListeners();
         this.setVisible(true);
@@ -110,7 +111,10 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     }
     
     
-    
+    /**
+     * Handles all of the action events for the UI components
+     * @param e The event that triggers this method
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -144,6 +148,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
                 MenuItem menuItem = new MenuItem(itemName, price, numberOfItems);
                 cntl.addItemToOrder(menuItem);
+                eaterySelector.setEnabled(false); //ensures one eatery per order
                 } catch (NumberFormatException n){
                     JOptionPane.showMessageDialog(this, "Please enter a valid number for the quantity"); //ensures int and not string or double
                 }
@@ -161,6 +166,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             String confirmedPickupTime = formatTime.format(orderDate);
             
             cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
+            
+            cntl.createNewHisotryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
+            cntl.saveOrderHistory();
             
         }
         
@@ -229,10 +237,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
             this.setVisible(false);
         }
-        
-              
-            
-       
+
     }
 
     /**

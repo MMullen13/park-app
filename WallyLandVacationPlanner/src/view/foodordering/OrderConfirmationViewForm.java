@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import model.foodordering.MenuItem;
+import model.foodordering.OrderHistory;
 
 /**
  *
@@ -60,6 +61,8 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exitButton){
+            OrderHistoryView form = new OrderHistoryView();
+            form.setVisible(true);
             //return to landing page
         }
     }

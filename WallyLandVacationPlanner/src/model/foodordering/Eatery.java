@@ -4,12 +4,15 @@
  */
 package model.foodordering;
 
+import java.io.Serializable;
+
 /**
  *
  * @author theme
  */
-public class Eatery {
+public class Eatery implements Serializable {
     
+    private static final long serialVersionUID = 1L;
     private String eateryName;
     private Menu menu;
 
