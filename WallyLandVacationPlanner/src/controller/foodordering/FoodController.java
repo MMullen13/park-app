@@ -24,6 +24,7 @@ public class FoodController {
    private ArrayList<Eatery> eateries;
    private CommandManager commandManager;
    private OrderHistory orderHistory;
+   private boolean orderPickedUp = true;
    
    private Order currentOrder;
    private OrderHistory history;
@@ -161,12 +162,24 @@ public class FoodController {
         }
     }
     
-    public void createOrderConfirmationView(){
-        if (confirmationView == null){
-            confirmationView = new OrderConfirmationViewForm(this);
-        }
-        confirmationView.setVisible(true);
+    public boolean isOrderPickedUp(){
+        return orderPickedUp;
     }
+    
+    public void markedOrderAsPickedUp(){
+        orderPickedUp = true;
+    }
+    
+    public void markedOrderAsNotPickedUp(){
+        orderPickedUp = false;
+    }
+    
+//    public void createOrderConfirmationView(){
+//        if (confirmationView == null){
+//            confirmationView = new OrderConfirmationViewForm(this);
+//        }
+//        confirmationView.setVisible(true);
+//    }
     
     /**
      * Calculates the order total with tax of 7%
@@ -197,7 +210,11 @@ public class FoodController {
      * @param eatery The eatery that the order will be created for
      */
     public void newOrder(Eatery eatery){
-        currentOrder = new Order(eatery);
+        if (orderPickedUp){
+            currentOrder = new Order(eatery);
+            //orderPickedUp = false;
+        }
+                
     }
     
     public void createNewHisotryEntry(String orderNumber, String orderDate, Eatery eatery, double totalCost){

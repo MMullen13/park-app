@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -40,6 +41,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         cntl.loadOrderHistory();
         initManualComponents();
         setListeners();
+        setLocationRelativeTo(null);
         this.setVisible(false);
         
     }
@@ -87,7 +89,10 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         
         createNewOrder();
         
+        
+        
     }
+    
     
     public void createNewOrder(){
         cntl.newOrder((Eatery) eaterySelector.getSelectedItem());
@@ -159,21 +164,28 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         }
         
         if (e.getSource() == checkoutButton){
-            Date orderDate = (Date) pickupTimeSpinner.getValue();
-            SimpleDateFormat formatDate = new SimpleDateFormat("MM/dd/yy");
-            SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
-            
-            String confirmedPickupDate = formatDate.format(orderDate);
-            String confirmedPickupTime = formatTime.format(orderDate);
-            
-            cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
-            
-            cntl.createNewHisotryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
-            cntl.saveOrderHistory();
-            
-            OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
-            confirmationView.setVisible(true);
-            this.setVisible(false); //Hides Order View Form
+            if (!cntl.getOrderItems().isEmpty()){
+                Date orderDate = (Date) pickupTimeSpinner.getValue();
+                SimpleDateFormat formatDate = new SimpleDateFormat("MM/dd/yy");
+                SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
+
+                String confirmedPickupDate = formatDate.format(orderDate);
+                String confirmedPickupTime = formatTime.format(orderDate);
+
+                cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
+
+                cntl.createNewHisotryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
+                cntl.saveOrderHistory();
+
+                cntl.markedOrderAsNotPickedUp();
+
+                OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
+                confirmationView.setVisible(true);
+                this.setVisible(false); //Hides Order View Form
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You must add items to the order first");
+            }
             
         }
         
@@ -213,7 +225,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             }
             
             totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
-                 System.out.println(cntl.getOrderItems());
+                 
         }
         
         if (e.getSource() == removeLastItem){
@@ -281,14 +293,18 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         orderText = new javax.swing.JLabel();
         orderNumber = new javax.swing.JLabel();
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+        setTitle("WallyLand - Create Order");
+        setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+
+        jPanel1.setBackground(new java.awt.Color(58, 115, 169));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Eatery:");
 
-        jPanel2.setBackground(new java.awt.Color(51, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(227, 236, 241));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -298,7 +314,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        priceInfoField.setBackground(new java.awt.Color(51, 255, 255));
+        priceInfoField.setBackground(new java.awt.Color(227, 236, 241));
         priceInfoField.setColumns(20);
         priceInfoField.setRows(5);
         priceInfoField.setText("Prices include all taxes. Order will be\ncharged to the credit card that was\nused to purchase park tickets.");
@@ -371,7 +387,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 .addGap(15, 15, 15))
         );
 
-        jPanel3.setBackground(new java.awt.Color(51, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(227, 236, 241));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         orderDetails.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -471,9 +487,11 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         );
 
         orderText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        orderText.setForeground(new java.awt.Color(255, 255, 255));
         orderText.setText("Order #: ");
 
         orderNumber.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        orderNumber.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

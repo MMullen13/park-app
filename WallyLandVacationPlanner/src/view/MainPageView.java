@@ -2,6 +2,7 @@ package view;
 
 import controller.foodordering.FoodController;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -14,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
@@ -30,6 +32,7 @@ public class MainPageView extends JFrame {
     private OrderConfirmationViewForm confirmationView;
     
     
+    
     /**
      * Constructor
      */
@@ -43,6 +46,15 @@ public class MainPageView extends JFrame {
         setLayout(new BorderLayout());
        
         setJMenuBar(createMenuBar());
+        
+        
+        
+        cntl = new FoodController();
+        orderView = new OrderViewForm(cntl);
+        confirmationView = new OrderConfirmationViewForm(cntl);
+        //System.out.println(cntl.isOrderPickedUp()); Call to debug Order Status
+        
+        
         
         addWindowListener(new WindowAdapter(){
            @Override
@@ -58,9 +70,7 @@ public class MainPageView extends JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
         
-        cntl = new FoodController();
-        orderView = new OrderViewForm(cntl);
-        confirmationView = new OrderConfirmationViewForm(cntl);
+        
     }
     
     private JMenuBar createMenuBar(){
@@ -112,11 +122,18 @@ public class MainPageView extends JFrame {
         
         
         newOrder.addActionListener(e -> {
-            if (cntl.getOrderView() == null) {
+            if(cntl.isOrderPickedUp()){
+                if (cntl.getOrderView() == null) {
                 cntl.setOrderView(new OrderViewForm(cntl));
-                cntl.setOrderView(orderView); // Set the order view in the controller
+                cntl.setOrderView(orderView); // test this
+                               
             }
-            cntl.getOrderView().setVisible(true); // Show the order view
+            cntl.getOrderView().setVisible(true); // Show the order view 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You must complete and pick up your current order before creating a new one.");
+            }
+              
         });
 
         viewConfirmation.addActionListener(e -> {

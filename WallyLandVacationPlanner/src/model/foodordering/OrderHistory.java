@@ -68,9 +68,7 @@ public class OrderHistory implements Serializable {
     @SuppressWarnings("unchecked")
     public static void loadOrderHistory() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("data/orderHistory.dat"))) {
-            historyList = (ArrayList<OrderHistory>) in.readObject();
-            System.out.println(historyList);
-            
+            historyList = (ArrayList<OrderHistory>) in.readObject();                       
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -62,11 +62,11 @@ public class Order implements OrderIF {
      * @return the last item removed or null if no item was removed.
      */
     public MenuItem deleteLastItem(){
-        System.out.println(orderItems);
+        //System.out.println(orderItems); Use to debug Command Pattern
         if (!orderItems.isEmpty()){
             lastItemRemoved = orderItems.get(orderItems.size()-1);
             orderItems.remove(orderItems.size() - 1);
-            System.out.println(orderItems);
+            //System.out.println(orderItems); Use to debug Command Pattern
             return lastItemRemoved;
             
         }

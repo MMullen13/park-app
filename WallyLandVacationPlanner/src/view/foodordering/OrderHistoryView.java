@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.foodordering.OrderHistory;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -25,6 +26,7 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
     public OrderHistoryView() {
         initComponents();
         populateTable();
+        setLocationRelativeTo(null);
         
     }
     
@@ -58,6 +60,9 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         historyTable = new javax.swing.JTable();
+
+        setTitle("WallyLand - Order History");
+        setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Order History");
