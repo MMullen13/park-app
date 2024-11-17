@@ -23,9 +23,10 @@ public class Order implements OrderIF {
     MenuItem lastItemRemoved;
 
     /**
-     * Creates an order without a defined eatery
+     * Creates an order without a defined eatery. Creates the order items list.
      */
     public Order() {
+        this.orderItems = new ArrayList<>();
     }
     
    
@@ -220,19 +221,5 @@ public class Order implements OrderIF {
     public MenuItem getLastItemRemoved() {
         return lastItemRemoved;
     }
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
     
 }

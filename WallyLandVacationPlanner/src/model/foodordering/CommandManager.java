@@ -56,7 +56,7 @@ public class CommandManager {
      */
     @Override
     public String toString() {
-        return "CommandManager{" + "commandHisotry=" + commandHistory + '}';
+        return "CommandManager{" + "commandHistory=" + commandHistory + '}';
     }
 
 }
