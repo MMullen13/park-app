@@ -31,6 +31,7 @@ public class RemoveLastItemCommand implements OrderCommandIF {
     @Override
     public void execute() {
         removedItem = order.deleteLastItem(); //saves the item that was deleted for undo reference
+        
     }
 
     /**
