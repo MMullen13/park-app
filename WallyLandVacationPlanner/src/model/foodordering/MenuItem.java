@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Creates and manages menu items for the application
  * @author theme
  */
 public class MenuItem {

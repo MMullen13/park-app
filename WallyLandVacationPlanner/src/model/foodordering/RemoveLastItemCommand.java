@@ -5,7 +5,7 @@
 package model.foodordering;
 
 /**
- *
+ *Concrete Remove Item Class for Command Pattern
  * @author theme
  */
 public class RemoveLastItemCommand implements OrderCommandIF {

@@ -7,7 +7,7 @@ package model.foodordering;
 import java.io.Serializable;
 
 /**
- *
+ * Manages the eateries for application
  * @author theme
  */
 public class Eatery implements Serializable {

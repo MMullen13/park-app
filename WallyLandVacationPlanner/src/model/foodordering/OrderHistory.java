@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ * Keeps a list of past orders in the application
  * @author theme
  */
 public class OrderHistory implements Serializable {

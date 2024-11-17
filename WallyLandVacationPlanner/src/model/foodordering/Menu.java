@@ -7,7 +7,7 @@ package model.foodordering;
 import java.util.ArrayList;
 
 /**
- *
+ * Creates menus for eateries in the application
  * @author theme
  */
 public class Menu {

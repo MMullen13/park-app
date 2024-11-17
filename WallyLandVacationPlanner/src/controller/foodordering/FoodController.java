@@ -45,6 +45,9 @@ public class FoodController {
                
     }
     
+    /**
+     * Empty constructor
+     */
     public FoodController(){
         
     }

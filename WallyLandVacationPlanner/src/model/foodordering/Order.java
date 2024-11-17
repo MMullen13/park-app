@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
+ * Creates and manages order Items for the application
  * @author theme
  */
 public class Order implements OrderIF {
