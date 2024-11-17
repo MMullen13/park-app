@@ -3,12 +3,8 @@ package wallylandvacationplanner;
 import view.MainPageView;
 import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
-<<<<<<< HEAD
-import controller.foodordering.*;
-import view.foodordering.*;
-=======
 import view.loginsignup.register.RegisterView;
->>>>>>> master
+
 
 /**
  * This is the main class for the WLVP Application
