@@ -28,9 +28,10 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
     public OrderConfirmationViewForm(FoodController cntl) {
         initComponents();
         this.cntl = cntl;
-        this.setVisible(true);
+        this.cntl.setConfirmationView(this);
         populateConfirmationForm();
         setActionListeners();
+        this.setVisible(false);
         
     }
     
@@ -89,8 +90,6 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         exitButton = new javax.swing.JButton();
         barCode = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 

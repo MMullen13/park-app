@@ -33,13 +33,14 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
      * instance of the food controller. Updates the UI with defaults. Sets the 
      * action listeners, and sets the UI to visible.
      */
-    public OrderViewForm() {
+    public OrderViewForm(FoodController cntl) {
         initComponents();
-        cntl = new FoodController(this);
+        this.cntl = cntl;
+        this.cntl.setOrderView(this);
         cntl.loadOrderHistory();
         initManualComponents();
         setListeners();
-        this.setVisible(true);
+        this.setVisible(false);
         
     }
     
@@ -170,6 +171,10 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             cntl.createNewHisotryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
             cntl.saveOrderHistory();
             
+            OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
+            confirmationView.setVisible(true);
+            this.setVisible(false); //Hides Order View Form
+            
         }
         
         if (e.getSource() == clearAllItems){
@@ -233,10 +238,9 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             }
         }
         
-        if (e.getSource() == checkoutButton){
-            OrderConfirmationViewForm confirmationView = new OrderConfirmationViewForm(cntl);
-            this.setVisible(false);
-        }
+//        if (e.getSource() == checkoutButton){
+//            
+//        }
 
     }
 
@@ -276,8 +280,6 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         eaterySelector = new javax.swing.JComboBox<>();
         orderText = new javax.swing.JLabel();
         orderNumber = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));

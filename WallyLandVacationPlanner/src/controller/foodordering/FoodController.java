@@ -16,7 +16,7 @@ import view.foodordering.*;
  */
 public class FoodController {
     
-   
+
    private OrderViewForm orderView;
    private OrderConfirmationViewForm confirmationView;
    private Menu menu;
@@ -33,8 +33,8 @@ public class FoodController {
     * Class Constructor
     * @param orderView The OrderView Form associated with the controller. 
     */
-    public FoodController(OrderViewForm orderView) {
-        this.orderView = orderView;
+    public FoodController() {
+        
         this.menu = new Menu();
         this.menuItem = new MenuItem();
         this.eateries = menu.getEateries();
@@ -45,12 +45,20 @@ public class FoodController {
                
     }
     
+    public void setOrderView(OrderViewForm orderView){
+        this.orderView = orderView;
+    }
+    
+    public void setConfirmationView(OrderConfirmationViewForm confirmationView){
+        this.confirmationView = confirmationView;
+    }
+    
     /**
      * Empty constructor
      */
-    public FoodController(){
-        
-    }
+//    public FoodController(){
+//        
+//    }
 
     /**
      * Gets the current list of eateries
@@ -141,6 +149,23 @@ public class FoodController {
         MenuItem itemRemoved = currentOrder.getLastItemRemoved();
         return itemRemoved;
               
+    }
+    
+    public void showOrderConfirmationView(){
+        if (confirmationView != null){
+            confirmationView.setVisible(true)
+;        }
+        else{
+            
+            System.out.println("Null");
+        }
+    }
+    
+    public void createOrderConfirmationView(){
+        if (confirmationView == null){
+            confirmationView = new OrderConfirmationViewForm(this);
+        }
+        confirmationView.setVisible(true);
     }
     
     /**
@@ -256,6 +281,16 @@ public class FoodController {
      */
     private void initializeMenus(){
         menu.createDefaults();
+    }
+    
+    // Getter method for the OrderViewForm
+    public OrderViewForm getOrderView() {
+        return orderView;
+    }
+
+    // Getter method for the OrderConfirmationViewForm
+    public OrderConfirmationViewForm getConfirmationView() {
+        return confirmationView;
     }
 
 }

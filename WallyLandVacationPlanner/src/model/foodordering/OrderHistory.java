@@ -46,7 +46,7 @@ public class OrderHistory implements Serializable {
      */
     public void addToHistory(){
        historyList.add(this);
-       System.out.println(historyList);
+       
    }
    
    /**
@@ -55,7 +55,7 @@ public class OrderHistory implements Serializable {
     public static void saveOrderHistory() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data/orderHistory.dat"))) {
             out.writeObject(historyList);
-            System.out.println(historyList);
+            
             
         } catch (IOException e) {
             e.printStackTrace();
