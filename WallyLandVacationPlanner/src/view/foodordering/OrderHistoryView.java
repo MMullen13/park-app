@@ -70,6 +70,7 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
 
         setTitle("WallyLand - Order History");
         setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Order History");

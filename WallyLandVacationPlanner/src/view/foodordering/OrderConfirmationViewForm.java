@@ -85,10 +85,12 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
     @Override
     public void actionPerformed(ActionEvent e) {
         //Marks the order as complete. Clears the confirmation form and hides the form.
+        //resets order view for new order
         if (e.getSource() == markAsComplete){
             cntl.markedOrderAsPickedUp();
             clearOrderConfirmationView();
             this.setVisible(false);
+            cntl.setOrderView(new OrderViewForm(cntl));
         }
     }
     
@@ -119,6 +121,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         setTitle("WallyLand - Order Confirmation");
         setBackground(new java.awt.Color(58, 115, 169));
         setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(227, 236, 241));
 

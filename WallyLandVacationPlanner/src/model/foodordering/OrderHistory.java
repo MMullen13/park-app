@@ -72,14 +72,24 @@ public class OrderHistory implements Serializable {
 
     /**
      * Loads and deserializes the order history from saved file "orderHistory.dat" to get the past
-     * orders that were created. If file is not found a sever log mesage is created.
+     * orders that were created. If file is not found a sever log message is created.
      */
     @SuppressWarnings("unchecked")
     public static void loadOrderHistory() {
+        
+        File file = new File("data/orderHistory.dat");
+        
+        if (!file.exists() || file.length() == 0) {
+            logger.log(Level.WARNING, "Order history file is missing or empty. Initializing a new history list.");
+            historyList = new ArrayList<>();
+            return;
+        }
+        
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("data/orderHistory.dat"))) {
             historyList = (ArrayList<OrderHistory>) in.readObject();                       
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Failed to load order history", e);
+            historyList = new ArrayList<>();
         }
     }
     

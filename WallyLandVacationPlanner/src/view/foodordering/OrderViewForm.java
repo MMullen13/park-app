@@ -300,6 +300,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
 
         setTitle("WallyLand - Create Order");
         setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(58, 115, 169));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
