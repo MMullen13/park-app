@@ -1,5 +1,6 @@
 package view;
 
+import controller.foodordering.FoodController;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import view.foodordering.OrderConfirmationViewForm;
+import view.foodordering.OrderHistoryView;
+import view.foodordering.OrderViewForm;
 
 /**
  * 
@@ -21,6 +25,11 @@ import javax.swing.JOptionPane;
 public class MainPageView extends JFrame {
 
     private ImageIcon wallylandIcon;
+    private FoodController cntl;
+    private OrderViewForm orderView;
+    private OrderConfirmationViewForm confirmationView;
+    
+    
     
     /**
      * Constructor
@@ -36,6 +45,15 @@ public class MainPageView extends JFrame {
        
         setJMenuBar(createMenuBar());
         
+        
+        //User to initizalize the controller and views for food ordering
+        cntl = new FoodController();
+        orderView = new OrderViewForm(cntl);
+        confirmationView = new OrderConfirmationViewForm(cntl);
+        //System.out.println(cntl.isOrderPickedUp()); Call to debug Order Status
+        
+        
+        
         addWindowListener(new WindowAdapter(){
            @Override
            public void windowClosing(WindowEvent e){
@@ -49,6 +67,8 @@ public class MainPageView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setVisible(true);
+        
+        
     }
     
     private JMenuBar createMenuBar(){
@@ -61,9 +81,9 @@ public class MainPageView extends JFrame {
         JMenu info = new JMenu("Information");
         JMenu exit = new JMenu("Exit Application");
         
-        JMenuItem dessertMenu = new JMenuItem("Desserts");
-        JMenuItem lunchMenu = new JMenuItem("Lunch");
-        JMenuItem dinnerMenu = new JMenuItem("Dinner");
+        JMenuItem newOrder = new JMenuItem("New Order");
+        JMenuItem viewConfirmation = new JMenuItem("View Order Confirmation");
+        JMenuItem orderHistory = new JMenuItem("Order History");
         
         JMenuItem tickets = new JMenuItem("Day Pass");
         JMenuItem passes = new JMenuItem("Seasson Passes");
@@ -87,14 +107,45 @@ public class MainPageView extends JFrame {
         info.add(events);
         info.add(attractions);
         
-        orderFood.add(dessertMenu);
-        orderFood.add(lunchMenu);
-        orderFood.add(dinnerMenu);
+        orderFood.add(newOrder);
+        orderFood.add(viewConfirmation);
+        orderFood.add(orderHistory);
         
         purchaseTickets.add(tickets);
         purchaseTickets.add(passes);
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
+        
+        
+        
+        
+        newOrder.addActionListener(e -> {
+            if(cntl.isOrderPickedUp()){ //Checks if the order is marked as picked up
+                if (cntl.getOrderView() == null) {
+                cntl.setOrderView(new OrderViewForm(cntl)); //sets the order view for new order
+                cntl.setOrderView(orderView); // test this
+                               
+            }
+            cntl.getOrderView().setVisible(true); // Show the order view 
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "You must complete and pick up your current order before creating a new one.");
+            }
+              
+        });
+
+        viewConfirmation.addActionListener(e -> {
+            if (cntl.getConfirmationView() != null) {
+                cntl.getConfirmationView().setVisible(true); // Show the confirmation view
+            } else {
+                System.out.println("Confirmation view is not initialized.");
+             }
+        });
+
+        orderHistory.addActionListener(e -> {
+            OrderHistoryView history = new OrderHistoryView();
+            history.setVisible(true);
+        });
         
         signOut.addActionListener((ActionEvent e) -> {
             int action = JOptionPane.showConfirmDialog(MainPageView.this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
