@@ -1,10 +1,14 @@
 package wallylandvacationplanner;
 
 import view.MainPageView;
-import view.loginsignup.UserView;
+import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
+<<<<<<< HEAD
 import controller.foodordering.*;
 import view.foodordering.*;
+=======
+import view.loginsignup.register.RegisterView;
+>>>>>>> master
 
 /**
  * This is the main class for the WLVP Application
@@ -19,16 +23,18 @@ public class WallyLandVacationPlannerApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        OrderViewForm orderViewForm = new OrderViewForm();
-        FoodController controller = new FoodController(orderViewForm); 
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new UserView();
-////                new MainPageView();
-//            }
-//
-//        });
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new LoginView();
+//                new MainPageView();
+//                  new RegisterView();
+
+            }
+
+        });
+
 
     }
 
