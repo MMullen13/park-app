@@ -8,7 +8,6 @@ import controller.foodordering.FoodController;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import model.foodordering.MenuItem;
@@ -23,7 +22,9 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
     private FoodController cntl;
 
     /**
-     * Creates new form OrderConfirmationViewForm
+     * Creates new form OrderConfirmationViewForm. Initializes the components for 
+     * this view. Sets the controller. View is created with information from the current
+     * order details that were selected in OrderViewForm. 
      * @param cntl
      */
     public OrderConfirmationViewForm(FoodController cntl) {
@@ -37,6 +38,10 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         
     }
     
+    /**
+     * Helper method to populate the confirmation form with details from the 
+     * current order. 
+     */
     private void populateConfirmationForm(){
         DefaultTableModel tableModel = (DefaultTableModel) orderSummaryTable.getModel();
         ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodImages/barcode-306926_1280.png"));
@@ -56,6 +61,11 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         
     }
     
+    /**
+     * Clears the order confirmation view. To be used when an order is marked as complete
+     * and a new order can be started. Resets the view so order confirmation can 
+     * not be displayed after pickup. 
+     */
     public void clearOrderConfirmationView(){
         orderNumber.setText("");
         pickupTime.setText("");
@@ -65,12 +75,16 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         tableModel.setRowCount(0); // Remove all rows from the table
     }
     
+    /**
+     * Sets action listeners
+     */
     private void setActionListeners(){
         markAsComplete.addActionListener(this);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Marks the order as complete. Clears the confirmation form and hides the form.
         if (e.getSource() == markAsComplete){
             cntl.markedOrderAsPickedUp();
             clearOrderConfirmationView();

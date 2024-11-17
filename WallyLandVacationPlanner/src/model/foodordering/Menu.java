@@ -24,7 +24,7 @@ public class Menu {
     }
     
     /**
-     * Constructor. Creates instance of the class
+     * Constructor. Creates instance of the class with a menu name.
      * @param menuName name of the eatery menu
      */
     public Menu(String menuName) {
@@ -32,7 +32,7 @@ public class Menu {
     }
    
     /**
-     * Adds and Item to the menu
+     * Adds an Item to the menu
      * @param item item to be added
      */
     public void addMenuItem(MenuItem item){

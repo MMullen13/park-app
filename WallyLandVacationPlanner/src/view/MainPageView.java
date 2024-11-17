@@ -2,7 +2,6 @@ package view;
 
 import controller.foodordering.FoodController;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -15,7 +14,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
@@ -48,7 +46,7 @@ public class MainPageView extends JFrame {
         setJMenuBar(createMenuBar());
         
         
-        
+        //User to initizalize the controller and views for food ordering
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
@@ -122,9 +120,9 @@ public class MainPageView extends JFrame {
         
         
         newOrder.addActionListener(e -> {
-            if(cntl.isOrderPickedUp()){
+            if(cntl.isOrderPickedUp()){ //Checks if the order is marked as picked up
                 if (cntl.getOrderView() == null) {
-                cntl.setOrderView(new OrderViewForm(cntl));
+                cntl.setOrderView(new OrderViewForm(cntl)); //sets the order view for new order
                 cntl.setOrderView(orderView); // test this
                                
             }

@@ -15,7 +15,7 @@ public class ClearAllItemsCommand implements OrderCommandIF {
     
     private Order order;
     private ArrayList<MenuItem> backupItems;
-    private boolean undoCompleted = false;
+    private boolean undoCompleted = false; //Tracks if an undo command ran.
 
     /**
      * Class constructor

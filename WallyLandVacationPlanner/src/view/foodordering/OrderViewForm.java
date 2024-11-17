@@ -27,12 +27,14 @@ import javax.swing.ImageIcon;
 public class OrderViewForm extends javax.swing.JFrame implements ActionListener {
     
     private FoodController cntl;
+    //All form attributes can be found below
     
 
     /**
-     * Creates new form OrderViewForm. Initializes the components. Creates a new
-     * instance of the food controller. Updates the UI with defaults. Sets the 
-     * action listeners, and sets the UI to visible.
+     * Constructor for the order view form class. Initializes the components,
+     * sets up the food controller, loads the order history, and sets up 
+     * the UI for a user to place an order.
+     * @param cntl Food Controller instance to manage this view
      */
     public OrderViewForm(FoodController cntl) {
         initComponents();
@@ -88,22 +90,26 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         quantity.setText("1");
         
         createNewOrder();
-        
-        
-        
+
     }
     
-    
+    /**
+     * Creates a new order, sets the order number that is randomly generated in
+     * model class.
+     */
     public void createNewOrder(){
         cntl.newOrder((Eatery) eaterySelector.getSelectedItem());
         orderNumber.setText(cntl.getOrderNumber());
     }
     
+    /**
+     * Populates the option drop down with items and prices based on selected eatery and item type
+     */
     public void populateItems(){
         Eatery selectedEatery = (Eatery) eaterySelector.getSelectedItem();
         String selectedType = (String) foodType.getSelectedItem();
         
-        options.removeAllItems();
+        options.removeAllItems(); //clears the options selection when eatery or food type changes
         
         Map<String, ArrayList<MenuItem>> itemByCategory = cntl.getMenuItems(selectedEatery.getEateryName());
         
@@ -125,7 +131,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == eaterySelector || e.getSource() == foodType){
-            populateItems();
+            populateItems(); //sets the available items
             Eatery updatedEatery = (Eatery) eaterySelector.getSelectedItem();
             cntl.updateEatery(updatedEatery);
             
@@ -144,12 +150,12 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 try{
                 int numberOfItems = Integer.parseInt(quantity.getText());
                 
-                    if (numberOfItems <= 0) {
+                    if (numberOfItems <= 0) { //must have at least 1 type of item.
                         JOptionPane.showMessageDialog(this, "Please enter a quantity greater than zero");
                         return; //Exits method if quantity is less then 1
                     }
                     
-                tableModel.addRow(new Object[]{itemName, price, numberOfItems});
+                tableModel.addRow(new Object[]{itemName, price, numberOfItems}); //adds a new row with menu item
                 cntl.calculateTotal(numberOfItems, price);
                 totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
                 MenuItem menuItem = new MenuItem(itemName, price, numberOfItems);
@@ -164,7 +170,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         }
         
         if (e.getSource() == checkoutButton){
-            if (!cntl.getOrderItems().isEmpty()){
+            if (!cntl.getOrderItems().isEmpty()){ //Must have one item in order to place the order. This verifies it
                 Date orderDate = (Date) pickupTimeSpinner.getValue();
                 SimpleDateFormat formatDate = new SimpleDateFormat("MM/dd/yy");
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
@@ -174,7 +180,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
 
                 cntl.setPickupInfo(confirmedPickupTime, confirmedPickupDate);
 
-                cntl.createNewHisotryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
+                cntl.createNewHistoryEntry(cntl.getOrderNumber(), cntl.getPickupDate(),cntl.getEatery(), cntl.getTotal());
                 cntl.saveOrderHistory();
 
                 cntl.markedOrderAsNotPickedUp();
@@ -189,6 +195,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             
         }
         
+        //clears the items in the order
         if (e.getSource() == clearAllItems){
             DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
             
@@ -198,6 +205,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
             totalCost.setText("$0.00");
         }
         
+        //undoes the last command from remove last item or clear all items
         if (e.getSource() == undoButton){
             DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
             boolean commandCompleted = cntl.undoLastCommand();
@@ -228,6 +236,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                  
         }
         
+        //Removes the last item that was added to the order
         if (e.getSource() == removeLastItem){
             DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
             
@@ -249,10 +258,6 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 JOptionPane.showMessageDialog(this, "Order is empty, nothing to remove");
             }
         }
-        
-//        if (e.getSource() == checkoutButton){
-//            
-//        }
 
     }
 

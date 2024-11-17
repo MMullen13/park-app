@@ -25,7 +25,8 @@ public class MenuItem {
     }
     
     /**
-     * Parameterized class constructor. Does not require a quantity.
+     * Parameterized class constructor. Does not require a quantity to be created.
+     * used for making new items and prices.
      * @param itemName Name of the item
      * @param price Price of the item
      */
@@ -37,7 +38,7 @@ public class MenuItem {
     
     /**
      * MenuItem Constructor. Allows for a new menu item to be added to an order
-     * with a quantity associated with it
+     * with a quantity associated with it.
      * @param itemName Name of the menu item
      * @param price price for the item
      * @param quantity number of the items
@@ -49,7 +50,8 @@ public class MenuItem {
     }
     
     /**
-     * Creates default drinks for eatery
+     * Creates default drinks for eatery. Separates the items by item type of
+     * Drinks, apps, mains, sides, and desserts for each eatery.
      * @param eateryName Name of the eatery
      * @return list of the drinks and the prices
      */

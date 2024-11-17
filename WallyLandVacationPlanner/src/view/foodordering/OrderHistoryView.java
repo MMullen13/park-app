@@ -13,7 +13,7 @@ import model.foodordering.OrderHistory;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * This view displays the past orders.
  * @author theme
  */
 public class OrderHistoryView extends javax.swing.JFrame implements ActionListener {
@@ -21,7 +21,7 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
     FoodController cntl = new FoodController();
 
     /**
-     * Creates new form OrderHistoryView
+     * Creates new form OrderHistoryView. Populates the table.
      */
     public OrderHistoryView() {
         initComponents();
@@ -30,6 +30,9 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
         
     }
     
+    /**
+     * Helper method to populate the order history table. 
+     */
     private void populateTable(){
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         ArrayList<OrderHistory> history = cntl.getOrderHistory();
@@ -42,6 +45,10 @@ public class OrderHistoryView extends javax.swing.JFrame implements ActionListen
         
     }
     
+    /**
+     * Unused for this view. "X" out closes the display.
+     * @param e The Action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

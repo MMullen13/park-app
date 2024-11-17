@@ -4,6 +4,7 @@
  */
 package model.foodordering;
 
+import controller.foodordering.FoodController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,14 +13,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
- * Keeps a list of past orders in the application
+ * Class stores the past histories to a list which is saved to a file to persist
+ * between runs
  * @author theme
  */
 public class OrderHistory implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(FoodController.class.getName());
     private static ArrayList<OrderHistory> historyList = new ArrayList<>();
     private String orderNumber;
     private double totalCost;
@@ -27,7 +32,7 @@ public class OrderHistory implements Serializable {
     private Eatery eatery;
     
     /**
-     * Creates a new order history entry to track past orders
+     * Constructor. Create an entry that will be added to the order history.
      * @param orderNumber The Order Number
      * @param date Date of the Order
      * @param eatery The Eatery for the order
@@ -42,7 +47,7 @@ public class OrderHistory implements Serializable {
     }
     
     /**
-     * Adds an order to the history list
+     * Adds an order to the history list that will be saved to a file.
      */
     public void addToHistory(){
        historyList.add(this);
@@ -50,7 +55,10 @@ public class OrderHistory implements Serializable {
    }
    
    /**
-    * Saves the orderHisotry so It can be loaded between app runs
+    * Saves the current order history to a file "orderHistory.dat". Serializes the
+    * history list and writes it to the file. This save files allows order history
+    * to persist between runs and be loaded at a later time. If there is an issue
+    * with the file, Sever log message is created.
     */
     public static void saveOrderHistory() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data/orderHistory.dat"))) {
@@ -58,19 +66,20 @@ public class OrderHistory implements Serializable {
             
             
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to save order history", e);
         }
     }
 
     /**
-     * Loads the order history from saved file for user to view past orders
+     * Loads and deserializes the order history from saved file "orderHistory.dat" to get the past
+     * orders that were created. If file is not found a sever log mesage is created.
      */
     @SuppressWarnings("unchecked")
     public static void loadOrderHistory() {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("data/orderHistory.dat"))) {
             historyList = (ArrayList<OrderHistory>) in.readObject();                       
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to load order history", e);
         }
     }
     

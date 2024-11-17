@@ -5,7 +5,8 @@
 package model.foodordering;
 
 /**
- *Concrete Remove Item Class for Command Pattern
+ * Concrete Remove Item Class for Command Pattern. Manages the details for the 
+ * last item that was removed from the order.
  * @author theme
  */
 public class RemoveLastItemCommand implements OrderCommandIF {
@@ -29,7 +30,7 @@ public class RemoveLastItemCommand implements OrderCommandIF {
      */
     @Override
     public void execute() {
-        removedItem = order.deleteLastItem();
+        removedItem = order.deleteLastItem(); //saves the item that was deleted for undo reference
     }
 
     /**

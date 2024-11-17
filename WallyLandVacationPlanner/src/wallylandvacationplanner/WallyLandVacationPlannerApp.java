@@ -24,7 +24,7 @@ public class WallyLandVacationPlannerApp {
             @Override
             public void run() {
                 new LoginView();
-                new MainPageView();
+//                new MainPageView();
 //                  new RegisterView();
 
             }
