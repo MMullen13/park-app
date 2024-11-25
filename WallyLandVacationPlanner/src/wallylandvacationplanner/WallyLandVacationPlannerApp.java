@@ -3,6 +3,7 @@ package wallylandvacationplanner;
 import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
 import view.MainPageView;
+import view.ticketing.TicketView;
 
 
 /**
@@ -23,8 +24,9 @@ public class WallyLandVacationPlannerApp {
             @Override
             public void run() {
 //                new LoginView();
-                new MainPageView();
+//                new MainPageView();
 //                  new RegisterView();
+            new TicketView();
 
             }
 
