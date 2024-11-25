@@ -17,6 +17,7 @@ import javax.swing.*;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
+import view.ticketing.TicketView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -28,7 +29,7 @@ public class MainPagePanel extends JPanel {
     private FoodController cntl;
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
-    private JLabel backgroundLabel;
+    private TicketView ticketView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
@@ -42,6 +43,8 @@ public class MainPagePanel extends JPanel {
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
+        
+        ticketView = new TicketView();
 
         wallylandImage = createIcon("/images/pb.jpg", 1100, 900);
         backgroundPanel = new FadedImagePanel(wallylandImage);
