@@ -1,9 +1,8 @@
 package wallylandvacationplanner;
 
-import view.MainPageView;
 import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
-import view.loginsignup.register.RegisterView;
+import view.MainPageView;
 
 
 /**
