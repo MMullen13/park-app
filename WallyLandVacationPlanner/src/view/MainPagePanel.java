@@ -14,9 +14,11 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.net.URL;
 import javax.swing.*;
+import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
+import view.ticketing.passes.PassView;
 import view.ticketing.tickets.TicketView;
 
 /**
@@ -30,6 +32,7 @@ public class MainPagePanel extends JPanel {
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
     private TicketView ticketView;
+    private PassView passView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
@@ -53,6 +56,10 @@ public class MainPagePanel extends JPanel {
 
         footerPanel = createFooterPanel();
         add(footerPanel, BorderLayout.SOUTH);
+        
+        Border innerBorder = BorderFactory.createTitledBorder("Home");
+        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
     }
 
     private JMenuBar createMenuBar() {
@@ -91,6 +98,7 @@ public class MainPagePanel extends JPanel {
         JMenuItem passes = createCustomMenuItem("Purchase a Season Pass");
         JMenuItem groupTickets = createCustomMenuItem("Purchase a Group Pass");
         JMenuItem promotions = createCustomMenuItem("More Deals");
+        JMenuItem digitalTickets = createCustomMenuItem("Access Digital Tickets");
 
         JMenuItem birthdayOne = createCustomMenuItem("Plan a Birthday For 10+ Guests");
         JMenuItem birthdayTwo = createCustomMenuItem("Plan a Birthday For 20+ Guests");
@@ -129,13 +137,15 @@ public class MainPagePanel extends JPanel {
         purchaseTickets.add(passes);
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
+        purchaseTickets.add(digitalTickets);
 
         // Attach actions
         tickets.addActionListener(e -> handleTicketPurchasing());
+        passes.addActionListener(e -> handlePassPurchasing());
         newOrder.addActionListener(e -> handleNewOrder());
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
-        signOut.addActionListener(e -> handleSignOut());
+//        signOut.addActionListener(e -> handleSignOut());
 
         menuBar.setBorder(BorderFactory.createEmptyBorder());
 
@@ -249,6 +259,11 @@ public class MainPagePanel extends JPanel {
     private void handleTicketPurchasing() {
         ticketView = new TicketView();
         ticketView.setVisible(true);
+    }
+    
+    private void handlePassPurchasing() {
+        passView = new PassView();
+        passView.setVisible(true);
     }
 
     private void handleNewOrder() {

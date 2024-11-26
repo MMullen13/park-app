@@ -32,7 +32,7 @@ public class MainPageView extends JFrame {
             }
         });
 
-        setSize(600, 800);
+        setSize(625, 800);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

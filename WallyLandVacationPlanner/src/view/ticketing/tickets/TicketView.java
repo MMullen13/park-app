@@ -20,10 +20,10 @@ public class TicketView extends JFrame {
 
   // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
-        getContentPane().setBackground(new Color(240, 248, 255));
+//        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
         ImageIcon wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
