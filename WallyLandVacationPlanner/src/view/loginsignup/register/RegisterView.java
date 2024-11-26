@@ -65,7 +65,7 @@ public class RegisterView extends JFrame {
 
         // Configure frame properties
         setSize(600, 700);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setVisible(true);

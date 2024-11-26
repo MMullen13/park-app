@@ -17,7 +17,7 @@ import javax.swing.*;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
-import view.ticketing.TicketView;
+import view.ticketing.tickets.TicketView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -43,8 +43,6 @@ public class MainPagePanel extends JPanel {
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
-        
-        ticketView = new TicketView();
 
         wallylandImage = createIcon("/images/pb.jpg", 1100, 900);
         backgroundPanel = new FadedImagePanel(wallylandImage);
@@ -52,7 +50,7 @@ public class MainPagePanel extends JPanel {
 
         JMenuBar menuBar = createMenuBar();
         add(menuBar, BorderLayout.NORTH);
-        
+
         footerPanel = createFooterPanel();
         add(footerPanel, BorderLayout.SOUTH);
     }
@@ -93,10 +91,10 @@ public class MainPagePanel extends JPanel {
         JMenuItem passes = createCustomMenuItem("Purchase a Season Pass");
         JMenuItem groupTickets = createCustomMenuItem("Purchase a Group Pass");
         JMenuItem promotions = createCustomMenuItem("More Deals");
-        
+
         JMenuItem birthdayOne = createCustomMenuItem("Plan a Birthday For 10+ Guests");
         JMenuItem birthdayTwo = createCustomMenuItem("Plan a Birthday For 20+ Guests");
-        
+
         JMenuItem map = createCustomMenuItem("Explore Park Map");
 
         JMenuItem events = createCustomMenuItem("Upcoming Events");
@@ -114,9 +112,9 @@ public class MainPagePanel extends JPanel {
 
         // Add items to the menus
         exit.add(signOut);
-        
+
         viewMap.add(map);
-        
+
         bday.add(birthdayOne);
         bday.add(birthdayTwo);
 
@@ -133,6 +131,7 @@ public class MainPagePanel extends JPanel {
         purchaseTickets.add(promotions);
 
         // Attach actions
+        tickets.addActionListener(e -> handleTicketPurchasing());
         newOrder.addActionListener(e -> handleNewOrder());
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
@@ -245,6 +244,11 @@ public class MainPagePanel extends JPanel {
         footer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the bottom
 
         return footer;
+    }
+
+    private void handleTicketPurchasing() {
+        ticketView = new TicketView();
+        ticketView.setVisible(true);
     }
 
     private void handleNewOrder() {
