@@ -14,9 +14,12 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.net.URL;
 import javax.swing.*;
+import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
+import view.ticketing.passes.PassView;
+import view.ticketing.tickets.TicketView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -28,7 +31,8 @@ public class MainPagePanel extends JPanel {
     private FoodController cntl;
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
-    private JLabel backgroundLabel;
+    private TicketView ticketView;
+    private PassView passView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
@@ -49,9 +53,13 @@ public class MainPagePanel extends JPanel {
 
         JMenuBar menuBar = createMenuBar();
         add(menuBar, BorderLayout.NORTH);
-        
+
         footerPanel = createFooterPanel();
         add(footerPanel, BorderLayout.SOUTH);
+        
+        Border innerBorder = BorderFactory.createTitledBorder("Home");
+        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
     }
 
     private JMenuBar createMenuBar() {
@@ -65,7 +73,7 @@ public class MainPagePanel extends JPanel {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 // Create a gradient background for the menu bar
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(58, 115, 169), getWidth(), 0, new Color(58, 115, 169));
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(17, 138, 200));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -90,10 +98,11 @@ public class MainPagePanel extends JPanel {
         JMenuItem passes = createCustomMenuItem("Purchase a Season Pass");
         JMenuItem groupTickets = createCustomMenuItem("Purchase a Group Pass");
         JMenuItem promotions = createCustomMenuItem("More Deals");
-        
+        JMenuItem digitalTickets = createCustomMenuItem("Access Digital Tickets");
+
         JMenuItem birthdayOne = createCustomMenuItem("Plan a Birthday For 10+ Guests");
         JMenuItem birthdayTwo = createCustomMenuItem("Plan a Birthday For 20+ Guests");
-        
+
         JMenuItem map = createCustomMenuItem("Explore Park Map");
 
         JMenuItem events = createCustomMenuItem("Upcoming Events");
@@ -111,9 +120,9 @@ public class MainPagePanel extends JPanel {
 
         // Add items to the menus
         exit.add(signOut);
-        
+
         viewMap.add(map);
-        
+
         bday.add(birthdayOne);
         bday.add(birthdayTwo);
 
@@ -128,12 +137,22 @@ public class MainPagePanel extends JPanel {
         purchaseTickets.add(passes);
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
+        purchaseTickets.add(digitalTickets);
 
         // Attach actions
+        tickets.addActionListener(e -> handleTicketPurchasing());
+        passes.addActionListener(e -> handlePassPurchasing());
         newOrder.addActionListener(e -> handleNewOrder());
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
         signOut.addActionListener(e -> handleSignOut());
+        map.addActionListener(e -> handleParkMap());
+        groupTickets.addActionListener(e -> handleParkMap());
+        promotions.addActionListener(e -> handleParkMap());
+        events.addActionListener(e -> handleParkMap());
+        attractions.addActionListener(e -> handleParkMap());
+        birthdayOne.addActionListener(e -> handleParkMap());
+        birthdayTwo.addActionListener(e -> handleParkMap());
 
         menuBar.setBorder(BorderFactory.createEmptyBorder());
 
@@ -151,7 +170,7 @@ public class MainPagePanel extends JPanel {
                 if (getModel().isRollover() || getModel().isSelected()) {
                     g2d.setColor(new Color(40, 95, 150)); // Hover background color 
                 } else {
-                    g2d.setColor(new Color(58, 115, 169)); // Default background color 
+                    g2d.setColor(new Color(17, 138, 200)); // Default background color 
                 }
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
 
@@ -179,7 +198,7 @@ public class MainPagePanel extends JPanel {
 
                 // Draw custom hover background
                 if (getModel().isArmed()) {  // When hovered or selected
-                    g2d.setColor(new Color(90, 145, 204)); // Light blue hover background
+                    g2d.setColor(new Color(17, 138, 200)); // Light blue hover background
                     g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
                     g2d.setColor(Color.WHITE); // Change text color to white on hover
                 } else {
@@ -244,6 +263,16 @@ public class MainPagePanel extends JPanel {
         return footer;
     }
 
+    private void handleTicketPurchasing() {
+        ticketView = new TicketView();
+        ticketView.setVisible(true);
+    }
+    
+    private void handlePassPurchasing() {
+        passView = new PassView();
+        passView.setVisible(true);
+    }
+
     private void handleNewOrder() {
         if (cntl.isOrderPickedUp()) {
             if (cntl.getOrderView() == null) {
@@ -265,6 +294,21 @@ public class MainPagePanel extends JPanel {
 
     private void handleOrderHistory() {
         OrderHistoryView history = new OrderHistoryView();
+        history.setVisible(true);
+    }
+    
+    private void handleParkMap() {
+        ComingSoonView history = new ComingSoonView();
+        history.setVisible(true);
+    }
+    
+    private void handleBdayPackages() {
+        ComingSoonView history = new ComingSoonView();
+        history.setVisible(true);
+    }
+    
+    private void handleInfo() {
+        ComingSoonView history = new ComingSoonView();
         history.setVisible(true);
     }
 

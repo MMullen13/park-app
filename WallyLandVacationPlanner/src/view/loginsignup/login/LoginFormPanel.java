@@ -160,6 +160,16 @@ public class LoginFormPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
                 loginBtn.setBackground(new Color(58, 115, 169)); // Original blue
             }
+            
+            @Override
+            public void mousePressed(MouseEvent e){
+              loginBtn.setForeground(new Color(40, 95, 150));  
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent e){
+              loginBtn.setForeground(Color.WHITE);  
+            }
         });
 
         loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.foodordering;
 
 import java.util.ArrayList;
@@ -9,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Concrete class for command pattern. Clears all of the items in the list
  * and saves a backup so the clear and be undone.
- * @author theme
+ * @author Mark
  */
 public class ClearAllItemsCommand implements OrderCommandIF {
     

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.foodordering;
 
 import controller.foodordering.FoodController;
@@ -19,7 +15,7 @@ import java.util.logging.Level;
 /**
  * Class stores the past histories to a list which is saved to a file to persist
  * between runs
- * @author theme
+ * @author Mark
  */
 public class OrderHistory implements Serializable {
     

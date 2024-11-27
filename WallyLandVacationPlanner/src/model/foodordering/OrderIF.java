@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package model.foodordering;
 
 /**
  * Interface defines the required methods each order must contain
- * @author theme
+ * @author Mark
  */
 public interface OrderIF {
     

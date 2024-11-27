@@ -8,31 +8,23 @@ import javax.swing.*;
  * Main Page View containing the main page panel.
  * @author Ana
  */
-public class MainPageView extends JFrame {
+public class ComingSoonView extends JFrame {
 
     private ImageIcon wallylandIcon;
     
-    public MainPageView() {      
+    
+    public ComingSoonView() {      
         super("WallyLand");
         wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
         }
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        ComingSoonPanel csPanel = new ComingSoonPanel();
+        add(csPanel);
 
-        add(new MainPagePanel());
-
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(MainPageView.this, "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.OK_CANCEL_OPTION);
-                if (confirm == JOptionPane.OK_OPTION) {
-                    dispose();
-                }
-            }
-        });
-
-        setSize(625, 800);
+        setSize(400, 600);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
