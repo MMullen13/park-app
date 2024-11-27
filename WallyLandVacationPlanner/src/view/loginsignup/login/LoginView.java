@@ -55,6 +55,7 @@ public class LoginView extends JFrame {
         setLocationRelativeTo(null);
 
         setVisible(true);
+        setResizable(false);
     }
 
     /**
@@ -77,5 +78,12 @@ public class LoginView extends JFrame {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
+    }
+    
+    /**
+     * Closes this window
+     */
+    public void closeWindow(){
+        this.dispose();
     }
 }

@@ -79,7 +79,7 @@ public class MainPagePanel extends JPanel {
             }
         };
 
-        menuBar.setPreferredSize(new Dimension(700, 50)); // Adjust height for a modern look
+        menuBar.setPreferredSize(new Dimension(860, 80)); // Adjust height for a modern look
 
         // Customize menu items
         JMenu orderFood = createCustomMenu("Dining");
@@ -168,7 +168,7 @@ public class MainPagePanel extends JPanel {
 
                 // Set background based on state
                 if (getModel().isRollover() || getModel().isSelected()) {
-                    g2d.setColor(new Color(40, 95, 150)); // Hover background color 
+                    g2d.setColor(new Color(58, 115, 169)); // Hover background color 
                 } else {
                     g2d.setColor(new Color(17, 138, 200)); // Default background color 
                 }
@@ -183,9 +183,9 @@ public class MainPagePanel extends JPanel {
             }
         };
 
-        menu.setFont(new Font("Arial", Font.BOLD, 14));
+        menu.setFont(new Font("Arial", Font.BOLD, 18));
         menu.setOpaque(false); // Ensure transparency
-        menu.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12)); // Add padding
+        menu.setBorder(BorderFactory.createEmptyBorder(12, 21, 12, 20)); // Add padding
         return menu;
     }
 
@@ -217,7 +217,8 @@ public class MainPagePanel extends JPanel {
             }
         };
 
-        menuItem.setFont(new Font("Arial", Font.PLAIN, 12));
+        menuItem.setFont(new Font("Arial", Font.PLAIN, 16));
+        menuItem.setAlignmentX(Component.LEFT_ALIGNMENT);
         menuItem.setForeground(Color.BLACK);  // Default text color
         menuItem.setOpaque(false); // Ensure transparency
         menuItem.setBackground(new Color(240, 240, 240)); // Default background color

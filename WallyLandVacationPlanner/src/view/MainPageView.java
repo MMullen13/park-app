@@ -3,6 +3,7 @@ package view;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.*;
+import view.loginsignup.login.LoginView;
 
 /**
  * Main Page View containing the main page panel.
@@ -32,7 +33,7 @@ public class MainPageView extends JFrame {
             }
         });
 
-        setSize(625, 800);
+        setSize(850, 950);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

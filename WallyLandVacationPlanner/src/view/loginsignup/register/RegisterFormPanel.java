@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -22,10 +23,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import model.loginsignup.NewUser;
 import model.loginsignup.User;
@@ -34,6 +37,9 @@ import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.RegisterFormListenerIF;
 import view.loginsignup.RoundedBorder;
 import view.loginsignup.RoundedTextField;
+import view.loginsignup.UpdateSignupListener;
+import view.loginsignup.login.LoginFormPanel;
+import view.loginsignup.login.LoginView;
 
 /**
  *
@@ -69,6 +75,7 @@ public class RegisterFormPanel extends JPanel {
     private Icon successIcon;
 
     protected RegisterFormListenerIF formListener;
+    private UpdateSignupListener listener;
 
     /**
      * Constructor
@@ -152,7 +159,7 @@ public class RegisterFormPanel extends JPanel {
         ageList.setForeground(Color.DARK_GRAY);
         ageList.setSelectionBackground(new Color(58, 115, 169)); // Same navy blue as register button
         ageList.setSelectionForeground(Color.WHITE);
-        
+
         ageList.setBorder(BorderFactory.createCompoundBorder(
                 new RoundedBorder(10),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5))
@@ -189,6 +196,16 @@ public class RegisterFormPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
                 registerBtn.setBackground(new Color(58, 115, 169)); // Original blue
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                registerBtn.setForeground(new Color(40, 95, 150));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                registerBtn.setForeground(Color.WHITE);
+            }
         });
 
         registerBtn.addActionListener(new ActionListener() {
@@ -214,14 +231,32 @@ public class RegisterFormPanel extends JPanel {
                     formListener.formEventOccured(userEvent);
                 }
 
-                boolean isCorrectPassword = checkPassword(password);
-
-                if (!isCorrectPassword) {
-//                    incorrectPassword.setText("Invalid Login Credentials!");
+                if (listener != null) {
+                    listener.updateSuccessState();
                 }
+//
+//                Window parentWindow = SwingUtilities.getWindowAncestor(RegisterFormPanel.this);
+//
+//                if (parentWindow instanceof RegisterView registerView) {
+//                    // Show a success message or visual cue before the timer
+//                    JOptionPane.showMessageDialog(parentWindow, "Registration successful! Redirecting to Login...",
+//                            "Success", JOptionPane.INFORMATION_MESSAGE);
+//
+//                    // Create a timer with a delay of 3 seconds (3000 milliseconds)
+//                    javax.swing.Timer timer = new javax.swing.Timer(3000, new ActionListener() {
+//                        @Override
+//                        public void actionPerformed(ActionEvent event) {
+//                            // Open LoginView after the delay
+//                            LoginView loginView = new LoginView();
+//                            loginView.setVisible(true);
+//                            registerView.closeWindow();
+//                        }
+//                    });
+//                    timer.setRepeats(false); // Ensure the timer executes only once
+//                    timer.start(); // Start the timer
+//                }
             }
-        }
-        );
+        });
 
         registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
 
@@ -239,10 +274,6 @@ public class RegisterFormPanel extends JPanel {
 
     public void setFormListener(RegisterFormListenerIF formListener) {
         this.formListener = formListener;
-    }
-
-    protected boolean checkPassword(String password) {
-        return "password".equals(password);
     }
 
     private ImageIcon createIcon(String path, int w, int l) {
@@ -276,6 +307,10 @@ public class RegisterFormPanel extends JPanel {
                 }
             }
         });
+    }
+
+    public void setUpdateStateListener(UpdateSignupListener listener) {
+        this.listener = listener;
     }
 
     private void setControls() {
