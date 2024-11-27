@@ -56,7 +56,7 @@ class FadedImagePanel extends JPanel {
         g2d.setColor(new Color(40, 95, 150));
 
         // Set the font for the larger text
-        g2d.setFont(new Font("Arial", Font.BOLD, 45)); // Larger font size for the first line
+        g2d.setFont(new Font("Arial", Font.BOLD, 44)); // Larger font size for the first line
         FontMetrics fmLarge = g2d.getFontMetrics();
         int xLarge = (getWidth() - fmLarge.stringWidth(largeText)) / 2; // Center the large text
         int yLarge = getHeight() / 6; // Position it higher on the screen

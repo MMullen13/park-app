@@ -1,11 +1,9 @@
 package view.ticketing.passes;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import view.ticketing.tickets.TicketPanel;
 
 /**
  *
@@ -20,10 +18,10 @@ public class PassView extends JFrame {
 
   // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
-        getContentPane().setBackground(new Color(240, 248, 255));
+//        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
         ImageIcon wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
@@ -32,8 +30,8 @@ public class PassView extends JFrame {
         }
 
         // Add ticket panel
-        TicketPanel ticketPanel = new TicketPanel();
-        add(ticketPanel);
+        PassPanel passPanel = new PassPanel();
+        add(passPanel);
 
         setVisible(true);
     }

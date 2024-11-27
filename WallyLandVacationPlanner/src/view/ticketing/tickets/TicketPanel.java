@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -62,7 +63,7 @@ public class TicketPanel extends JPanel {
                 + "Children younger than age 3 don’t need a ticket."));
         ticketsPanel.add(createTicketCard("Adult Day Pass", "$35", "Access to all rides and attractions for one day."));
         ticketsPanel.add(createTicketCard("Senior Day Pass", "$30", "Access to all rides and attractions for one day. "
-                + "Seniors older than 80 don’t need a ticket."));
+                + "Seniors older than 80 ride for free."));
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
@@ -128,70 +129,107 @@ public class TicketPanel extends JPanel {
     private JPanel createTicketCard(String header, String price, String description) {
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
-        cardPanel.setBorder(BorderFactory.createLineBorder(new Color(17, 138, 200), 4, true)); // Rounded border
-        cardPanel.setBackground(Color.WHITE);
+        cardPanel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
+        cardPanel.setBackground(new Color(170, 187, 192)); // gray background
         cardPanel.setPreferredSize(new Dimension(200, 340)); // Uniform size for all cards
 
+        // Add MouseListener for hover effect
+        cardPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                cardPanel.setBackground(new Color(255, 255, 255)); // Change background on hover
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                cardPanel.setBackground(new Color(170, 187, 192)); // Revert to original background
+            }
+        });
+
         // Header (Name + Price)
-        JLabel headerLabel = new JLabel(header + " - " + price, JLabel.CENTER);
+        JLabel headerLabel = new JLabel(header + " - " + price, JLabel.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Gradient for header
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(58, 115, 169), getWidth(), 0, new Color(17, 138, 200));
+                g2d.setPaint(gradient);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5); // Rounded corners
+
+                // Draw the text
+                g2d.setColor(Color.WHITE); // Text color
+                g2d.setFont(getFont()); // Use the label's font
+                FontMetrics fm = g2d.getFontMetrics();
+                String text = getText();
+                int x = (getWidth() - fm.stringWidth(text)) / 2; // Center horizontally
+                int y = (getHeight() + fm.getAscent() - fm.getDescent()) / 2; // Center vertically
+                g2d.drawString(text, x, y);
+            }
+        };
+        headerLabel.setOpaque(false); // Let the gradient show
         headerLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        headerLabel.setOpaque(true);
-        headerLabel.setBackground(new Color(17, 138, 200));
         headerLabel.setForeground(Color.WHITE);
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        headerLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Fixed height for header
+        headerLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        headerLabel.setPreferredSize(new Dimension(40, 40));
         cardPanel.add(headerLabel);
 
         // Description with fixed height
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        descriptionLabel.setForeground(new Color(25, 75, 100));
+        descriptionLabel.setForeground(Color.WHITE);
         descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Wrap description in a panel with a fixed height
         JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setBackground(Color.WHITE);
-        descriptionPanel.setPreferredSize(new Dimension(200, 100)); // Fixed height for description area
-        descriptionPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
-        descriptionPanel.setLayout(new BorderLayout()); // Center the description inside
-        descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add 10px padding on all sides
+        descriptionPanel.setBackground(new Color(152, 175, 197));
+        descriptionPanel.setPreferredSize(new Dimension(200, 100));
+        descriptionPanel.setLayout(new BorderLayout());
+        descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         descriptionPanel.add(descriptionLabel, BorderLayout.CENTER);
         cardPanel.add(descriptionPanel);
 
         // Quantity Selector
         JPanel quantityPanel = new JPanel();
-        quantityPanel.setBackground(Color.WHITE);
-        quantityPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 15));
+        quantityPanel.setBackground(new Color(152, 175, 197));
+        quantityPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         JLabel quantityLabel = new JLabel("Qty:");
         quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantityLabel.setForeground(new Color(40, 95, 150));
+        quantityLabel.setForeground(Color.WHITE);
         quantityPanel.add(quantityLabel);
 
-        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1)); // Default 1, min 1, max 10, step 1
+        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
         quantitySpinner.setFont(new Font("Arial", Font.PLAIN, 14));
+        quantitySpinner.setPreferredSize(new Dimension(60, 30));
         quantityPanel.add(quantitySpinner);
 
         quantityPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         cardPanel.add(quantityPanel);
 
-        // Button
+        // Button Panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(152, 175, 197));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+
         JButton chooseButton = new JButton("Add to Cart");
         chooseButton.setFont(new Font("Arial", Font.BOLD, 14));
-        chooseButton.setBackground(new Color(17, 138, 200));
+        chooseButton.setBackground(new Color(58, 115, 169));
         chooseButton.setForeground(Color.WHITE);
         chooseButton.setFocusPainted(false);
-        chooseButton.setPreferredSize(new Dimension(130, 40)); // Fixed button size
+        chooseButton.setPreferredSize(new Dimension(130, 40));
 
         chooseButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                chooseButton.setBackground(new Color(58, 115, 169)); // Darker blue on hover
+                chooseButton.setBackground(new Color(17, 138, 200)); // Darker blue on hover
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                chooseButton.setBackground(new Color(17, 138, 200)); // Original blue
+                chooseButton.setBackground(new Color(58, 115, 169)); // Original blue
             }
 
             @Override
@@ -204,12 +242,13 @@ public class TicketPanel extends JPanel {
                 chooseButton.setForeground(Color.WHITE);
             }
         });
-        
 
-        chooseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(Box.createVerticalStrut(6)); // Add spacing above the button
-        cardPanel.add(chooseButton);
-        cardPanel.add(Box.createVerticalGlue()); // Push button and quantity selector to the bottom if space is available
+        buttonPanel.add(chooseButton);
+        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cardPanel.add(buttonPanel);
+
+        // Fill remaining space
+        cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
     }
@@ -223,7 +262,7 @@ public class TicketPanel extends JPanel {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 // Create a gradient background for the footer
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(58, 115, 169));
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(17, 138, 200));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -253,7 +292,7 @@ public class TicketPanel extends JPanel {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 // Create a gradient background for the footer
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(58, 115, 169));
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(58, 115, 169), getWidth(), 0, new Color(58, 115, 169));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }

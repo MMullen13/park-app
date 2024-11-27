@@ -1,7 +1,5 @@
 package view.ticketing.tickets;
 
-import view.ticketing.tickets.TicketPanel;
-import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;

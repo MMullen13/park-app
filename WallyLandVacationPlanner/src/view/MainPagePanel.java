@@ -73,7 +73,7 @@ public class MainPagePanel extends JPanel {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 // Create a gradient background for the menu bar
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(58, 115, 169), getWidth(), 0, new Color(58, 115, 169));
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(17, 138, 200));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -145,7 +145,14 @@ public class MainPagePanel extends JPanel {
         newOrder.addActionListener(e -> handleNewOrder());
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
-//        signOut.addActionListener(e -> handleSignOut());
+        signOut.addActionListener(e -> handleSignOut());
+        map.addActionListener(e -> handleParkMap());
+        groupTickets.addActionListener(e -> handleParkMap());
+        promotions.addActionListener(e -> handleParkMap());
+        events.addActionListener(e -> handleParkMap());
+        attractions.addActionListener(e -> handleParkMap());
+        birthdayOne.addActionListener(e -> handleParkMap());
+        birthdayTwo.addActionListener(e -> handleParkMap());
 
         menuBar.setBorder(BorderFactory.createEmptyBorder());
 
@@ -163,7 +170,7 @@ public class MainPagePanel extends JPanel {
                 if (getModel().isRollover() || getModel().isSelected()) {
                     g2d.setColor(new Color(40, 95, 150)); // Hover background color 
                 } else {
-                    g2d.setColor(new Color(58, 115, 169)); // Default background color 
+                    g2d.setColor(new Color(17, 138, 200)); // Default background color 
                 }
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
 
@@ -191,7 +198,7 @@ public class MainPagePanel extends JPanel {
 
                 // Draw custom hover background
                 if (getModel().isArmed()) {  // When hovered or selected
-                    g2d.setColor(new Color(90, 145, 204)); // Light blue hover background
+                    g2d.setColor(new Color(17, 138, 200)); // Light blue hover background
                     g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
                     g2d.setColor(Color.WHITE); // Change text color to white on hover
                 } else {
@@ -287,6 +294,21 @@ public class MainPagePanel extends JPanel {
 
     private void handleOrderHistory() {
         OrderHistoryView history = new OrderHistoryView();
+        history.setVisible(true);
+    }
+    
+    private void handleParkMap() {
+        ComingSoonView history = new ComingSoonView();
+        history.setVisible(true);
+    }
+    
+    private void handleBdayPackages() {
+        ComingSoonView history = new ComingSoonView();
+        history.setVisible(true);
+    }
+    
+    private void handleInfo() {
+        ComingSoonView history = new ComingSoonView();
         history.setVisible(true);
     }
 
