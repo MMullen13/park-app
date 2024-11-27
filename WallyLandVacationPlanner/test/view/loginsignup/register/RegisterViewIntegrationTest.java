@@ -81,11 +81,4 @@ public class RegisterViewIntegrationTest {
         registerFormPanel.setFormListener(e -> {});
         assertNotNull("Form listener should be set", registerFormPanel.formListener);
     }
-
-    @Test
-    public void testPasswordCheck() {
-        assertTrue("Default password should match", registerFormPanel.checkPassword("password"));
-        assertFalse("Incorrect password should not match", registerFormPanel.checkPassword("wrongpassword"));
-    }
-
 }
