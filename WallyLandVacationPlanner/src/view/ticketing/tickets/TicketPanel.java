@@ -13,10 +13,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import model.ticketing.Observer;
+import model.ticketing.TicketSubject;
 
 /**
  *
@@ -35,6 +38,13 @@ import javax.swing.border.Border;
 public class TicketPanel extends JPanel {
 
     private JButton purchaseBtn;
+    private JPanel purchasePanel;
+    private TicketSubject ticketSubject = new TicketSubject();
+    private JLabel totalItemsCartLabel;
+    private JLabel childTicketsCartLabel;
+    private JLabel adultTicketsCartLabel;
+    private JLabel seniorTicketsCartLabel;
+    private Map<String, Integer> cartItems = new HashMap<>();
 
     public TicketPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
@@ -60,26 +70,48 @@ public class TicketPanel extends JPanel {
 
         // Add ticket cards to the panel
         ticketsPanel.add(createTicketCard("Child Day Pass", "$25", "Child passes include access to age-appropriate rides and attractions. "
-                + "Children younger than age 3 don’t need a ticket."));
-        ticketsPanel.add(createTicketCard("Adult Day Pass", "$35", "Access to all rides and attractions for one day."));
+                + "Tickets are for children ages 3 to 18. Children younger than age 3 do not require a ticket."));
+
+        ticketsPanel.add(createTicketCard("Adult Day Pass", "$35", "Access to all rides and attractions for one day. "
+                + "Tickets are for adults ages 18 to 61."));
         ticketsPanel.add(createTicketCard("Senior Day Pass", "$30", "Access to all rides and attractions for one day. "
-                + "Seniors older than 80 ride for free."));
+                + "Tickets are for seniors ages 62 to 80. Seniors older than 80 ride for free and do not need a ticket."));
+
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
+        // Add the new labels for ticket quantities
+        childTicketsCartLabel = new JLabel("Child Tickets: 0");
+        childTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        childTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        childTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(childTicketsCartLabel);
+
+        adultTicketsCartLabel = new JLabel("Adult Tickets: 0");
+        adultTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        adultTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        adultTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(adultTicketsCartLabel);
+
+        seniorTicketsCartLabel = new JLabel("Senior Tickets: 0");
+        seniorTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        seniorTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        seniorTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(seniorTicketsCartLabel);
+
         // Cart Label
-        JLabel cartLabel = new JLabel("Selected Tickets: (0 items)"); // label for cart summary
-        cartLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        cartLabel.setForeground(new Color(40, 95, 150));
-        cartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
-        add(cartLabel);
+        totalItemsCartLabel = new JLabel("Total: 0 tickets"); // label for cart summary
+        totalItemsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        totalItemsCartLabel.setForeground(new Color(40, 95, 150));
+        totalItemsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
+        add(totalItemsCartLabel);
 
         // Purchase Button
-        JPanel purchasePanel = new JPanel();
+        purchasePanel = new JPanel();
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        JButton purchaseBtn = new JButton("Checkout");
+        purchaseBtn = new JButton("Checkout");
         purchaseBtn.setBackground(new Color(58, 115, 169)); // Navy blue
         purchaseBtn.setForeground(Color.WHITE);
         purchaseBtn.setFocusPainted(false); // Removes focus border on click
@@ -127,11 +159,12 @@ public class TicketPanel extends JPanel {
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
+
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
         cardPanel.setBackground(new Color(170, 187, 192)); // gray background
-        cardPanel.setPreferredSize(new Dimension(200, 340)); // Uniform size for all cards
+        cardPanel.setPreferredSize(new Dimension(200, 300)); // Uniform size for all cards
 
         // Add MouseListener for hover effect
         cardPanel.addMouseListener(new MouseAdapter() {
@@ -178,10 +211,11 @@ public class TicketPanel extends JPanel {
         cardPanel.add(headerLabel);
 
         // Description with fixed height
-        JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + description + "</div></html>", JLabel.CENTER);
+        JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
         descriptionLabel.setForeground(Color.WHITE);
-        descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JPanel descriptionPanel = new JPanel();
         descriptionPanel.setBackground(new Color(152, 175, 197));
@@ -201,51 +235,52 @@ public class TicketPanel extends JPanel {
         quantityLabel.setForeground(Color.WHITE);
         quantityPanel.add(quantityLabel);
 
-        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
         quantitySpinner.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantitySpinner.setPreferredSize(new Dimension(60, 30));
-        quantityPanel.add(quantitySpinner);
+        quantitySpinner.setPreferredSize(new Dimension(80, 30));
+        quantitySpinner.setName(header);
 
-        quantityPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(quantityPanel);
+        quantitySpinner.addChangeListener(e -> {
+            JSpinner source = (JSpinner) e.getSource();
+            String itemName = source.getName(); // Get the item name
+            int quantity = (int) source.getValue(); // Get the spinner value
 
-        // Button Panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(152, 175, 197));
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
-
-        JButton chooseButton = new JButton("Add to Cart");
-        chooseButton.setFont(new Font("Arial", Font.BOLD, 14));
-        chooseButton.setBackground(new Color(58, 115, 169));
-        chooseButton.setForeground(Color.WHITE);
-        chooseButton.setFocusPainted(false);
-        chooseButton.setPreferredSize(new Dimension(130, 40));
-
-        chooseButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                chooseButton.setBackground(new Color(17, 138, 200)); // Darker blue on hover
+            // Update the cart
+            if (itemName != null && itemName.equals("Child Day Pass")) {
+                cartItems.put(itemName, quantity);
+            }
+            if (itemName != null && itemName.equals("Adult Day Pass")) {
+                cartItems.put(itemName, quantity);
+            }
+            if (itemName != null && itemName.equals("Senior Day Pass")) {
+                cartItems.put(itemName, quantity);
             }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                chooseButton.setBackground(new Color(58, 115, 169)); // Original blue
+            // Update the respective ticket label
+            if (itemName != null && itemName.equals("Child Day Pass")) {
+                childTicketsCartLabel.setText("Child Tickets: " + quantity);
+            } else if (itemName != null && itemName.equals("Adult Day Pass")) {
+                adultTicketsCartLabel.setText("Adult Tickets: " + quantity);
+            } else if (itemName != null && itemName.equals("Senior Day Pass")) {
+                seniorTicketsCartLabel.setText("Senior Tickets: " + quantity);
             }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-                chooseButton.setForeground(new Color(40, 95, 150));
-            }
+            // Update totalItemsCartLabel
+            updateCartLabel();
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                chooseButton.setForeground(Color.WHITE);
-            }
         });
 
-        buttonPanel.add(chooseButton);
-        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(buttonPanel);
+        quantityPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quantityPanel.add(quantitySpinner);
+
+        cardPanel.add(quantityPanel);
+
+        // footer Panel to add space
+        JPanel footerPanel = new JPanel();
+        footerPanel.setBackground(new Color(152, 175, 197));
+        footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+
+        cardPanel.add(footerPanel);
 
         // Fill remaining space
         cardPanel.add(Box.createVerticalGlue());
@@ -332,4 +367,24 @@ public class TicketPanel extends JPanel {
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
     }
+
+    public void addObserver(Observer observer) {
+        ticketSubject.addObservers(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        ticketSubject.removeObservers(observer);
+    }
+
+    private void updateCartLabel() {
+        // Calculate the total number of tickets from the cart
+        int totalTickets = 0;
+        for (int quantity : cartItems.values()) {
+            totalTickets += quantity;
+        }
+
+        // Update the total number of tickets
+        totalItemsCartLabel.setText("Total: " + totalTickets + " tickets");
+    }
+
 }

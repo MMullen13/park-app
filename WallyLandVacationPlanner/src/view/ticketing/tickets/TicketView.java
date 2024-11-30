@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import model.ticketing.DigitalTicketObserver;
 
 /**
  *
@@ -32,6 +33,9 @@ public class TicketView extends JFrame {
         // Add ticket panel
         TicketPanel ticketPanel = new TicketPanel();
         add(ticketPanel);
+        
+        DigitalTicketObserver digitalTicketObserver = new DigitalTicketObserver(this);
+        ticketPanel.addObserver(digitalTicketObserver);
 
         setVisible(true);
     }
