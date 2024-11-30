@@ -1,5 +1,6 @@
 package view.ticketing.passes;
 
+import controller.ticketing.TicketController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,8 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
-import model.ticketing.Observer;
-import model.ticketing.TicketSubject;
+import model.ticketing.Pass;
+import model.ticketing.PurchaseFormEvent;
+import model.ticketing.PurchaseFormEventIF;
 
 /**
  *
@@ -39,7 +41,7 @@ public class PassPanel extends JPanel {
 
     private JButton purchaseBtn;
     private JPanel purchasePanel;
-    private TicketSubject ticketSubject = new TicketSubject();
+    private TicketController controller;
     private JLabel totalItemsCartLabel;
     private JLabel silverPassLabel;
     private JLabel goldPassLabel;
@@ -49,6 +51,8 @@ public class PassPanel extends JPanel {
     private final double TAX_RATE = 0.07;
 
     public PassPanel() {
+        controller = new TicketController();
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
         Border innerBorder = BorderFactory.createTitledBorder("Purchase Tickets");
@@ -77,7 +81,7 @@ public class PassPanel extends JPanel {
                 + "Four free Guest Tickets. Up to 30% off in-park purchases & experiences."));
         ticketsPanel.add(createTicketCard("Platinum", "$200", "Free preffered parking. Six free Guest Tickets. "
                 + "Up to 50% off in-park purchases & experiences. Access to 12 parks with no blockout dates."));
-        
+
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
@@ -101,7 +105,7 @@ public class PassPanel extends JPanel {
         add(platinumPassLabel);
 
         // Cart Label
-        totalItemsCartLabel = new JLabel("Total: 0 passes"); // label for cart summary
+        totalItemsCartLabel = new JLabel("Total Items: 0 passes"); // label for cart summary
         totalItemsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
         totalItemsCartLabel.setForeground(new Color(40, 95, 150));
         totalItemsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
@@ -148,6 +152,20 @@ public class PassPanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 purchaseBtn.setForeground(Color.WHITE);
+            }
+        });
+
+        purchaseBtn.addActionListener((ActionEvent e) -> {
+            for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+                String passType = entry.getKey();
+                int passQuantity = entry.getValue();
+                Pass pass = new Pass();
+                double passPrice = pass.calculatePrice(passType, passQuantity);
+                
+                if (passQuantity > 0) {
+                    PurchaseFormEventIF event = new PurchaseFormEvent(passType, passQuantity, passPrice);
+                    controller.handlePurchasePasses(event);
+                }
             }
         });
 
@@ -376,14 +394,6 @@ public class PassPanel extends JPanel {
         return resizedIcon;
     }
 
-    public void addObserver(Observer observer) {
-        ticketSubject.addObservers(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        ticketSubject.removeObservers(observer);
-    }
-
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
         int totalTickets = 0;
@@ -394,15 +404,9 @@ public class PassPanel extends JPanel {
             int quantity = entry.getValue();
             double price = 0.0;
             switch (entry.getKey()) {
-                case "Silver":
-                    price = 100.0;
-                    break;
-                case "Gold":
-                    price = 150.0;
-                    break;
-                case "Platinum":
-                    price = 200.0;
-                    break;
+                case "Silver" -> price = 100.0;
+                case "Gold" -> price = 150.0;
+                case "Platinum" -> price = 200.0;
             }
             totalTickets += quantity;
             totalPrice += quantity * price;
@@ -412,8 +416,7 @@ public class PassPanel extends JPanel {
         totalPrice += totalPrice * TAX_RATE;
 
         // Update the labels
-        totalItemsCartLabel.setText("Total: " + totalTickets + " tickets");
+        totalItemsCartLabel.setText("Total Items: " + totalTickets + " passes");
         totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
     }
-
 }

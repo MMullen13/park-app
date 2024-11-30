@@ -7,13 +7,13 @@ import java.util.List;
  *
  * @author Ana
  */
-public class TicketSubject {
+public class PassSubject {
     private final List<ObserverIF> observers = new ArrayList<>();
-    private final Ticket ticket; // Reference to Ticket model
+    private final Pass pass; // Reference to Pass model
 
     
-    public TicketSubject(Ticket ticket) {
-        this.ticket = ticket;
+    public PassSubject(Pass pass) {
+        this.pass = pass;
     }
 
     public void addObserver(ObserverIF observer) {
@@ -31,17 +31,17 @@ public class TicketSubject {
     }
 
     // Add tickets and notify observers
-    public void addTickets(String type, int quantity) {
-        ticket.addTickets(type, quantity);
-        notifyObservers(quantity + " " + type + " ticket(s) added. Total: " + getTicketCount(type));
+    public void addPasses(String type, int quantity) {
+        pass.addPass(type, quantity);
+        notifyObservers(quantity + " " + type + " pass(es) added. Total: " + getPassCount(type));
     }
 
-    // Retrieve ticket counts by type
-    public int getTicketCount(String type) {
+    // Retrieve passes counts by type
+    public int getPassCount(String type) {
         return switch (type.toLowerCase()) {
-            case "child" -> ticket.getChildTickets();
-            case "adult" -> ticket.getAdultTickets();
-            case "senior" -> ticket.getSeniorTickets();
+            case "silver" -> pass.getSilverPass();
+            case "gold" -> pass.getGoldPass();
+            case "platinum" -> pass.getPlatinumPass();
             default -> 0;
         };
     }

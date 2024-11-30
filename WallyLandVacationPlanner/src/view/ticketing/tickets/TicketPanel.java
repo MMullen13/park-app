@@ -28,8 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
-import model.ticketing.Observer;
-import model.ticketing.TicketSubject;
 
 /**
  *
@@ -39,7 +37,6 @@ public class TicketPanel extends JPanel {
 
     private JButton purchaseBtn;
     private JPanel purchasePanel;
-    private TicketSubject ticketSubject = new TicketSubject();
     private JLabel totalItemsCartLabel;
     private JLabel childTicketsCartLabel;
     private JLabel adultTicketsCartLabel;
@@ -377,14 +374,6 @@ public class TicketPanel extends JPanel {
         return resizedIcon;
     }
 
-    public void addObserver(Observer observer) {
-        ticketSubject.addObservers(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        ticketSubject.removeObservers(observer);
-    }
-
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
         int totalTickets = 0;
@@ -395,15 +384,9 @@ public class TicketPanel extends JPanel {
             int quantity = entry.getValue();
             double price = 0.0;
             switch (entry.getKey()) {
-                case "Child Day Pass":
-                    price = 25.0;
-                    break;
-                case "Adult Day Pass":
-                    price = 35.0;
-                    break;
-                case "Senior Day Pass":
-                    price = 30.0;
-                    break;
+                case "Child Day Pass" -> price = 25.0;
+                case "Adult Day Pass" -> price = 35.0;
+                case "Senior Day Pass" -> price = 30.0;
             }
             totalTickets += quantity;
             totalPrice += quantity * price;

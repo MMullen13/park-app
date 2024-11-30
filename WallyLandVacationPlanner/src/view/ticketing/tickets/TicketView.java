@@ -1,5 +1,6 @@
 package view.ticketing.tickets;
 
+import controller.ticketing.TicketController;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -13,19 +14,19 @@ import model.ticketing.DigitalTicketObserver;
 public class TicketView extends JFrame {
 
     private ImageIcon wallylandIcon;
+    
 
     public TicketView() {
         super("Wallyland");
 
-  // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
-//        getContentPane().setBackground(new Color(240, 248, 255));
+
 
         // Set icon
-        ImageIcon wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage());
         }
@@ -33,9 +34,6 @@ public class TicketView extends JFrame {
         // Add ticket panel
         TicketPanel ticketPanel = new TicketPanel();
         add(ticketPanel);
-        
-        DigitalTicketObserver digitalTicketObserver = new DigitalTicketObserver(this);
-        ticketPanel.addObserver(digitalTicketObserver);
 
         setVisible(true);
     }

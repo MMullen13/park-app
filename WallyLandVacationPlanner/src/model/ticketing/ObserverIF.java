@@ -4,6 +4,6 @@ package model.ticketing;
  *
  * @author Ana
  */
-public interface Observer {
+public interface ObserverIF {
     void update(String message);
 }

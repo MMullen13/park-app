@@ -7,17 +7,15 @@ import javax.swing.JOptionPane;
  *
  * @author Ana
  */
-public class DigitalTicketObserver implements Observer{
-    
+public class DigitalTicketObserver implements ObserverIF {
     private JFrame digitalTicketFrame;
-    
-    public DigitalTicketObserver(JFrame digitalTicketObserver){
+
+    public DigitalTicketObserver(JFrame digitalTicketFrame) {
         this.digitalTicketFrame = digitalTicketFrame;
     }
 
     @Override
     public void update(String message) {
-       JOptionPane.showMessageDialog(digitalTicketFrame, message, "Ticket Update", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(digitalTicketFrame, message, "Ticket Update", JOptionPane.INFORMATION_MESSAGE);
     }
-    
 }
