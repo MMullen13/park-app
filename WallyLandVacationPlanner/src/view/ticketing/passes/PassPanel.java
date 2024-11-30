@@ -13,10 +13,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import model.ticketing.Observer;
+import model.ticketing.TicketSubject;
 
 /**
  *
@@ -35,6 +38,15 @@ import javax.swing.border.Border;
 public class PassPanel extends JPanel {
 
     private JButton purchaseBtn;
+    private JPanel purchasePanel;
+    private TicketSubject ticketSubject = new TicketSubject();
+    private JLabel totalItemsCartLabel;
+    private JLabel silverPassLabel;
+    private JLabel goldPassLabel;
+    private JLabel platinumPassLabel;
+    private JLabel totalPriceLabel;
+    private Map<String, Integer> cartItems = new HashMap<>();
+    private final double TAX_RATE = 0.07;
 
     public PassPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
@@ -65,22 +77,49 @@ public class PassPanel extends JPanel {
                 + "Four free Guest Tickets. Up to 30% off in-park purchases & experiences."));
         ticketsPanel.add(createTicketCard("Platinum", "$200", "Free preffered parking. Six free Guest Tickets. "
                 + "Up to 50% off in-park purchases & experiences. Access to 12 parks with no blockout dates."));
+        
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
+        // Add the new labels for ticket quantities
+        silverPassLabel = new JLabel("Gold Passes: 0");
+        silverPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        silverPassLabel.setForeground(new Color(40, 95, 150));
+        silverPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(silverPassLabel);
+
+        goldPassLabel = new JLabel("Silver Passes: 0");
+        goldPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        goldPassLabel.setForeground(new Color(40, 95, 150));
+        goldPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(goldPassLabel);
+
+        platinumPassLabel = new JLabel("Platinum Passes: 0");
+        platinumPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        platinumPassLabel.setForeground(new Color(40, 95, 150));
+        platinumPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(platinumPassLabel);
+
         // Cart Label
-        JLabel cartLabel = new JLabel("Selected Passes: (0 items)"); // label for cart summary
-        cartLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        cartLabel.setForeground(new Color(40, 95, 150));
-        cartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
-        add(cartLabel);
+        totalItemsCartLabel = new JLabel("Total: 0 passes"); // label for cart summary
+        totalItemsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        totalItemsCartLabel.setForeground(new Color(40, 95, 150));
+        totalItemsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
+        add(totalItemsCartLabel);
+
+        // Total price label
+        totalPriceLabel = new JLabel("Total Price (incl. taxes): $0.00");
+        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalPriceLabel.setForeground(new Color(40, 95, 150));
+        totalPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(totalPriceLabel);
 
         // Purchase Button
-        JPanel purchasePanel = new JPanel();
+        purchasePanel = new JPanel();
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        JButton purchaseBtn = new JButton("Checkout");
+        purchaseBtn = new JButton("Checkout");
         purchaseBtn.setBackground(new Color(58, 115, 169)); // Navy blue
         purchaseBtn.setForeground(Color.WHITE);
         purchaseBtn.setFocusPainted(false); // Removes focus border on click
@@ -128,11 +167,12 @@ public class PassPanel extends JPanel {
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
+
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
         cardPanel.setBackground(new Color(170, 187, 192)); // gray background
-        cardPanel.setPreferredSize(new Dimension(200, 340)); // Uniform size for all cards
+        cardPanel.setPreferredSize(new Dimension(200, 300)); // Uniform size for all cards
 
         // Add MouseListener for hover effect
         cardPanel.addMouseListener(new MouseAdapter() {
@@ -179,10 +219,11 @@ public class PassPanel extends JPanel {
         cardPanel.add(headerLabel);
 
         // Description with fixed height
-        JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + description + "</div></html>", JLabel.CENTER);
+        JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
         descriptionLabel.setForeground(Color.WHITE);
-        descriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JPanel descriptionPanel = new JPanel();
         descriptionPanel.setBackground(new Color(152, 175, 197));
@@ -202,58 +243,60 @@ public class PassPanel extends JPanel {
         quantityLabel.setForeground(Color.WHITE);
         quantityPanel.add(quantityLabel);
 
-        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+        JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
         quantitySpinner.setFont(new Font("Arial", Font.PLAIN, 14));
         quantitySpinner.setPreferredSize(new Dimension(60, 30));
-        quantityPanel.add(quantitySpinner);
+        quantitySpinner.setName(header);
 
-        quantityPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(quantityPanel);
+        quantitySpinner.addChangeListener(e -> {
+            JSpinner source = (JSpinner) e.getSource();
+            String itemName = source.getName(); // Get the item name
+            int quantity = (int) source.getValue(); // Get the spinner value
 
-        // Button Panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(new Color(152, 175, 197));
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
-
-        JButton chooseButton = new JButton("Add to Cart");
-        chooseButton.setFont(new Font("Arial", Font.BOLD, 14));
-        chooseButton.setBackground(new Color(58, 115, 169));
-        chooseButton.setForeground(Color.WHITE);
-        chooseButton.setFocusPainted(false);
-        chooseButton.setPreferredSize(new Dimension(130, 40));
-
-        chooseButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                chooseButton.setBackground(new Color(17, 138, 200)); // Darker blue on hover
+            // Update the cart
+            if (itemName != null && itemName.equals("Silver")) {
+                cartItems.put(itemName, quantity);
+            }
+            if (itemName != null && itemName.equals("Gold")) {
+                cartItems.put(itemName, quantity);
+            }
+            if (itemName != null && itemName.equals("Platinum")) {
+                cartItems.put(itemName, quantity);
             }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                chooseButton.setBackground(new Color(58, 115, 169)); // Original blue
+            // Update the respective ticket label
+            if (itemName != null && itemName.equals("Silver")) {
+                silverPassLabel.setText("Silver Passes: " + quantity);
+            } else if (itemName != null && itemName.equals("Gold")) {
+                goldPassLabel.setText("Golden Passes: " + quantity);
+            } else if (itemName != null && itemName.equals("Platinum")) {
+                platinumPassLabel.setText("Platinum Passes: " + quantity);
             }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-                chooseButton.setForeground(new Color(40, 95, 150));
-            }
+            // Update totalItemsCartLabel
+            updateCartLabel();
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                chooseButton.setForeground(Color.WHITE);
-            }
         });
 
-        buttonPanel.add(chooseButton);
-        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        cardPanel.add(buttonPanel);
+        quantityPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quantityPanel.add(quantitySpinner);
+
+        cardPanel.add(quantityPanel);
+
+        // footer Panel to add space
+        JPanel footerPanel = new JPanel();
+        footerPanel.setBackground(new Color(152, 175, 197));
+        footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+
+        cardPanel.add(footerPanel);
 
         // Fill remaining space
         cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
     }
-private JPanel createHeaderPanel() {
+
+    private JPanel createHeaderPanel() {
         JPanel header = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -270,7 +313,7 @@ private JPanel createHeaderPanel() {
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
         header.setPreferredSize(new Dimension(600, 30)); // Adjust height for the footer
 
-        JLabel contactLabel = new JLabel("Wallyland Park Tickets");
+        JLabel contactLabel = new JLabel("Wallyland Park Season Passes");
 
         contactLabel.setFont(new Font("Arial", Font.BOLD, 18));
         contactLabel.setForeground(Color.WHITE);
@@ -332,4 +375,45 @@ private JPanel createHeaderPanel() {
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
         return resizedIcon;
     }
+
+    public void addObserver(Observer observer) {
+        ticketSubject.addObservers(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        ticketSubject.removeObservers(observer);
+    }
+
+    private void updateCartLabel() {
+        // Calculate the total number of tickets from the cart
+        int totalTickets = 0;
+        double totalPrice = 0;
+
+        // Calculate total tickets and price
+        for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+            int quantity = entry.getValue();
+            double price = 0.0;
+            switch (entry.getKey()) {
+                case "Silver":
+                    price = 100.0;
+                    break;
+                case "Gold":
+                    price = 150.0;
+                    break;
+                case "Platinum":
+                    price = 200.0;
+                    break;
+            }
+            totalTickets += quantity;
+            totalPrice += quantity * price;
+        }
+
+        // Apply tax
+        totalPrice += totalPrice * TAX_RATE;
+
+        // Update the labels
+        totalItemsCartLabel.setText("Total: " + totalTickets + " tickets");
+        totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
+    }
+
 }

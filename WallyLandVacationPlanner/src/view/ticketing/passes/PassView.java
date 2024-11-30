@@ -24,7 +24,7 @@ public class PassView extends JFrame {
 //        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
-        ImageIcon wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage());
         }

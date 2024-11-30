@@ -44,7 +44,9 @@ public class TicketPanel extends JPanel {
     private JLabel childTicketsCartLabel;
     private JLabel adultTicketsCartLabel;
     private JLabel seniorTicketsCartLabel;
+    private JLabel totalPriceLabel;
     private Map<String, Integer> cartItems = new HashMap<>();
+    private final double TAX_RATE = 0.07;
 
     public TicketPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
@@ -100,11 +102,18 @@ public class TicketPanel extends JPanel {
         add(seniorTicketsCartLabel);
 
         // Cart Label
-        totalItemsCartLabel = new JLabel("Total: 0 tickets"); // label for cart summary
+        totalItemsCartLabel = new JLabel("Total: 0 passes"); // label for cart summary
         totalItemsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
         totalItemsCartLabel.setForeground(new Color(40, 95, 150));
         totalItemsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
         add(totalItemsCartLabel);
+
+        // Total price label
+        totalPriceLabel = new JLabel("Total Price (incl. taxes): $0.00");
+        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalPriceLabel.setForeground(new Color(40, 95, 150));
+        totalPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(totalPriceLabel);
 
         // Purchase Button
         purchasePanel = new JPanel();
@@ -237,7 +246,7 @@ public class TicketPanel extends JPanel {
 
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
         quantitySpinner.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantitySpinner.setPreferredSize(new Dimension(80, 30));
+        quantitySpinner.setPreferredSize(new Dimension(60, 30));
         quantitySpinner.setName(header);
 
         quantitySpinner.addChangeListener(e -> {
@@ -379,12 +388,33 @@ public class TicketPanel extends JPanel {
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
         int totalTickets = 0;
-        for (int quantity : cartItems.values()) {
+        double totalPrice = 0;
+
+        // Calculate total tickets and price
+        for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+            int quantity = entry.getValue();
+            double price = 0.0;
+            switch (entry.getKey()) {
+                case "Child Day Pass":
+                    price = 25.0;
+                    break;
+                case "Adult Day Pass":
+                    price = 35.0;
+                    break;
+                case "Senior Day Pass":
+                    price = 30.0;
+                    break;
+            }
             totalTickets += quantity;
+            totalPrice += quantity * price;
         }
 
-        // Update the total number of tickets
-        totalItemsCartLabel.setText("Total: " + totalTickets + " tickets");
+        // Apply tax
+        totalPrice += totalPrice * TAX_RATE;
+
+        // Update the labels
+        totalItemsCartLabel.setText("Total: " + totalTickets + " passes");
+        totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
     }
 
 }
