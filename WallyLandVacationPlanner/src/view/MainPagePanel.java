@@ -18,6 +18,7 @@ import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
+import view.ticketing.cart.TicketCartView;
 import view.ticketing.passes.PassView;
 import view.ticketing.tickets.TicketView;
 
@@ -33,9 +34,11 @@ public class MainPagePanel extends JPanel {
     private OrderConfirmationViewForm confirmationView;
     private TicketView ticketView;
     private PassView passView;
+    private TicketCartView ticketCartView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
+    private Footer footer;
 
     /**
      * Constructor
@@ -47,14 +50,19 @@ public class MainPagePanel extends JPanel {
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
 
+        footer = new Footer();
+
         wallylandImage = createIcon("/images/pb.jpg", 1100, 900);
         backgroundPanel = new FadedImagePanel(wallylandImage);
         add(backgroundPanel, BorderLayout.CENTER);
 
         JMenuBar menuBar = createMenuBar();
         add(menuBar, BorderLayout.NORTH);
+        
+        String msgOne = "Contact Us: 123-456-7890 | Email: info@wallyland.com";
+        String msgTwo = "Address: 123 WallyLand Ave, Fun City, USA";
 
-        footerPanel = createFooterPanel();
+        footerPanel = footer.createFooterPanel(msgOne, msgTwo);
         add(footerPanel, BorderLayout.SOUTH);
         
         Border innerBorder = BorderFactory.createTitledBorder("Home");
@@ -98,7 +106,7 @@ public class MainPagePanel extends JPanel {
         JMenuItem passes = createCustomMenuItem("Purchase a Season Pass");
         JMenuItem groupTickets = createCustomMenuItem("Purchase a Group Pass");
         JMenuItem promotions = createCustomMenuItem("More Deals");
-        JMenuItem digitalTickets = createCustomMenuItem("Access Digital Tickets");
+        JMenuItem cart = createCustomMenuItem("View Cart");
 
         JMenuItem birthdayOne = createCustomMenuItem("Plan a Birthday For 10+ Guests");
         JMenuItem birthdayTwo = createCustomMenuItem("Plan a Birthday For 20+ Guests");
@@ -137,9 +145,10 @@ public class MainPagePanel extends JPanel {
         purchaseTickets.add(passes);
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
-        purchaseTickets.add(digitalTickets);
+        purchaseTickets.add(cart);
 
         // Attach actions
+        cart.addActionListener(e -> handleCartView());
         tickets.addActionListener(e -> handleTicketPurchasing());
         passes.addActionListener(e -> handlePassPurchasing());
         newOrder.addActionListener(e -> handleNewOrder());
@@ -226,44 +235,6 @@ public class MainPagePanel extends JPanel {
         return menuItem;
     }
 
-    private JPanel createFooterPanel() {
-        JPanel footer = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Create a gradient background for the footer
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(40, 95, 150), getWidth(), 0, new Color(58, 115, 169));
-                g2d.setPaint(gradient);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-
-        footer.setLayout(new BoxLayout(footer, BoxLayout.Y_AXIS));
-        footer.setPreferredSize(new Dimension(600, 80)); // Adjust height for the footer
-
-        JLabel contactLabel = new JLabel("Contact Us: 123-456-7890 | Email: info@wallyland.com");
-        JLabel addressLabel = new JLabel("Address: 123 WallyLand Ave, Fun City, USA");
-
-        contactLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        contactLabel.setForeground(Color.WHITE);
-        contactLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        addressLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        addressLabel.setForeground(Color.WHITE);
-        addressLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        footer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the top
-        footer.add(contactLabel);
-        footer.add(Box.createRigidArea(new Dimension(0, 5))); // Add spacing between labels
-        footer.add(addressLabel);
-        footer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the bottom
-
-        return footer;
-    }
-
     private void handleTicketPurchasing() {
         ticketView = new TicketView();
         ticketView.setVisible(true);
@@ -272,6 +243,11 @@ public class MainPagePanel extends JPanel {
     private void handlePassPurchasing() {
         passView = new PassView();
         passView.setVisible(true);
+    }
+    
+    private void handleCartView() {
+        ticketCartView = new TicketCartView();
+        ticketCartView.setVisible(true);
     }
 
     private void handleNewOrder() {

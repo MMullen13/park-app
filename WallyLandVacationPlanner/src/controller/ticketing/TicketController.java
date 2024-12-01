@@ -26,7 +26,7 @@ public class TicketController {
     private Pass passModel;          // Model representing pass data
     private List<ObserverIF> observers; // List of observers for notifications
     private TicketSubject ticketSubject;
-    private PassSubject passSubject;
+    public PassSubject passSubject;
     
     
     /**

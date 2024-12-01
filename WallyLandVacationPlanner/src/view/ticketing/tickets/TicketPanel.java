@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import view.Footer;
+import view.Header;
 
 /**
  *
@@ -35,7 +37,7 @@ import javax.swing.border.Border;
  */
 public class TicketPanel extends JPanel {
 
-    private JButton purchaseBtn;
+    private JButton addToCart;
     private JPanel purchasePanel;
     private JLabel totalItemsCartLabel;
     private JLabel childTicketsCartLabel;
@@ -44,8 +46,13 @@ public class TicketPanel extends JPanel {
     private JLabel totalPriceLabel;
     private Map<String, Integer> cartItems = new HashMap<>();
     private final double TAX_RATE = 0.07;
+    private Header header;
+    private Footer footer;
 
     public TicketPanel() {
+        header = new Header();
+        footer = new Footer();
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
         Border innerBorder = BorderFactory.createTitledBorder("Purchase Tickets");
@@ -56,7 +63,7 @@ public class TicketPanel extends JPanel {
 
         // Header Panel
         JPanel headerContainer = new JPanel(new BorderLayout());
-        JPanel headerPanel = createHeaderPanel();
+        JPanel headerPanel = header.createHeaderPanel("Wallyland Park Tickets", null);
         headerPanel.setOpaque(false);
         headerContainer.add(headerPanel, BorderLayout.CENTER);
         add(headerContainer, BorderLayout.NORTH);
@@ -117,45 +124,47 @@ public class TicketPanel extends JPanel {
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        purchaseBtn = new JButton("Checkout");
-        purchaseBtn.setBackground(new Color(58, 115, 169)); // Navy blue
-        purchaseBtn.setForeground(Color.WHITE);
-        purchaseBtn.setFocusPainted(false); // Removes focus border on click
-        purchaseBtn.setFont(new Font("Arial", Font.BOLD, 14));
-        purchaseBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        purchaseBtn.setIcon(createIcon("/images/icons8-cart-100.png", 40, 40));
-        purchaseBtn.addActionListener((ActionEvent e) -> {
+        addToCart = new JButton("Add to Cart");
+        addToCart.setBackground(new Color(58, 115, 169)); // Navy blue
+        addToCart.setForeground(Color.WHITE);
+        addToCart.setFocusPainted(false); // Removes focus border on click
+        addToCart.setFont(new Font("Arial", Font.BOLD, 14));
+        addToCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
+        addToCart.setIcon(createIcon("/images/icons8-cart-100.png", 40, 40));
+        addToCart.addActionListener((ActionEvent e) -> {
             // Add action listener
         });
-        purchaseBtn.addMouseListener(new MouseAdapter() {
+        addToCart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                purchaseBtn.setBackground(new Color(40, 95, 150)); // Darker blue on hover
+                addToCart.setBackground(new Color(40, 95, 150)); // Darker blue on hover
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                purchaseBtn.setBackground(new Color(58, 115, 169)); // Original blue
+                addToCart.setBackground(new Color(58, 115, 169)); // Original blue
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                purchaseBtn.setForeground(new Color(40, 95, 150));
+                addToCart.setForeground(new Color(40, 95, 150));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                purchaseBtn.setForeground(Color.WHITE);
+                addToCart.setForeground(Color.WHITE);
             }
         });
 
-        purchasePanel.add(purchaseBtn);
+        purchasePanel.add(addToCart);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
         add(purchasePanel);
 
         // Footer Panel
         JPanel footerContainer = new JPanel(new BorderLayout());
-        JPanel footerPanel = createFooterPanel();
+        String msgOne = "Your 1-day tickets are valid for single-day admission to our park. Tickets are nonrefundable.";
+        String msgTwo = "The price paid for a wholly unused ticket can be applied to the purchase of a new ticket with an equal or higher price.";
+        JPanel footerPanel = footer.createFooterPanel(msgOne, msgTwo);
         footerPanel.setOpaque(false);
         footerContainer.add(footerPanel, BorderLayout.CENTER);
         add(footerContainer, BorderLayout.PAGE_END);
@@ -292,73 +301,6 @@ public class TicketPanel extends JPanel {
         cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
-    }
-
-    private JPanel createHeaderPanel() {
-        JPanel header = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Create a gradient background for the footer
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(17, 138, 200));
-                g2d.setPaint(gradient);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
-        header.setPreferredSize(new Dimension(600, 30)); // Adjust height for the footer
-
-        JLabel contactLabel = new JLabel("Wallyland Park Tickets");
-
-        contactLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        contactLabel.setForeground(Color.WHITE);
-        contactLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        header.add(Box.createRigidArea(new Dimension(0, 5))); // Add spacing at the top
-        header.add(contactLabel);
-        header.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the bottom
-
-        return header;
-    }
-
-    private JPanel createFooterPanel() {
-        JPanel footer = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Create a gradient background for the footer
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(58, 115, 169), getWidth(), 0, new Color(58, 115, 169));
-                g2d.setPaint(gradient);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        footer.setLayout(new BoxLayout(footer, BoxLayout.Y_AXIS));
-        footer.setPreferredSize(new Dimension(600, 60)); // Adjust height for the footer
-
-        JLabel infoLabelOne = new JLabel("Your 1-day tickets are valid for single-day admission to our park. Tickets are nonrefundable.");
-        JLabel infoLabelTwo = new JLabel("The price paid for a wholly unused ticket can be applied to the purchase of a new ticket with an equal or higher price.");
-
-        infoLabelOne.setFont(new Font("Arial", Font.PLAIN, 12));
-        infoLabelOne.setForeground(Color.WHITE);
-        infoLabelOne.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        infoLabelTwo.setFont(new Font("Arial", Font.PLAIN, 12));
-        infoLabelTwo.setForeground(Color.WHITE);
-        infoLabelTwo.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        footer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the top
-        footer.add(infoLabelOne);
-        footer.add(Box.createRigidArea(new Dimension(0, 5))); // Add spacing at the top
-        footer.add(infoLabelTwo);
-        footer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the bottom
-
-        return footer;
     }
 
     private ImageIcon createIcon(String path, int w, int l) {
