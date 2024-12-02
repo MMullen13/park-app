@@ -31,11 +31,12 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import model.ticketing.ObserverIF;
-import model.ticketing.Pass;
 import model.ticketing.PurchaseFormEvent;
 import model.ticketing.PurchaseFormEventIF;
+import model.ticketing.pass.Pass;
 import view.Footer;
 import view.Header;
+import view.ticketing.cart.CartView;
 
 /**
  *
@@ -52,15 +53,22 @@ public class PassPanel extends JPanel implements ObserverIF {
     private JLabel platinumPassLabel;
     private JLabel totalPriceLabel;
     private Map<String, Integer> cartItems = new HashMap<>();
+    private Map<String, Pass> cartItemsTwo = new HashMap<>();
     private final double TAX_RATE = 0.07;
     private Header header;
     private Footer footer;
+    private CartView cartView;
+    private Pass pass;
 
     public PassPanel() {
         controller = new TicketController();
         controller.passSubject.addObserver(this);
+        pass = new Pass();
+        controller.setPass(pass);
+
         header = new Header();
         footer = new Footer();
+        cartView = new CartView();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -168,15 +176,19 @@ public class PassPanel extends JPanel implements ObserverIF {
             for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
                 String passType = entry.getKey();
                 int passQuantity = entry.getValue();
-                Pass pass = new Pass();
-                double passPrice = pass.calculatePrice(passType, passQuantity);
 
                 if (passQuantity > 0) {
+                    double passPrice = controller.getPass().calculatePrice(passType, passQuantity);
                     PurchaseFormEventIF event = new PurchaseFormEvent(passType, passQuantity, passPrice);
                     controller.handlePurchasePasses(event);
+
+                    cartView.updateCart(passType, passQuantity);
                 }
             }
+
         });
+        
+        
 
         purchasePanel.add(addToCart);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
@@ -385,4 +397,11 @@ public class PassPanel extends JPanel implements ObserverIF {
             }
         });
     }
+
+    public void addToCart(String passType, int quantity) {
+        Pass pass = cartItemsTwo.getOrDefault(passType, new Pass());
+        pass.addPass(passType, quantity);
+        cartItemsTwo.put(passType, pass); // Update the map
+    }
+
 }

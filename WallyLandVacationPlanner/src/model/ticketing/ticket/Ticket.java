@@ -1,4 +1,4 @@
-package model.ticketing;
+package model.ticketing.ticket;
 
 /**
  *

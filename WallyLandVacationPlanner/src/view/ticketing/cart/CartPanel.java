@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,13 +29,15 @@ import view.Header;
  *
  * @author Ana
  */
-class CartPanel extends JPanel implements ObserverIF{
+class CartPanel extends JPanel implements ObserverIF {
 
     private TicketController controller;
     private Header header;
     private Footer footer;
+    private JPanel ticketsPanel;
+    private ArrayList<String> cartItems = new ArrayList<>();
 
-public CartPanel(){
+    public CartPanel() {
         controller = new TicketController();
         controller.passSubject.addObserver(this);
         header = new Header();
@@ -49,38 +52,31 @@ public CartPanel(){
         setBackground(new Color(235, 237, 238));
 
         // Header Panel
-        JPanel headerContainer = new JPanel(new BorderLayout());
         JPanel headerPanel = header.createHeaderPanel("Wallyland Digital Tickets And Passes", null);
         headerPanel.setOpaque(false);
-        headerContainer.add(headerPanel, BorderLayout.CENTER);
-        add(headerContainer, BorderLayout.NORTH);
+        headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        headerPanel.setPreferredSize(new Dimension(800, 34));
+        add(headerPanel, BorderLayout.NORTH);
 
         // Create the main panel for the tickets
-        JPanel ticketsPanel = new JPanel();
+        ticketsPanel = new JPanel();
         ticketsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
         ticketsPanel.setOpaque(false);
         ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
 
-        // Add ticket cards to the panel
-        ticketsPanel.add(createTicketCard(" ", " ", " "
-                + "Not implemented yet"));
-        
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
-
-
         String msgOne = "Contact Us: 123-456-7890 | Email: info@wallyland.com.";
         String msgTwo = "Address: 123 WallyLand Ave, Fun City, USA";
+
         // Footer Panel
-        JPanel footerContainer = new JPanel(new BorderLayout());
         JPanel footerPanel = footer.createFooterPanel(msgOne, msgTwo);
         footerPanel.setOpaque(false);
-        footerContainer.add(footerPanel, BorderLayout.CENTER);
-        add(footerContainer, BorderLayout.PAGE_END);
+        footerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        footerPanel.setPreferredSize(new Dimension(800, 60));
+        add(footerPanel, BorderLayout.SOUTH);
 
-        // Add spacing between elements
-        add(Box.createVerticalGlue()); // Allows dynamic adjustment based on available space
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
@@ -89,7 +85,7 @@ public CartPanel(){
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
         cardPanel.setBackground(new Color(170, 187, 192)); // gray background
-        cardPanel.setPreferredSize(new Dimension(600, 460)); // Uniform size for all cards
+        cardPanel.setPreferredSize(new Dimension(160, 160));
 
         // Add MouseListener for hover effect
         cardPanel.addMouseListener(new MouseAdapter() {
@@ -128,7 +124,7 @@ public CartPanel(){
             }
         };
         headerLabel.setOpaque(false); // Let the gradient show
-        headerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 14));
         headerLabel.setForeground(Color.WHITE);
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         headerLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
@@ -165,6 +161,60 @@ public CartPanel(){
 
     @Override
     public void update(String message) {
+        String[] cartEntries = message.split(";");
+        ticketsPanel = (JPanel) getComponent(1); //third child
 
+        ticketsPanel.removeAll(); // Clear current items
+        
+        for (String entry : cartEntries) {
+            String[] parts = entry.split(":");
+            if (parts.length == 2) {
+                String header = parts[0];
+                String price = parts[1];
+
+                ticketsPanel.add(createTicketCard(header, price, ""));
+                System.out.println(header + " " + price + " " + "");
+
+                cartItems.add(header); //add to the arrayList
+            }
+        }
+
+        ticketsPanel.removeAll();
+
+        for (String item : cartItems) {
+            ticketsPanel.add(createTicketCard(item, "", "Quantity: " ));
+        }
+
+        displayTotalItems();
+
+        ticketsPanel.revalidate();
+        ticketsPanel.repaint();
+    }
+
+    private void displayTotalItems() {
+        int totalItems = cartItems.size(); // Get the total number of items in the cart
+
+        // Assuming you have a JLabel to display the total number of items
+        JLabel totalItemsLabel = new JLabel("Total items in cart: " + totalItems);
+        ticketsPanel.add(totalItemsLabel);
+
+        // Refresh the layout
+        ticketsPanel.revalidate();
+        ticketsPanel.repaint();
+    }
+
+    private void removeItem(String item) {
+        cartItems.remove(item); // Remove the item from the ArrayList
+        updateCartDisplay(); // Re-render the cart with updated items
+    }
+
+    private void updateCartDisplay() {
+        ticketsPanel.removeAll();
+        for (String item : cartItems) {
+            ticketsPanel.add(createTicketCard(item, "", ""));
+        }
+        displayTotalItems(); // Re-display the total count of items
+        ticketsPanel.revalidate();
+        ticketsPanel.repaint();
     }
 }

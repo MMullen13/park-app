@@ -1,7 +1,10 @@
-package model.ticketing;
+package model.ticketing.ticket;
 
+import model.ticketing.ticket.Ticket;
 import java.util.ArrayList;
 import java.util.List;
+import model.ticketing.ObserverIF;
+import model.ticketing.ObserverIF;
 
 /**
  *

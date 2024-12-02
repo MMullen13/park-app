@@ -3,13 +3,13 @@ package controller.ticketing;
 import java.util.ArrayList;
 import java.util.List;
 import model.ticketing.ObserverIF;
-import model.ticketing.Pass;
-import model.ticketing.PassSubject;
+import model.ticketing.pass.Pass;
+import model.ticketing.pass.PassSubject;
 import view.ticketing.passes.PassView;
 import view.ticketing.tickets.TicketView;
 import model.ticketing.PurchaseFormEventIF;
-import model.ticketing.Ticket;
-import model.ticketing.TicketSubject;
+import model.ticketing.ticket.Ticket;
+import model.ticketing.ticket.TicketSubject;
 
 /**
  * Controller class responsible for managing ticket and pass purchases.
@@ -22,8 +22,8 @@ public class TicketController {
 
     protected TicketView ticketView; // View for ticket-related operations
     protected PassView passView;     // View for pass-related operations
-    private Ticket ticketModel;      // Model representing ticket data
-    private Pass passModel;          // Model representing pass data
+    private Ticket ticket;      // Model representing ticket data
+    private Pass pass;          // Model representing pass data
     private List<ObserverIF> observers; // List of observers for notifications
     private TicketSubject ticketSubject;
     public PassSubject passSubject;
@@ -43,8 +43,8 @@ public class TicketController {
      *
      * @return The Ticket model.
      */
-    public Ticket getTicketModel() {
-        return ticketModel;
+    public Ticket getTicket() {
+        return ticket;
     }
 
     /**
@@ -52,28 +52,28 @@ public class TicketController {
      *
      * @return The Pass model.
      */
-    public Pass getPassModel() {
-        return passModel;
+    public Pass getPass() {
+        return pass;
     }
 
     /**
      * Sets the ticket model to be used by this controller.
      *
-     * @param ticketModel The Ticket model.
+     * @param ticket The Ticket model.
      */
-    public void setTicketModel(Ticket ticketModel) {
-        this.ticketModel = ticketModel;
-         ticketSubject = new TicketSubject(ticketModel);
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+         ticketSubject = new TicketSubject(ticket);
     }
 
     /**
      * Sets the pass model to be used by this controller.
      *
-     * @param passModel The Pass model.
+     * @param pass The Pass model.
      */
-    public void setPassModel(Pass passModel) {
-        this.passModel = passModel;
-        passSubject = new PassSubject(passModel);
+    public void setPass(Pass pass) {
+        this.pass = pass;
+        passSubject = new PassSubject(pass);
     }
 
     /**

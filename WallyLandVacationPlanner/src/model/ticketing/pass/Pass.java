@@ -1,4 +1,6 @@
-package model.ticketing;
+package model.ticketing.pass;
+
+import java.util.stream.DoubleStream;
 
 /**
  *
@@ -34,6 +36,7 @@ public class Pass {
         return platinumPasses;
     }
     
+    
         // Calculate price based on pass type and quantity
     public double calculatePrice(String passType, int quantity) {
         int pricePerPass;
@@ -44,5 +47,17 @@ public class Pass {
             default -> throw new IllegalArgumentException("Invalid pass type: " + passType);
         }
         return pricePerPass * quantity * PASS_TAXES;
+    }
+
+    public double getPrice() {
+        double totalPrice = 0;
+        totalPrice += silverPasses * SILVER_PASS_PRICE;
+        totalPrice += goldPasses * GOLD_PASS_PRICE;
+        totalPrice += platinumPasses * PLATINUM_PASS_PRICE;
+        return totalPrice * PASS_TAXES;  // Price with taxes
+    }
+
+    public int getQuantity() {
+        return silverPasses + goldPasses + platinumPasses;  // Return total quantity of all passes
     }
 }

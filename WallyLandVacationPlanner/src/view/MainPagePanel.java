@@ -18,7 +18,7 @@ import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
-import view.ticketing.cart.TicketCartView;
+import view.ticketing.cart.CartView;
 import view.ticketing.passes.PassView;
 import view.ticketing.tickets.TicketView;
 
@@ -34,7 +34,7 @@ public class MainPagePanel extends JPanel {
     private OrderConfirmationViewForm confirmationView;
     private TicketView ticketView;
     private PassView passView;
-    private TicketCartView ticketCartView;
+    private CartView ticketCartView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
@@ -246,7 +246,7 @@ public class MainPagePanel extends JPanel {
     }
     
     private void handleCartView() {
-        ticketCartView = new TicketCartView();
+        ticketCartView = new CartView();
         ticketCartView.setVisible(true);
     }
 

@@ -1,7 +1,9 @@
-package model.ticketing;
+package model.ticketing.pass;
 
+import model.ticketing.pass.Pass;
 import java.util.ArrayList;
 import java.util.List;
+import model.ticketing.ObserverIF;
 
 /**
  *
