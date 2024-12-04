@@ -1,6 +1,5 @@
-package view.ticketing.passes;
+package view.passes.tiketsandpasses;
 
-import controller.ticketing.TicketController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +15,9 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,50 +27,47 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import model.ticketing.ObserverIF;
-import model.ticketing.PurchaseFormEvent;
-import model.ticketing.PurchaseFormEventIF;
-import model.ticketing.pass.Pass;
+import model.ticketsandpasses.Pass;
+import model.ticketsandpasses.PurchasePassEvent;
+import model.ticketsandpasses.PurchasePassFormListenerIF;
 import view.Footer;
 import view.Header;
-import view.ticketing.cart.CartView;
 
 /**
  *
  * @author Ana
  */
-public class PassPanel extends JPanel implements ObserverIF {
+public class PassesPanel extends JPanel {
 
     private JButton addToCart;
     private JPanel purchasePanel;
-    private TicketController controller;
     private JLabel totalItemsCartLabel;
     private JLabel silverPassLabel;
     private JLabel goldPassLabel;
     private JLabel platinumPassLabel;
     private JLabel totalPriceLabel;
     private Map<String, Integer> cartItems = new HashMap<>();
-    private Map<String, Pass> cartItemsTwo = new HashMap<>();
     private final double TAX_RATE = 0.07;
     private Header header;
     private Footer footer;
-    private CartView cartView;
+    public int silverPassQuantity = 0;
+    public int goldPassQuantity = 0;
+    public int platinumPassQuantity = 0;
+    public int totalPassQuantity;
+    public double totalPrice;
+    private PurchasePassFormListenerIF listener;
     private Pass pass;
 
-    public PassPanel() {
-        controller = new TicketController();
-        controller.passSubject.addObserver(this);
-        pass = new Pass();
-        controller.setPass(pass);
+    public PassesPanel() {
 
         header = new Header();
         footer = new Footer();
-        cartView = new CartView();
+        pass = new Pass();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -91,7 +90,6 @@ public class PassPanel extends JPanel implements ObserverIF {
         ticketsPanel.setOpaque(false);
         ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
 
-        // Add ticket cards to the panel
         ticketsPanel.add(createTicketCard("Silver", "$100", "Free general parking. "
                 + "Two free Guest Tickets. Up to 20% off in-park purchases & experiences."));
         ticketsPanel.add(createTicketCard("Gold", "$150", "Free general parking, 50% off preffered parking. "
@@ -178,17 +176,17 @@ public class PassPanel extends JPanel implements ObserverIF {
                 int passQuantity = entry.getValue();
 
                 if (passQuantity > 0) {
-                    double passPrice = controller.getPass().calculatePrice(passType, passQuantity);
-                    PurchaseFormEventIF event = new PurchaseFormEvent(passType, passQuantity, passPrice);
-                    controller.handlePurchasePasses(event);
-
-                    cartView.updateCart(passType, passQuantity);
+                    totalPassQuantity += passQuantity;
+                    totalPrice += passQuantity * pass.getPriceForType(passType);
                 }
             }
 
+            PurchasePassEvent passEvent = new PurchasePassEvent(this, pass);
+            if (listener != null) {
+                listener.formEventOccured(passEvent);
+            }
+            saveCartDataToFile();
         });
-        
-        
 
         purchasePanel.add(addToCart);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
@@ -314,7 +312,6 @@ public class PassPanel extends JPanel implements ObserverIF {
                 platinumPassLabel.setText("Platinum Passes: " + quantity);
             }
 
-            // Update totalItemsCartLabel
             updateCartLabel();
 
         });
@@ -352,56 +349,34 @@ public class PassPanel extends JPanel implements ObserverIF {
 
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
-        int totalTickets = 0;
-        double totalPrice = 0;
+        totalPassQuantity = 0;
+        totalPrice = 0;
 
         // Calculate total tickets and price
         for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
             int quantity = entry.getValue();
-            double price = 0.0;
-            switch (entry.getKey()) {
-                case "Silver" ->
-                    price = 100.0;
-                case "Gold" ->
-                    price = 150.0;
-                case "Platinum" ->
-                    price = 200.0;
-            }
-            totalTickets += quantity;
+            double price = pass.getPriceForType(entry.getKey());
+
+            totalPassQuantity += quantity;
             totalPrice += quantity * price;
         }
-
-        // Apply tax
         totalPrice += totalPrice * TAX_RATE;
-
-        // Update the labels
-        totalItemsCartLabel.setText("Total Items: " + totalTickets + " passes");
+        totalItemsCartLabel.setText("Total Items: " + totalPassQuantity + " passes");
         totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
     }
 
-    @Override
-    public void update(String message) {
-        // Update the labels based on the message
-        SwingUtilities.invokeLater(() -> {
-            String[] parts = message.split(" ");
-            int count = Integer.parseInt(parts[0]);
-            String type = parts[1].toLowerCase();
-
-            switch (type) {
-                case "silver" ->
-                    silverPassLabel.setText("Silver Passes: " + count);
-                case "gold" ->
-                    goldPassLabel.setText("Gold Passes: " + count);
-                case "platinum" ->
-                    platinumPassLabel.setText("Platinum Passes: " + count);
+    private void saveCartDataToFile() {
+        synchronized (this) { //synchronize the method so the cart is updated with the correct data
+            File file = new File("cart_data.txt");
+            try (FileWriter writer = new FileWriter(file)) {
+                for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+                    writer.write("type: " + entry.getKey() + ", quantity:" + entry.getValue() + ", price: $"
+                            + pass.getPriceForType(entry.getKey()) + "\n");
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error saving cart data to file: " + e.getMessage(),
+                        "File Error", JOptionPane.ERROR_MESSAGE);
             }
-        });
+        }
     }
-
-    public void addToCart(String passType, int quantity) {
-        Pass pass = cartItemsTwo.getOrDefault(passType, new Pass());
-        pass.addPass(passType, quantity);
-        cartItemsTwo.put(passType, pass); // Update the map
-    }
-
 }

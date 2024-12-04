@@ -1,6 +1,7 @@
-package view.ticketing.cart;
+package view.passes.tiketsandpasses;
 
-import java.awt.Component;
+import controller.ticketsandpasses.PassesController;
+import view.passes.tiketsandpasses.PassesPanel;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -10,18 +11,25 @@ import javax.swing.JFrame;
  *
  * @author Ana
  */
-public class CartView extends JFrame {
+public class PassesView extends JFrame {
 
     private ImageIcon wallylandIcon;
+    private PassesPanel passPanel;
+    private PassesController controller;
 
-    public CartView() {
+    public PassesView() {
         super("Wallyland");
+        
+        this.controller = new PassesController();
 
-        // Set frame properties
+        controller.setPassView(this);
+
+  // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
+//        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
         wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
@@ -30,8 +38,8 @@ public class CartView extends JFrame {
         }
 
         // Add ticket panel
-        CartPanel cartPanel = new CartPanel();
-        add(cartPanel);
+        passPanel = new PassesPanel();
+        add(passPanel);
 
         setVisible(true);
     }
@@ -49,18 +57,7 @@ public class CartView extends JFrame {
         return new ImageIcon(scaledImage);
     }
 
-    public void updateCart(String passType, int passQuantity) {
-        // Format the update message
-        String updateMessage = passType + ":" + passQuantity;
-
-        // Find the CartPanel and invoke its update method
-        for (Component component : getContentPane().getComponents()) {
-            if (component instanceof CartPanel cartPanel) {
-
-                // Update the CartPanel
-                cartPanel.update(updateMessage);
-                break;
-            }
-        }
+    public PassesPanel getPassPanel() {
+        return passPanel;
     }
 }

@@ -1,4 +1,4 @@
-package view.ticketing.tickets;
+package view.ticketing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

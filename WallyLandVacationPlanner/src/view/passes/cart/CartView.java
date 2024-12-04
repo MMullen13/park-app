@@ -1,5 +1,7 @@
-package view.ticketing.passes;
+package view.passes.cart;
 
+
+import controller.ticketsandpasses.PassesController;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -9,29 +11,33 @@ import javax.swing.JFrame;
  *
  * @author Ana
  */
-public class PassView extends JFrame {
+public class CartView extends JFrame {
 
     private ImageIcon wallylandIcon;
+    private CartPanel cartPanel;
+    private PassesController controller;
 
-    public PassView() {
+    public CartView() {
         super("Wallyland");
+        
+        this.controller = new PassesController();
 
-  // Set frame properties
+        controller.setCartView(this);
+
+        // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
-//        getContentPane().setBackground(new Color(240, 248, 255));
-
+        
+        cartPanel = new CartPanel();       
+        
+        add(cartPanel);
         // Set icon
         wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage());
         }
-
-        // Add ticket panel
-        PassPanel passPanel = new PassPanel();
-        add(passPanel);
 
         setVisible(true);
     }
@@ -48,4 +54,18 @@ public class PassView extends JFrame {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
+
+    public void updateCart(String passType, int passQuantity) {
+        // Format the update message
+        String updateMessage = passType + ":" + passQuantity;
+    }
+
+    public void addToCart(String passType, int quantity, double totalPrice) {
+        cartPanel.addItemToCart(passType, quantity, totalPrice);
+    }
+
+    public void updateCartView() {
+        cartPanel.refreshCart();
+    }
+
 }

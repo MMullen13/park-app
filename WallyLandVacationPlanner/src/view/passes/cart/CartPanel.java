@@ -1,6 +1,5 @@
-package view.ticketing.cart;
+package view.passes.cart;
 
-import controller.ticketing.TicketController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,13 +14,14 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import model.ticketing.ObserverIF;
+import model.ticketsandpasses.CartDataListenerIF;
 import view.Footer;
 import view.Header;
 
@@ -29,17 +29,16 @@ import view.Header;
  *
  * @author Ana
  */
-class CartPanel extends JPanel implements ObserverIF {
+public class CartPanel extends JPanel implements CartDataListenerIF {
 
-    private TicketController controller;
     private Header header;
     private Footer footer;
     private JPanel ticketsPanel;
-    private ArrayList<String> cartItems = new ArrayList<>();
+
+    private JLabel cartDetailsLabel;
 
     public CartPanel() {
-        controller = new TicketController();
-        controller.passSubject.addObserver(this);
+ 
         header = new Header();
         footer = new Footer();
 
@@ -63,8 +62,11 @@ class CartPanel extends JPanel implements ObserverIF {
         ticketsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
         ticketsPanel.setOpaque(false);
         ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
-
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
+        
+        cartDetailsLabel = new JLabel("Cart is empty");
+        ticketsPanel.add(cartDetailsLabel);
+       
         add(ticketsPanel);
 
         String msgOne = "Contact Us: 123-456-7890 | Email: info@wallyland.com.";
@@ -158,63 +160,23 @@ class CartPanel extends JPanel implements ObserverIF {
 
         return cardPanel;
     }
-
-    @Override
-    public void update(String message) {
-        String[] cartEntries = message.split(";");
-        ticketsPanel = (JPanel) getComponent(1); //third child
-
-        ticketsPanel.removeAll(); // Clear current items
-        
-        for (String entry : cartEntries) {
-            String[] parts = entry.split(":");
-            if (parts.length == 2) {
-                String header = parts[0];
-                String price = parts[1];
-
-                ticketsPanel.add(createTicketCard(header, price, ""));
-                System.out.println(header + " " + price + " " + "");
-
-                cartItems.add(header); //add to the arrayList
-            }
-        }
-
-        ticketsPanel.removeAll();
-
-        for (String item : cartItems) {
-            ticketsPanel.add(createTicketCard(item, "", "Quantity: " ));
-        }
-
-        displayTotalItems();
-
-        ticketsPanel.revalidate();
-        ticketsPanel.repaint();
+    
+    public void addItemToCart(String passType, int quantity, double totalPrice) {
+//        cartArea.append("Added: " + quantity + " x " + passType + " ($" + totalPrice + ")\n");
     }
 
-    private void displayTotalItems() {
-        int totalItems = cartItems.size(); // Get the total number of items in the cart
-
-        // Assuming you have a JLabel to display the total number of items
-        JLabel totalItemsLabel = new JLabel("Total items in cart: " + totalItems);
-        ticketsPanel.add(totalItemsLabel);
-
-        // Refresh the layout
-        ticketsPanel.revalidate();
-        ticketsPanel.repaint();
+    public void refreshCart() {
+        // Optionally refresh cart details
     }
-
-    private void removeItem(String item) {
-        cartItems.remove(item); // Remove the item from the ArrayList
-        updateCartDisplay(); // Re-render the cart with updated items
-    }
-
-    private void updateCartDisplay() {
-        ticketsPanel.removeAll();
-        for (String item : cartItems) {
-            ticketsPanel.add(createTicketCard(item, "", ""));
+    
+        @Override
+    public void updateCart(Map<String, Integer> cartItems, int totalPassQuantity, double totalPrice) {
+        StringBuilder cartDetails = new StringBuilder("<html>");
+        for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
+            cartDetails.append(entry.getKey()).append(": ").append(entry.getValue()).append("<br>");
         }
-        displayTotalItems(); // Re-display the total count of items
-        ticketsPanel.revalidate();
-        ticketsPanel.repaint();
+        cartDetails.append("Total Passes: ").append(totalPassQuantity).append("<br>");
+        cartDetails.append("Total Price: $").append(String.format("%.2f", totalPrice)).append("</html>");
+        cartDetailsLabel.setText(cartDetails.toString());
     }
 }
