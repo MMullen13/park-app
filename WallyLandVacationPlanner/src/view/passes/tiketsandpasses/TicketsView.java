@@ -10,17 +10,17 @@ import javax.swing.JFrame;
  *
  * @author Ana
  */
-public class PassesView extends JFrame {
+public class TicketsView extends JFrame {
 
     private ImageIcon wallylandIcon;
-    private PassesPanel passPanel;
+    private TicketsPanel ticketsPanel;
     private PassesController controller;
 
-    public PassesView() {
+    public TicketsView() {
         super("Wallyland");
         
         this.controller = new PassesController();
-        controller.setPassView(this);
+        controller.setTicketsView(this);
 
   // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -36,8 +36,8 @@ public class PassesView extends JFrame {
         }
 
         // Add ticket panel
-        this.passPanel = new PassesPanel(controller);
-        add(passPanel);
+        this.ticketsPanel = new TicketsPanel(controller);
+        add(ticketsPanel);
 
         setVisible(true);
     }

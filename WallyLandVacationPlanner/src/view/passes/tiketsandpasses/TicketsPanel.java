@@ -15,7 +15,6 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -43,7 +42,7 @@ import view.passes.cart.CartView;
  *
  * @author Ana
  */
-public class PassesPanel extends JPanel {
+public class TicketsPanel extends JPanel {
 
     private JButton addToCart;
     private JButton viewCart;
@@ -66,7 +65,7 @@ public class PassesPanel extends JPanel {
     private Pass pass;
     private PassesController controller;
 
-    public PassesPanel(PassesController controller) {
+    public TicketsPanel(PassesController controller) {
         this.controller = controller;
         header = new Header();
         footer = new Footer();
@@ -82,7 +81,7 @@ public class PassesPanel extends JPanel {
 
         // Header Panel
         JPanel headerContainer = new JPanel(new BorderLayout());
-        JPanel headerPanel = header.createHeaderPanel("Wallyland Park Season Passes", null);
+        JPanel headerPanel = header.createHeaderPanel("Wallyland Tickets", null);
         headerPanel.setOpaque(false);
         headerContainer.add(headerPanel, BorderLayout.CENTER);
         add(headerContainer, BorderLayout.NORTH);
@@ -226,10 +225,10 @@ public class PassesPanel extends JPanel {
                 CartView cartView = new CartView();
                 cartView.setVisible(true);
                
-                Window parentWindow = SwingUtilities.getWindowAncestor(PassesPanel.this);
+                Window parentWindow = SwingUtilities.getWindowAncestor(TicketsPanel.this);
                 
-                if(parentWindow instanceof PassesView passesView){
-                    passesView.closeWindow();
+                if(parentWindow instanceof TicketsView ticketView){
+                    ticketView.closeWindow();
                 }
         });
         
