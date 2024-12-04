@@ -11,11 +11,11 @@ import java.awt.event.MouseEvent;
  */
 public class Card extends JPanel {
 
-    public Card(String header, String price, String description) {
+    public Card(String header, String price, String description, int width, int height) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Stack components vertically
         setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
         setBackground(new Color(170, 187, 192)); // gray background
-        setPreferredSize(new Dimension(160, 160));
+        setPreferredSize(new Dimension(width, height));
 
         // Add MouseListener for hover effect
         addMouseListener(new MouseAdapter() {
@@ -86,5 +86,6 @@ public class Card extends JPanel {
         // Fill remaining space
         add(Box.createVerticalGlue());
     }
+    
 }
 

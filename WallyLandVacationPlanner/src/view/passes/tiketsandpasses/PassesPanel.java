@@ -1,5 +1,6 @@
 package view.passes.tiketsandpasses;
 
+import controller.ticketsandpasses.PassesController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,9 +16,6 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +25,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -62,9 +59,10 @@ public class PassesPanel extends JPanel {
     public double totalPrice;
     private PurchasePassFormListenerIF listener;
     private Pass pass;
+    private PassesController controller;
 
-    public PassesPanel() {
-
+    public PassesPanel(PassesController controller) {
+        this.controller = controller;
         header = new Header();
         footer = new Footer();
         pass = new Pass();
@@ -176,8 +174,7 @@ public class PassesPanel extends JPanel {
                 int passQuantity = entry.getValue();
 
                 if (passQuantity > 0) {
-                    totalPassQuantity += passQuantity;
-                    totalPrice += passQuantity * pass.getPriceForType(passType);
+                    controller.updateTotals(passType, passQuantity);
                 }
             }
 
@@ -185,7 +182,7 @@ public class PassesPanel extends JPanel {
             if (listener != null) {
                 listener.formEventOccured(passEvent);
             }
-            saveCartDataToFile();
+            saveData();
         });
 
         purchasePanel.add(addToCart);
@@ -365,18 +362,7 @@ public class PassesPanel extends JPanel {
         totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
     }
 
-    private void saveCartDataToFile() {
-        synchronized (this) { //synchronize the method so the cart is updated with the correct data
-            File file = new File("cart_data.txt");
-            try (FileWriter writer = new FileWriter(file)) {
-                for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
-                    writer.write("type: " + entry.getKey() + ", quantity:" + entry.getValue() + ", price: $"
-                            + pass.getPriceForType(entry.getKey()) + "\n");
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error saving cart data to file: " + e.getMessage(),
-                        "File Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+    private void saveData() {
+        controller.saveCartDataToFile(cartItems);
     }
 }

@@ -1,7 +1,6 @@
 package view.passes.tiketsandpasses;
 
 import controller.ticketsandpasses.PassesController;
-import view.passes.tiketsandpasses.PassesPanel;
 import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -21,7 +20,6 @@ public class PassesView extends JFrame {
         super("Wallyland");
         
         this.controller = new PassesController();
-
         controller.setPassView(this);
 
   // Set frame properties
@@ -38,7 +36,7 @@ public class PassesView extends JFrame {
         }
 
         // Add ticket panel
-        passPanel = new PassesPanel();
+        this.passPanel = new PassesPanel(controller);
         add(passPanel);
 
         setVisible(true);
@@ -55,9 +53,5 @@ public class PassesView extends JFrame {
         ImageIcon icon = new ImageIcon(url);
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
-    }
-
-    public PassesPanel getPassPanel() {
-        return passPanel;
     }
 }

@@ -30,7 +30,7 @@ public class CartView extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         
-        cartPanel = new CartPanel();       
+        cartPanel = new CartPanel(controller);       
         
         add(cartPanel);
         // Set icon
@@ -54,18 +54,4 @@ public class CartView extends JFrame {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
-
-    public void updateCart(String passType, int passQuantity) {
-        // Format the update message
-        String updateMessage = passType + ":" + passQuantity;
-    }
-
-    public void addToCart(String passType, int quantity, double totalPrice) {
-        cartPanel.addItemToCart(passType, quantity, totalPrice);
-    }
-
-    public void updateCartView() {
-        cartPanel.refreshCart();
-    }
-
 }
