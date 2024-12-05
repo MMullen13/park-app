@@ -18,10 +18,9 @@ import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
-import view.passes.tiketsandpasses.PassesPanel;
 import view.passes.tiketsandpasses.PassesView;
 import view.passes.cart.CartView;
-import view.passes.cart.CartPanel;
+import view.passes.tiketsandpasses.TicketsView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -35,6 +34,7 @@ public class MainPagePanel extends JPanel {
     private OrderConfirmationViewForm confirmationView;
     private PassesView passView;
     private CartView ticketCartView;
+    private TicketsView ticketsView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
@@ -236,7 +236,8 @@ public class MainPagePanel extends JPanel {
     }
 
     private void handleTicketPurchasing() {
-
+        ticketsView = new TicketsView();
+        ticketsView.setVisible(true);
     }
     
     private void handlePassPurchasing() {

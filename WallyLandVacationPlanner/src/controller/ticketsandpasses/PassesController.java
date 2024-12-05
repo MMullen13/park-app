@@ -25,9 +25,8 @@ public class PassesController {
     protected TicketsView ticketsView;
     protected CartView cartView;
     private List<CartItem> cartItems;
-    private int totalPassQuantity = 0;
     private double totalPrice = 0.0;
-        protected Pass pass;
+    protected Pass pass;
 
     public PassesController() {
         pass = new Pass();
@@ -41,8 +40,8 @@ public class PassesController {
     public void setCartView(CartView cartView) {
         this.cartView = cartView;
     }
-    
-        public TicketsView getTicketsView() {
+
+    public TicketsView getTicketsView() {
         return ticketsView;
     }
 
@@ -63,7 +62,6 @@ public class PassesController {
     }
 
     public void updateTotals(String passType, int quantity) {
-        totalPassQuantity += quantity;
         totalPrice += quantity * pass.getPriceForType(passType);
     }
 
@@ -111,7 +109,7 @@ public class PassesController {
             System.err.println("Error reading cart data: " + e.getMessage());
         }
     }
-    
+
     public void saveTicketCartDataToFile(Map<String, Integer> cartItems) {
         synchronized (this) {
             File file = new File("ticket_cart_data.txt");

@@ -34,6 +34,8 @@ import javax.swing.border.Border;
 import model.ticketsandpasses.Pass;
 import model.ticketsandpasses.PurchasePassEvent;
 import model.ticketsandpasses.PurchasePassFormListenerIF;
+import model.ticketsandpasses.PurchaseTicketEvent;
+import model.ticketsandpasses.Ticket;
 import view.Footer;
 import view.Header;
 import view.passes.cart.CartView;
@@ -48,9 +50,9 @@ public class TicketsPanel extends JPanel {
     private JButton viewCart;
     private JPanel purchasePanel;
     private JLabel totalItemsCartLabel;
-    private JLabel silverPassLabel;
-    private JLabel goldPassLabel;
-    private JLabel platinumPassLabel;
+    private JLabel childTicketsCartLabel;
+    private JLabel adultTicketsCartLabel;
+    private JLabel seniorTicketsCartLabel;
     private JLabel totalPriceLabel;
     private Map<String, Integer> cartItems = new HashMap<>();
     private final double TAX_RATE = 0.07;
@@ -59,17 +61,17 @@ public class TicketsPanel extends JPanel {
     public int silverPassQuantity = 0;
     public int goldPassQuantity = 0;
     public int platinumPassQuantity = 0;
-    public int totalPassQuantity;
+    public int totalTicketsQuantity;
     public double totalPrice;
     private PurchasePassFormListenerIF listener;
-    private Pass pass;
+    private Ticket ticket;
     private PassesController controller;
 
     public TicketsPanel(PassesController controller) {
         this.controller = controller;
         header = new Header();
         footer = new Footer();
-        pass = new Pass();
+        ticket = new Ticket();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -92,37 +94,37 @@ public class TicketsPanel extends JPanel {
         ticketsPanel.setOpaque(false);
         ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
 
-        ticketsPanel.add(createTicketCard("Silver", "$100", "Free general parking. "
-                + "Two free Guest Tickets. Up to 20% off in-park purchases & experiences."));
-        ticketsPanel.add(createTicketCard("Gold", "$150", "Free general parking, 50% off preffered parking. "
-                + "Four free Guest Tickets. Up to 30% off in-park purchases & experiences."));
-        ticketsPanel.add(createTicketCard("Platinum", "$200", "Free preffered parking. Six free Guest Tickets. "
-                + "Up to 50% off in-park purchases & experiences. Access to 12 parks with no blockout dates."));
+        ticketsPanel.add(createTicketCard("Child Day Pass", "$25", "Child passes include access to age-appropriate rides and attractions. "
+                + "Tickets are for children ages 3 to 18. Children younger than age 3 do not require a ticket."));
+        ticketsPanel.add(createTicketCard("Adult Day Pass", "$35", "Access to all rides and attractions for one day. "
+                + "Tickets are for adults ages 18 to 61."));
+        ticketsPanel.add(createTicketCard("Senior Day Pass", "$30", "Access to all rides and attractions for one day. "
+                + "Tickets are for seniors ages 62 to 80. Seniors older than 80 ride for free and do not need a ticket."));
 
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         add(ticketsPanel);
 
         // Add the new labels for ticket quantities
-        silverPassLabel = new JLabel("Gold Passes: 0");
-        silverPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        silverPassLabel.setForeground(new Color(40, 95, 150));
-        silverPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(silverPassLabel);
+        childTicketsCartLabel = new JLabel("Child Tickets: 0");
+        childTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        childTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        childTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(childTicketsCartLabel);
 
-        goldPassLabel = new JLabel("Silver Passes: 0");
-        goldPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        goldPassLabel.setForeground(new Color(40, 95, 150));
-        goldPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(goldPassLabel);
+        adultTicketsCartLabel = new JLabel("Adult Tickets: 0");
+        adultTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        adultTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        adultTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(adultTicketsCartLabel);
 
-        platinumPassLabel = new JLabel("Platinum Passes: 0");
-        platinumPassLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        platinumPassLabel.setForeground(new Color(40, 95, 150));
-        platinumPassLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(platinumPassLabel);
+        seniorTicketsCartLabel = new JLabel("Senior Tickets: 0");
+        seniorTicketsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        seniorTicketsCartLabel.setForeground(new Color(40, 95, 150));
+        seniorTicketsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(seniorTicketsCartLabel);
 
         // Cart Label
-        totalItemsCartLabel = new JLabel("Total Items: 0 passes"); // label for cart summary
+        totalItemsCartLabel = new JLabel("Total Items: 0 tickets"); // label for cart summary
         totalItemsCartLabel.setFont(new Font("Arial", Font.BOLD, 14));
         totalItemsCartLabel.setForeground(new Color(40, 95, 150));
         totalItemsCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Align label to center
@@ -141,7 +143,7 @@ public class TicketsPanel extends JPanel {
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
         addToCart = new JButton("Add to Cart");
-        addToCart.setBackground(new Color(152, 175, 197)); 
+        addToCart.setBackground(new Color(152, 175, 197));
         addToCart.setForeground(Color.WHITE);
         addToCart.setFocusPainted(false); // Removes focus border on click
         addToCart.setFont(new Font("Arial", Font.BOLD, 14));
@@ -182,13 +184,13 @@ public class TicketsPanel extends JPanel {
                 }
             }
 
-            PurchasePassEvent passEvent = new PurchasePassEvent(this, pass);
+            PurchaseTicketEvent ticketEvent = new PurchaseTicketEvent(this, ticket);
             if (listener != null) {
-                listener.formEventOccured(passEvent);
+                listener.formEventOccured(ticketEvent);
             }
             saveData();
         });
-        
+
         viewCart = new JButton("View Cart");
         viewCart.setBackground(new Color(58, 115, 169)); // Navy blue
         viewCart.setForeground(Color.WHITE);
@@ -221,17 +223,17 @@ public class TicketsPanel extends JPanel {
             }
         });
 
-        viewCart.addActionListener((ActionEvent e) ->{
-                CartView cartView = new CartView();
-                cartView.setVisible(true);
-               
-                Window parentWindow = SwingUtilities.getWindowAncestor(TicketsPanel.this);
-                
-                if(parentWindow instanceof TicketsView ticketView){
-                    ticketView.closeWindow();
-                }
+        viewCart.addActionListener((ActionEvent e) -> {
+            CartView cartView = new CartView();
+            cartView.setVisible(true);
+
+            Window parentWindow = SwingUtilities.getWindowAncestor(TicketsPanel.this);
+
+            if (parentWindow instanceof TicketsView ticketView) {
+                ticketView.closeWindow();
+            }
         });
-        
+
         purchasePanel.add(addToCart);
         purchasePanel.add(viewCart);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
@@ -239,8 +241,8 @@ public class TicketsPanel extends JPanel {
 
         // Footer Panel
         JPanel footerContainer = new JPanel(new BorderLayout());
-        String msgOne = "Your pass is valid for entire 2025 Season admission to our park. Passess are nonrefundable.";
-        String msgTwo = "The price paid for a wholly unused pass can be applied to the purchase of a new pass with an equal or higher price.";
+        String msgOne = "Your 1-day tickets are valid for single-day admission to our park. Tickets are nonrefundable.";
+        String msgTwo = "The price paid for a wholly unused ticket can be applied to the purchase of a new ticket with an equal or higher price.";
         JPanel footerPanel = footer.createFooterPanel(msgOne, msgTwo);
         footerPanel.setOpaque(false);
         footerContainer.add(footerPanel, BorderLayout.CENTER);
@@ -337,24 +339,23 @@ public class TicketsPanel extends JPanel {
             String itemName = source.getName(); // Get the item name
             int quantity = (int) source.getValue(); // Get the spinner value
 
-            // Update the cart
-            if (itemName != null && itemName.equals("Silver")) {
+            if (itemName != null && itemName.equals("Child Day Pass")) {
                 cartItems.put(itemName, quantity);
             }
-            if (itemName != null && itemName.equals("Gold")) {
+            if (itemName != null && itemName.equals("Adult Day Pass")) {
                 cartItems.put(itemName, quantity);
             }
-            if (itemName != null && itemName.equals("Platinum")) {
+            if (itemName != null && itemName.equals("Senior Day Pass")) {
                 cartItems.put(itemName, quantity);
             }
 
             // Update the respective ticket label
-            if (itemName != null && itemName.equals("Silver")) {
-                silverPassLabel.setText("Silver Passes: " + quantity);
-            } else if (itemName != null && itemName.equals("Gold")) {
-                goldPassLabel.setText("Golden Passes: " + quantity);
-            } else if (itemName != null && itemName.equals("Platinum")) {
-                platinumPassLabel.setText("Platinum Passes: " + quantity);
+            if (itemName != null && itemName.equals("Child Day Pass")) {
+                childTicketsCartLabel.setText("Child Tickets: " + quantity);
+            } else if (itemName != null && itemName.equals("Adult Day Pass")) {
+                adultTicketsCartLabel.setText("Adult Tickets: " + quantity);
+            } else if (itemName != null && itemName.equals("Senior Day Pass")) {
+                seniorTicketsCartLabel.setText("Senior Tickets: " + quantity);
             }
 
             updateCartLabel();
@@ -394,23 +395,23 @@ public class TicketsPanel extends JPanel {
 
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
-        totalPassQuantity = 0;
+        totalTicketsQuantity = 0;
         totalPrice = 0;
 
         // Calculate total tickets and price
         for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
             int quantity = entry.getValue();
-            double price = pass.getPriceForType(entry.getKey());
+            double price = ticket.getPriceForType(entry.getKey());
 
-            totalPassQuantity += quantity;
+            totalTicketsQuantity += quantity;
             totalPrice += quantity * price;
         }
         totalPrice += totalPrice * TAX_RATE;
-        totalItemsCartLabel.setText("Total Items: " + totalPassQuantity + " passes");
+        totalItemsCartLabel.setText("Total Items: " + totalTicketsQuantity + " tickets");
         totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
     }
 
     private void saveData() {
-        controller.savePassCartDataToFile(cartItems);
+        controller.saveTicketCartDataToFile(cartItems);
     }
 }

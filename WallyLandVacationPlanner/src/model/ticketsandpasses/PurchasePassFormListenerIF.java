@@ -10,4 +10,6 @@ import java.util.EventListener;
 public interface PurchasePassFormListenerIF extends EventListener {
 
     public void formEventOccured(PurchasePassEvent e);
+    
+    public void formEventOccured(PurchaseTicketEvent e);
 }

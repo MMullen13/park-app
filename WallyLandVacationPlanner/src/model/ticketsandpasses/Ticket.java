@@ -5,9 +5,9 @@ package model.ticketsandpasses;
  * @author Ana
  */
 public class Ticket extends PassAbs{
-    private static final int CHILD_PRICE = 100;
-    private static final int ADULT_PRICE = 150;
-    private static final int SENIOR_PRICE = 200;
+    private static final int CHILD_PRICE = 25;
+    private static final int ADULT_PRICE = 35;
+    private static final int SENIOR_PRICE = 30;
     private static final double PASS_TAXES = 0.7;
 
 

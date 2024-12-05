@@ -1,0 +1,3 @@
+type: Adult Day Pass, quantity: 3, price: $0
+type: Child Day Pass, quantity: 2, price: $0
+type: Senior Day Pass, quantity: 3, price: $0

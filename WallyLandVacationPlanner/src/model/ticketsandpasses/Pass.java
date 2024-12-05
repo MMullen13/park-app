@@ -2,7 +2,7 @@ package model.ticketsandpasses;
 
 /**
  *
- * @author aniut
+ * @author Ana
  */
 public class Pass extends PassAbs{
     private static final int SILVER_PASS_PRICE = 100;
