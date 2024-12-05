@@ -11,19 +11,16 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +33,7 @@ import model.ticketsandpasses.PurchasePassEvent;
 import model.ticketsandpasses.PurchasePassFormListenerIF;
 import view.Footer;
 import view.Header;
+import view.ImageUtils;
 import view.passes.cart.CartView;
 
 /**
@@ -70,7 +68,6 @@ public class PassesPanel extends JPanel {
         header = new Header();
         footer = new Footer();
         pass = new Pass();
-
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
         Border innerBorder = BorderFactory.createTitledBorder("Purchase Tickets");
@@ -79,7 +76,6 @@ public class PassesPanel extends JPanel {
 
         setBackground(new Color(235, 237, 238));
 
-        // Header Panel
         JPanel headerContainer = new JPanel(new BorderLayout());
         JPanel headerPanel = header.createHeaderPanel("Wallyland Park Season Passes", null);
         headerPanel.setOpaque(false);
@@ -146,10 +142,8 @@ public class PassesPanel extends JPanel {
         addToCart.setFocusPainted(false); // Removes focus border on click
         addToCart.setFont(new Font("Arial", Font.BOLD, 14));
         addToCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        addToCart.setIcon(createIcon("/images/icons8-add-to-cart.png", 40, 40));
-        addToCart.addActionListener((ActionEvent e) -> {
-            // Add action listener
-        });
+        addToCart.setIcon(ImageUtils.createIcon("/images/icons8-add-to-cart.png", 40, 40));
+
         addToCart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -178,7 +172,7 @@ public class PassesPanel extends JPanel {
                 int passQuantity = entry.getValue();
 
                 if (passQuantity > 0) {
-                    controller.updateTotals(passType, passQuantity);
+                    controller.updatePassTotals(passType, passQuantity);
                 }
             }
 
@@ -195,7 +189,7 @@ public class PassesPanel extends JPanel {
         viewCart.setFocusPainted(false); // Removes focus border on click
         viewCart.setFont(new Font("Arial", Font.BOLD, 14));
         viewCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        viewCart.setIcon(createIcon("/images/icons8-cart-100.png", 40, 40));
+        viewCart.setIcon(ImageUtils.createIcon("/images/icons8-cart-100.png", 40, 40));
         viewCart.addActionListener((ActionEvent e) -> {
             // Add action listener
         });
@@ -251,12 +245,14 @@ public class PassesPanel extends JPanel {
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
+        
+        Color backGroundColor = Color.WHITE;
 
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
         cardPanel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
         cardPanel.setBackground(new Color(170, 187, 192)); // gray background
-        cardPanel.setPreferredSize(new Dimension(200, 300)); // Uniform size for all cards
+        cardPanel.setPreferredSize(new Dimension(220, 260)); // Uniform size for all cards
 
         // Add MouseListener for hover effect
         cardPanel.addMouseListener(new MouseAdapter() {
@@ -296,7 +292,7 @@ public class PassesPanel extends JPanel {
         };
         headerLabel.setOpaque(false); // Let the gradient show
         headerLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        headerLabel.setForeground(Color.WHITE);
+        headerLabel.setForeground(backGroundColor);
         headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         headerLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         headerLabel.setPreferredSize(new Dimension(40, 40));
@@ -305,12 +301,12 @@ public class PassesPanel extends JPanel {
         // Description with fixed height
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        descriptionLabel.setForeground(Color.WHITE);
+        descriptionLabel.setForeground(new Color(82, 105, 127));
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setBackground(new Color(152, 175, 197));
+        descriptionPanel.setBackground(backGroundColor);
         descriptionPanel.setPreferredSize(new Dimension(200, 100));
         descriptionPanel.setLayout(new BorderLayout());
         descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -319,12 +315,12 @@ public class PassesPanel extends JPanel {
 
         // Quantity Selector
         JPanel quantityPanel = new JPanel();
-        quantityPanel.setBackground(new Color(152, 175, 197));
+        quantityPanel.setBackground(backGroundColor);
         quantityPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         JLabel quantityLabel = new JLabel("Qty:");
         quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantityLabel.setForeground(Color.WHITE);
+        quantityLabel.setForeground(new Color(82, 105, 127));
         quantityPanel.add(quantityLabel);
 
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
@@ -368,7 +364,7 @@ public class PassesPanel extends JPanel {
 
         // footer Panel to add space
         JPanel footerPanel = new JPanel();
-        footerPanel.setBackground(new Color(152, 175, 197));
+        footerPanel.setBackground(backGroundColor);
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
 
         cardPanel.add(footerPanel);
@@ -377,19 +373,6 @@ public class PassesPanel extends JPanel {
         cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
 
     private void updateCartLabel() {

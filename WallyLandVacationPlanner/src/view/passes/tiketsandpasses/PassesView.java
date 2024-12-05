@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import view.ImageUtils;
 
 /**
  *
@@ -30,7 +31,7 @@ public class PassesView extends JFrame {
 //        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
-        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage());
         }
@@ -40,19 +41,6 @@ public class PassesView extends JFrame {
         add(passPanel);
 
         setVisible(true);
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-            return null;
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
     }
 
     public void closeWindow() {

@@ -64,27 +64,38 @@ public class Card extends JPanel {
         // Description with fixed height
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        descriptionLabel.setForeground(Color.WHITE);
+        descriptionLabel.setForeground(new Color(72, 95, 117));
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setBackground(new Color(152, 175, 197));
-        descriptionPanel.setPreferredSize(new Dimension(200, 100));
+        descriptionPanel.setBackground(Color.WHITE);
+//        descriptionPanel.setPreferredSize(new Dimension(10, 40));
         descriptionPanel.setLayout(new BorderLayout());
         descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         descriptionPanel.add(descriptionLabel, BorderLayout.CENTER);
         add(descriptionPanel);
 
         // footer Panel to add space
-        JPanel footerPanel = new JPanel();
-        footerPanel.setBackground(new Color(152, 175, 197));
+        JPanel footerPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Gradient for header
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(17, 138, 200), getWidth(), 0, new Color(58, 115, 169));
+                g2d.setPaint(gradient);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5); // Rounded corners
+            }
+        };
+        footerPanel.setBackground(new Color(70, 130, 180));
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        footerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        footerPanel.setPreferredSize(new Dimension(16, 16));
 
         add(footerPanel);
-
-        // Fill remaining space
-        add(Box.createVerticalGlue());
     }
     
 }

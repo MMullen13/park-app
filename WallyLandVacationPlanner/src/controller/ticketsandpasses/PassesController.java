@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import model.ticketsandpasses.CartItem;
 import model.ticketsandpasses.Pass;
+import model.ticketsandpasses.Ticket;
 import view.passes.tiketsandpasses.PassesView;
 import view.passes.cart.CartView;
 import view.passes.tiketsandpasses.TicketsView;
@@ -24,13 +25,18 @@ public class PassesController {
     protected PassesView passView;
     protected TicketsView ticketsView;
     protected CartView cartView;
-    private List<CartItem> cartItems;
-    private double totalPrice = 0.0;
+    private List<CartItem> passesCartItems;
+    private List<CartItem> ticketsCartItems;
+    private double totalPassesPrice = 0.0;
+    private double totalTicketsPrice = 0.0;
     protected Pass pass;
+    protected Ticket ticket;
 
     public PassesController() {
         pass = new Pass();
-        cartItems = new ArrayList<>();
+        ticket = new Ticket();
+        passesCartItems = new ArrayList<>();
+        ticketsCartItems = new ArrayList<>();
     }
 
     public CartView getCartView() {
@@ -57,12 +63,20 @@ public class PassesController {
         this.passView = passView;
     }
 
-    public List<CartItem> getCartItems() {
-        return new ArrayList<>(cartItems); // Return a copy to avoid direct manipulation
-    }
+//    public List<CartItem> getPassesCartItems() {
+//        return new ArrayList<>(passesCartItems); // Return a copy to avoid direct manipulation
+//    }
+//    
+//    public List<CartItem> getTicketsCartItems() {
+//        return new ArrayList<>(ticketsCartItems); // Return a copy to avoid direct manipulation
+//    }
 
-    public void updateTotals(String passType, int quantity) {
-        totalPrice += quantity * pass.getPriceForType(passType);
+    public void updatePassTotals(String passType, int quantity) {
+        totalPassesPrice += quantity * pass.getPriceForType(passType);
+    }
+    
+    public void updateTicketsTotals(String passType, int quantity) {
+        totalTicketsPrice += quantity * ticket.getPriceForType(passType);
     }
 
     public void savePassCartDataToFile(Map<String, Integer> cartItems) {
@@ -100,7 +114,7 @@ public class PassesController {
                     int quantity = Integer.parseInt(parts[1].split(":")[1].trim());
                     double price = Double.parseDouble(parts[2].split("\\$")[1].trim());
 
-                    cartItems.add(new CartItem(ticketType, quantity, price));
+                    passesCartItems.add(new CartItem(ticketType, quantity, price));
                 } catch (NumberFormatException e) {
                     System.err.println("Malformed line skipped: " + line);
                 }
@@ -116,7 +130,7 @@ public class PassesController {
             try (FileWriter writer = new FileWriter(file)) {
                 for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
                     writer.write("type: " + entry.getKey() + ", quantity: " + entry.getValue() + ", price: $"
-                            + pass.getPriceForType(entry.getKey()) + "\n");
+                            + ticket.getPriceForType(entry.getKey()) + "\n");
                 }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving cart data to file: " + e.getMessage(),
@@ -145,7 +159,7 @@ public class PassesController {
                     int quantity = Integer.parseInt(parts[1].split(":")[1].trim());
                     double price = Double.parseDouble(parts[2].split("\\$")[1].trim());
 
-                    cartItems.add(new CartItem(ticketType, quantity, price));
+                    ticketsCartItems.add(new CartItem(ticketType, quantity, price));
                 } catch (NumberFormatException e) {
                     System.err.println("Malformed line skipped: " + line);
                 }

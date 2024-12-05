@@ -38,15 +38,16 @@ public class CartPanel extends JPanel {
     private Header header;
     private Footer footer;
     private JPanel ticketsPanel;
-    private JPanel passesPanel;
     private String ticketType;
     private int quantity;
     private double totalPrice;
     private double price;
-    private List<CartItem> cartItemsList;
+    private List<CartItem> ticketCartItemsList;
+    private List<CartItem> passCartItemsList;
 
     public CartPanel(PassesController controller) {
-        cartItemsList = new ArrayList<>();
+        ticketCartItemsList = new ArrayList<>();
+        passCartItemsList = new ArrayList<>();
         header = new Header();
         footer = new Footer();
 
@@ -68,12 +69,13 @@ public class CartPanel extends JPanel {
         JPanel refreshCartPanel = new JPanel();
         refreshCartPanel.setOpaque(false);
         refreshCartPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Left-align within refreshCartPanel
-        refreshCartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
-        refreshCartPanel.setPreferredSize(new Dimension(800, 80));
+//        refreshCartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
+        refreshCartPanel.setPreferredSize(new Dimension(20, 60));
+        refreshCartPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
         // Add a Refresh button
         JButton refreshButton = new JButton("Refresh Window");
-        refreshButton.setBackground(new Color(152, 175, 197)); 
+        refreshButton.setBackground(new Color(152, 175, 197));
         refreshButton.setForeground(Color.WHITE);
         refreshButton.setFocusPainted(false); // Removes focus border on click
         refreshButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -83,7 +85,7 @@ public class CartPanel extends JPanel {
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                refreshButton.setBackground(new Color(132, 155, 177)); 
+                refreshButton.setBackground(new Color(132, 155, 177));
             }
 
             @Override
@@ -116,21 +118,13 @@ public class CartPanel extends JPanel {
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
         refreshCart();
         add(ticketsPanel);
-        
-        passesPanel = new JPanel();
-        passesPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
-        passesPanel.setOpaque(false);
-        passesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
-        passesPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
 
-        add(passesPanel);
-        
-        JLabel totalLabel =  new JLabel("Total Price (incl. taxes): $0.00");
+        JLabel totalLabel = new JLabel("Total Price (incl. taxes): $0.00");
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(new Color(40, 95, 150));
         totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(totalLabel);
-        
+
         JPanel purchasePanel = new JPanel();
         purchasePanel.setOpaque(false);
         purchasePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Left-align within refreshCartPanel
@@ -185,12 +179,12 @@ public class CartPanel extends JPanel {
         add(footerPanel, BorderLayout.SOUTH);
     }
 
-    private List<CartItem> readCartDataFromFile() {
+    private List<CartItem> readCartDataFromPassFile() {
         synchronized (this) {
             File file = new File("pass_cart_data.txt");
 
             if (!file.exists()) {
-                return cartItemsList;
+                return passCartItemsList;
             }
 
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -207,7 +201,7 @@ public class CartPanel extends JPanel {
                         quantity = Integer.parseInt(parts[1].split(":")[1].trim());
                         price = Double.parseDouble(parts[2].split("\\$")[1].trim());
 
-                        cartItemsList.add(new CartItem(ticketType, quantity, price));
+                        passCartItemsList.add(new CartItem(ticketType, quantity, price));
                     } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
                         // Log or handle the malformed line and continue reading
                         System.err.println("Malformed line skipped: " + line);
@@ -218,28 +212,84 @@ public class CartPanel extends JPanel {
                         "File Error", JOptionPane.ERROR_MESSAGE);
             }
 
-            return cartItemsList;
+            return passCartItemsList;
+        }
+    }
+
+    private List<CartItem> readCartDataFromTicketFile() {
+        synchronized (this) {
+            File file = new File("ticket_cart_data.txt");
+
+            if (!file.exists()) {
+                return ticketCartItemsList;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        String[] parts = line.split(", ");
+                        if (parts.length != 3) {
+                            // Skip malformed lines
+                            continue;
+                        }
+
+                        ticketType = parts[0].split(": ")[1];
+                        quantity = Integer.parseInt(parts[1].split(":")[1].trim());
+                        price = Double.parseDouble(parts[2].split("\\$")[1].trim());
+
+                        ticketCartItemsList.add(new CartItem(ticketType, quantity, price));
+                    } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+                        // Log or handle the malformed line and continue reading
+                        System.err.println("Malformed line skipped: " + line);
+                    }
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Error reading cart data from file: " + e.getMessage(),
+                        "File Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            return ticketCartItemsList;
         }
     }
 
     private void refreshCart() {
-        cartItemsList.clear(); // Clear the existing data
-        readCartDataFromFile(); // Re-read the file to load new data
-        double typePrice = 0;
+        passCartItemsList.clear(); // Clear the existing data
+        ticketCartItemsList.clear(); // Clear the existing data
+        readCartDataFromPassFile(); // Re-read the file to load new data
+        readCartDataFromTicketFile(); // Re-read the file to load new data
+        double passTypePrice = 0;
+        double ticketTypePrice = 0;
 
         // Clear and update ticketsPanel
         ticketsPanel.removeAll();
-        if (cartItemsList.isEmpty()) {
+
+        if (ticketCartItemsList.isEmpty()) {
             JLabel cartDetailsLabel = new JLabel("Cart is empty");
             cartDetailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
             cartDetailsLabel.setFont(new Font("Arial", Font.BOLD, 18));
             ticketsPanel.add(cartDetailsLabel);
         } else {
-            for (CartItem item : cartItemsList) {
-                typePrice = item.getQuantity() * item.getPrice() + (item.getQuantity() * item.getPrice() * 0.07);
-                Card card = new Card(item.getType(), 
-                        " - $" + item.getPrice(), 
-                        "Total for " + item.getQuantity() + " pass (es): $" + typePrice, 
+            for (CartItem item : ticketCartItemsList) {
+                ticketTypePrice = item.getQuantity() * item.getPrice() + (item.getQuantity() * item.getPrice() * 0.07);
+                Card card = new Card(item.getType(),
+                        " - $" + item.getPrice(),
+                        "Total for " + item.getQuantity() + " tickets (es): $" + ticketTypePrice,
+                        215, 100);
+                ticketsPanel.add(card);
+            }
+        }
+        if (passCartItemsList.isEmpty()) {
+            JLabel cartDetailsLabel = new JLabel("Cart is empty");
+            cartDetailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            cartDetailsLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            ticketsPanel.add(cartDetailsLabel);
+        } else {
+            for (CartItem item : passCartItemsList) {
+                passTypePrice = item.getQuantity() * item.getPrice() + (item.getQuantity() * item.getPrice() * 0.07);
+                Card card = new Card(item.getType(),
+                        " - $" + item.getPrice(),
+                        "Total for " + item.getQuantity() + " pass (es): $" + passTypePrice,
                         215, 100);
                 ticketsPanel.add(card);
             }
