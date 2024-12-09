@@ -18,9 +18,9 @@ import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
-import view.ticketing.cart.TicketCartView;
-import view.ticketing.passes.PassView;
-import view.ticketing.tickets.TicketView;
+import view.passes.tiketsandpasses.PassesView;
+import view.passes.cart.CartView;
+import view.passes.tiketsandpasses.TicketsView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -32,13 +32,13 @@ public class MainPagePanel extends JPanel {
     private FoodController cntl;
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
-    private TicketView ticketView;
-    private PassView passView;
-    private TicketCartView ticketCartView;
+    private PassesView passView;
+    private CartView ticketCartView;
+    private TicketsView ticketsView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
-    private Footer footer;
+    private Footer footer; 
 
     /**
      * Constructor
@@ -236,17 +236,19 @@ public class MainPagePanel extends JPanel {
     }
 
     private void handleTicketPurchasing() {
-        ticketView = new TicketView();
-        ticketView.setVisible(true);
+        ticketsView = new TicketsView();
+        ticketsView.setVisible(true);
     }
     
     private void handlePassPurchasing() {
-        passView = new PassView();
+        passView = new PassesView();
         passView.setVisible(true);
+        
+        
     }
     
     private void handleCartView() {
-        ticketCartView = new TicketCartView();
+        ticketCartView = new CartView();
         ticketCartView.setVisible(true);
     }
 
@@ -309,5 +311,4 @@ public class MainPagePanel extends JPanel {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
-
 }

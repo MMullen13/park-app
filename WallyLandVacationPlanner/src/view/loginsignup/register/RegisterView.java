@@ -51,7 +51,6 @@ public class RegisterView extends JFrame implements UpdateSignupListener {
         // Register a listener to handle login form events
         formPanel.setFormListener((RegisterFormEvent e) -> {
             controller.handleNewUser(e);
-//            completeRegistration();
         });
 
         formPanel.setUpdateStateListener(this);
@@ -70,7 +69,7 @@ public class RegisterView extends JFrame implements UpdateSignupListener {
 
         // Configure frame properties
         setSize(600, 700);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setVisible(true);

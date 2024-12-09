@@ -34,8 +34,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         populateConfirmationForm();
         setActionListeners();
         setLocationRelativeTo(null);
-        this.setVisible(false);
-        
+        this.setVisible(false);      
     }
     
     /**
@@ -44,7 +43,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
      */
     private void populateConfirmationForm(){
         DefaultTableModel tableModel = (DefaultTableModel) orderSummaryTable.getModel();
-        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodImages/barcode-306926_1280.png"));
+//        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodImages/barcode.png"));
         orderNumber.setText(cntl.getOrderNumber());
         pickupTime.setText(cntl.getPickupTime());
         totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
@@ -53,11 +52,11 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
             tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
         }
         
-        Image image = barcodeIcon.getImage();
-        Image scaledImage = image.getScaledInstance(200, 50, Image.SCALE_SMOOTH); 
-        ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
-        barCode.setIcon(scaledBarcodeIcon);
-        barCode.setHorizontalAlignment(SwingConstants.CENTER);
+//        Image image = barcodeIcon.getImage();
+//        Image scaledImage = image.getScaledInstance(200, 50, Image.SCALE_SMOOTH); 
+//        ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
+//        barCode.setIcon(scaledBarcodeIcon);
+//        barCode.setHorizontalAlignment(SwingConstants.CENTER);
         
     }
     

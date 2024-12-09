@@ -174,8 +174,8 @@ public class LoginFormPanel extends JPanel {
             }
         });
 
-        loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
-        signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+        loginBtn.setPreferredSize(new Dimension(130, 40)); 
+        signUpBtn.setPreferredSize(new Dimension(130, 40)); 
 
         Border innerBorder = BorderFactory.createTitledBorder("Log In");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
