@@ -1,6 +1,7 @@
 package view;
 
 import controller.foodordering.FoodController;
+import controller.parkmap.ParkMapController;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
+import view.parkmap.ParkMapView;
 
 /**
  * 
@@ -28,7 +30,8 @@ public class MainPageView extends JFrame {
     private FoodController cntl;
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
-    
+    private ParkMapController parkMapCtrl;
+    private ParkMapView parkMapView;
     
     
     /**
@@ -52,7 +55,9 @@ public class MainPageView extends JFrame {
         confirmationView = new OrderConfirmationViewForm(cntl);
         //System.out.println(cntl.isOrderPickedUp()); Call to debug Order Status
         
-        
+        //User to initizalize the controller and views for park map
+        parkMapCtrl = new ParkMapController();
+        parkMapView = new ParkMapView(parkMapCtrl);
         
         addWindowListener(new WindowAdapter(){
            @Override
@@ -75,7 +80,7 @@ public class MainPageView extends JFrame {
         JMenuBar menuBar = new JMenuBar();
       
         JMenu orderFood = new JMenu("Dining");
-        JMenu viewMap = new JMenu("View Park Map");
+        JMenu viewMap = new JMenu("Park Map");
         JMenu purchaseTickets = new JMenu("Purchase Passes");
         JMenu bday = new JMenu("Birthday Packages");      
         JMenu info = new JMenu("Information");
@@ -92,6 +97,8 @@ public class MainPageView extends JFrame {
         
         JMenuItem events = new JMenuItem("Events");
         JMenuItem attractions = new JMenuItem("Attractions");
+
+        JMenuItem openMap = new JMenuItem("Open Map");
         
         JMenuItem signOut = new JMenuItem("Sign Out");
         
@@ -116,9 +123,8 @@ public class MainPageView extends JFrame {
         purchaseTickets.add(groupTickets);
         purchaseTickets.add(promotions);
         
-        
-        
-        
+        viewMap.add(openMap);
+
         newOrder.addActionListener(e -> {
             if(cntl.isOrderPickedUp()){ //Checks if the order is marked as picked up
                 if (cntl.getOrderView() == null) {
@@ -155,6 +161,12 @@ public class MainPageView extends JFrame {
                     listener.windowClosing(new WindowEvent(MainPageView.this, 0));
                 }
             }
+        });
+
+        //Actions listener for park map view
+        openMap.addActionListener((ActionEvent e) -> {
+            parkMapCtrl.getView().setVisible(true);
+            parkMapCtrl.displayMapWithBusyLocations();
         });
         
         return menuBar;
