@@ -289,7 +289,6 @@ public class MainPagePanel extends JPanel {
     private void handleParkMap() {
         parkMapCtrl.getView().setVisible(true);
         parkMapCtrl.displayMapWithBusyLocations();
-        history.setVisible(true);
     }
     
     private void handleBdayPackages() {
