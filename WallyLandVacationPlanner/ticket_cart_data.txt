@@ -1,3 +1,3 @@
 type: Senior, quantity: 3, price: $30
-type: Adult, quantity: 2, price: $35
+type: Adult, quantity: 1, price: $35
 type: Child, quantity: 1, price: $25

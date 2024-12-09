@@ -85,7 +85,7 @@ public class RegisterFormPanel extends JPanel {
         passwordField = new RoundedTextField("Password", 14);
         firstNameField = new RoundedTextField("First Name", 14);
         lastNameField = new RoundedTextField("Last Name", 14);
-        phoneField = new RoundedTextField("(215) 123-4567", 14);
+        phoneField = new RoundedTextField("(215)123-4567", 14);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
@@ -110,7 +110,7 @@ public class RegisterFormPanel extends JPanel {
         setTextField(passwordField, "Password");
         setTextField(firstNameField, "First Name");
         setTextField(lastNameField, "Last Name");
-        setTextField(phoneField, "(215) 123-4567");
+        setTextField(phoneField, "(215)123-4567");
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
