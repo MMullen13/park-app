@@ -22,6 +22,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import model.ticketsandpasses.CartItem;
 import view.Card;
@@ -45,6 +47,7 @@ public class CartPanel extends JPanel {
     private List<CartItem> ticketCartItemsList;
     private List<CartItem> passCartItemsList;
     private JLabel totalLabel;
+    private JLabel emptyCartLabel;
 
     public CartPanel(PassesController controller) {
         ticketCartItemsList = new ArrayList<>();
@@ -52,6 +55,7 @@ public class CartPanel extends JPanel {
         header = new Header();
         footer = new Footer();
         totalLabel = new JLabel("Total Price at Checkout (incl. taxes): $0.00");
+        emptyCartLabel = new JLabel();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -64,35 +68,62 @@ public class CartPanel extends JPanel {
         // Header Panel
         JPanel headerPanel = header.createHeaderPanel("Wallyland Purchase Cart", null);
         headerPanel.setOpaque(false);
-        headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
         headerPanel.setPreferredSize(new Dimension(800, 34));
         add(headerPanel, BorderLayout.NORTH);
 
-        JPanel refreshCartPanel = new JPanel();
-        refreshCartPanel.setOpaque(false);
-        refreshCartPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Left-align within refreshCartPanel
-//        refreshCartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
-        refreshCartPanel.setPreferredSize(new Dimension(20, 60));
-        refreshCartPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        // Create the main panel for the tickets
+        ticketsPanel = new JPanel();
+        ticketsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
+        ticketsPanel.setOpaque(false);
+        ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
+        ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
+        ticketsPanel.setPreferredSize(new Dimension(800, 180));
+        ticketsPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        refreshTicketCart();
+        add(ticketsPanel);
+
+        add(emptyCartLabel);
+
+        passesPanel = new JPanel();
+        passesPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
+        passesPanel.setOpaque(false);
+        passesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
+        passesPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
+        passesPanel.setPreferredSize(new Dimension(800, 180));
+        passesPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        refreshPassCart();
+        add(passesPanel);
+
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalLabel.setForeground(new Color(40, 95, 150));
+        totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(totalLabel);
+
+        JPanel purchasePanel = new JPanel();
+        purchasePanel.setOpaque(false);
+        purchasePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Left-align within deleteCartPanel
+        purchasePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
+        purchasePanel.setPreferredSize(new Dimension(800, 80));
 
         // Add a Refresh button
         JButton deleteCartItemsBtn = new JButton("Delete Cart Items");
-        deleteCartItemsBtn.setBackground(new Color(152, 175, 197));
+        deleteCartItemsBtn.setBackground(new Color(243, 103, 103));
         deleteCartItemsBtn.setForeground(Color.WHITE);
         deleteCartItemsBtn.setFocusPainted(false); // Removes focus border on click
         deleteCartItemsBtn.setFont(new Font("Arial", Font.BOLD, 14));
-        deleteCartItemsBtn.setPreferredSize(new Dimension(180, 46)); // Width, Height
+        deleteCartItemsBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
 
         // Add hover effects
         deleteCartItemsBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                deleteCartItemsBtn.setBackground(new Color(132, 155, 177));
+                deleteCartItemsBtn.setBackground(new Color(223, 83, 83));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                deleteCartItemsBtn.setBackground(new Color(152, 175, 197)); // Original blue
+                deleteCartItemsBtn.setBackground(new Color(243, 103, 103)); // Original blue
             }
 
             @Override
@@ -107,20 +138,40 @@ public class CartPanel extends JPanel {
         });
 
         deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
-            refreshTicketCart();
-            refreshPassCart();
-        });
+            // Create a custom panel with graphics
+            JPanel customPanel = new JPanel(new BorderLayout());
+            customPanel.setBackground(Color.WHITE);
 
-        deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
-            int action = JOptionPane.showConfirmDialog(this,
-                    "Do you really want to clear all items in the cart?",
+            // Title
+            JLabel titleLabel = new JLabel("Do you really want to clear all items in the cart?");
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            // Icon or Graphic (Example: a warning icon)
+            JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
+            iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            iconLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            // Add components to the panel
+            customPanel.add(iconLabel, BorderLayout.NORTH);
+            customPanel.add(titleLabel, BorderLayout.CENTER);
+
+            // Show the dialog with the custom panel
+            int action = JOptionPane.showConfirmDialog(
+                    null,
+                    customPanel,
                     "Confirm Cart Items Deletion",
-                    JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
 
+            // Handle user selection
             if (action == JOptionPane.OK_OPTION) {
                 controller.clearCartFiles();
                 passCartItemsList.clear();
                 ticketCartItemsList.clear();
+                deleteCartItemsBtn.setForeground(Color.WHITE);
             }
 
             refreshTicketCart();
@@ -128,39 +179,10 @@ public class CartPanel extends JPanel {
 
             // Update total price
             updateTotalLabel();
+            updateEmptyCartLabel();
         });
 
-        refreshCartPanel.add(deleteCartItemsBtn);
-        add(refreshCartPanel, BorderLayout.CENTER);
-
-        // Create the main panel for the tickets
-        ticketsPanel = new JPanel();
-        ticketsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
-        ticketsPanel.setOpaque(false);
-        ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
-        ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
-        refreshTicketCart();
-        add(ticketsPanel);
-
-        passesPanel = new JPanel();
-        passesPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
-        passesPanel.setOpaque(false);
-        passesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
-        passesPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
-        refreshPassCart();
-        add(passesPanel);
-
-        
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        totalLabel.setForeground(new Color(40, 95, 150));
-        totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(totalLabel);
-
-        JPanel purchasePanel = new JPanel();
-        purchasePanel.setOpaque(false);
-        purchasePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Left-align within refreshCartPanel
-        purchasePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
-        purchasePanel.setPreferredSize(new Dimension(800, 80));
+        purchasePanel.add(deleteCartItemsBtn);
 
         // Add a Refresh button
         JButton purchaseButton = new JButton("Checkout");
@@ -194,8 +216,9 @@ public class CartPanel extends JPanel {
         });
 
         purchaseButton.addActionListener((ActionEvent e) -> {
-//            refreshCart();
+
         });
+
         purchasePanel.add(purchaseButton);
         add(purchasePanel, BorderLayout.CENTER);
 
@@ -319,7 +342,7 @@ public class CartPanel extends JPanel {
                 Card card = new Card(item.getType(),
                         " - $" + item.getPrice(),
                         "Total for " + item.getQuantity() + " tickets (es): $" + ticketTypePrice,
-                        215, 100);
+                        225, 100);
                 ticketsPanel.add(card);
             }
         }
@@ -328,6 +351,7 @@ public class CartPanel extends JPanel {
         ticketsPanel.repaint();    // Refresh the UI
 
         updateTotalLabel();
+        updateEmptyCartLabel();
     }
 
     private void refreshPassCart() {
@@ -345,7 +369,7 @@ public class CartPanel extends JPanel {
                 Card card = new Card(item.getType(),
                         " - $" + item.getPrice(),
                         "Total for " + item.getQuantity() + " pass (es): $" + passTypePrice,
-                        215, 100);
+                        225, 100);
                 passesPanel.add(card);
             }
         }
@@ -353,10 +377,27 @@ public class CartPanel extends JPanel {
         passesPanel.revalidate(); // Recalculate layout
         passesPanel.repaint();    // Refresh the UI
         updateTotalLabel();
+        updateEmptyCartLabel();
     }
 
     private void updateTotalLabel() {
         double total = calculateTotalPrice();
         totalLabel.setText(String.format("Total Price at Checkout (incl. taxes): $%.2f", total));
     }
+
+    private void updateEmptyCartLabel() {
+        if (ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty()) {
+            emptyCartLabel.setText("Cart is Empty");
+            emptyCartLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            emptyCartLabel.setForeground(new Color(40, 95, 150));
+            emptyCartLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            emptyCartLabel.setVisible(true);
+        } else {
+            emptyCartLabel.setVisible(false);
+        }
+
+        this.revalidate();
+        this.repaint();
+    }
+
 }

@@ -195,7 +195,6 @@ public class TicketsPanel extends JPanel {
         viewCart.setFocusPainted(false); // Removes focus border on click
         viewCart.setFont(new Font("Arial", Font.BOLD, 14));
         viewCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        viewCart.setIcon(ImageUtils.createIcon("/images/icons8-cart-100.png", 40, 40));
         viewCart.addActionListener((ActionEvent e) -> {
             // Add action listener
         });
