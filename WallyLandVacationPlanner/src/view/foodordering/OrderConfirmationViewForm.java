@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.foodordering;
 
 import controller.foodordering.FoodController;
@@ -43,7 +39,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
      */
     private void populateConfirmationForm(){
         DefaultTableModel tableModel = (DefaultTableModel) orderSummaryTable.getModel();
-//        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodImages/barcode.png"));
+        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/images/barcode-306926_1280.png"));
         orderNumber.setText(cntl.getOrderNumber());
         pickupTime.setText(cntl.getPickupTime());
         totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
@@ -52,11 +48,11 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
             tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
         }
         
-//        Image image = barcodeIcon.getImage();
-//        Image scaledImage = image.getScaledInstance(200, 50, Image.SCALE_SMOOTH); 
-//        ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
-//        barCode.setIcon(scaledBarcodeIcon);
-//        barCode.setHorizontalAlignment(SwingConstants.CENTER);
+        Image image = barcodeIcon.getImage();
+        Image scaledImage = image.getScaledInstance(200, 50, Image.SCALE_SMOOTH); 
+        ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
+        barCode.setIcon(scaledBarcodeIcon);
+        barCode.setHorizontalAlignment(SwingConstants.CENTER);
         
     }
     
