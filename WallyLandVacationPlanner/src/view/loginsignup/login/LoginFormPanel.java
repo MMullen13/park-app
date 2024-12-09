@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -20,9 +21,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
@@ -161,10 +162,20 @@ public class LoginFormPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
                 loginBtn.setBackground(new Color(58, 115, 169)); // Original blue
             }
+            
+            @Override
+            public void mousePressed(MouseEvent e){
+              loginBtn.setForeground(new Color(40, 95, 150));  
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent e){
+              loginBtn.setForeground(Color.WHITE);  
+            }
         });
 
-        loginBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
-        signUpBtn.setPreferredSize(new Dimension(130, 40)); // Width: 130, Height: 30
+        loginBtn.setPreferredSize(new Dimension(130, 40)); 
+        signUpBtn.setPreferredSize(new Dimension(130, 40)); 
 
         Border innerBorder = BorderFactory.createTitledBorder("Log In");
         Border outerBorder = BorderFactory.createEmptyBorder(15, 15, 15, 15);
@@ -199,9 +210,18 @@ public class LoginFormPanel extends JPanel {
         });
 
         signUpBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
-        signUpBtn.addActionListener((ActionEvent e) -> {
-            RegisterView signUpView = new RegisterView();
-            signUpView.setVisible(true);
+        signUpBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegisterView signUpView = new RegisterView();
+                signUpView.setVisible(true);
+               
+                Window parentWindow = SwingUtilities.getWindowAncestor(LoginFormPanel.this);
+                
+                if(parentWindow instanceof LoginView loginView){
+                    loginView.closeWindow();
+                }
+            }
         });
 
         Font fieldFont = new Font("Arial", Font.PLAIN, 14);

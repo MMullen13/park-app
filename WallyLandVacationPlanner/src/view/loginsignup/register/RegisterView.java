@@ -10,6 +10,8 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.RegisterFormEvent;
+import view.loginsignup.UpdateSignupListener;
+import view.loginsignup.login.LoginView;
 
 /**
  * The RegisterView class represents the main window of the WallyLand Park
@@ -19,11 +21,12 @@ import model.loginsignup.RegisterFormEvent;
  *
  * @author Ana
  */
-public class RegisterView extends JFrame {
+public class RegisterView extends JFrame implements UpdateSignupListener {
 
     protected RegisterFormPanel formPanel;
     public LoginController controller;
     private ImageIcon wallylandIcon;
+    private LoginView loginView;
 
     /**
      * Constructs a RegisterView frame, sets the layout and initializes
@@ -48,8 +51,9 @@ public class RegisterView extends JFrame {
         // Register a listener to handle login form events
         formPanel.setFormListener((RegisterFormEvent e) -> {
             controller.handleNewUser(e);
-//            completeRegistration();
         });
+
+        formPanel.setUpdateStateListener(this);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -65,10 +69,11 @@ public class RegisterView extends JFrame {
 
         // Configure frame properties
         setSize(600, 700);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setVisible(true);
+        setResizable(false);
     }
 
     private ImageIcon createIcon(String path, int w, int l) {
@@ -139,7 +144,9 @@ public class RegisterView extends JFrame {
         updateSuccessState();
     }
 
+    @Override
     public void updateSuccessState() {
+//        System.out.println("updateSuccessState called");
         // Check if any error label has text
         boolean hasError = !formPanel.firstNameErrorLabel.getText().isEmpty()
                 || !formPanel.lastNameErrorLabel.getText().isEmpty()
@@ -149,6 +156,22 @@ public class RegisterView extends JFrame {
 
         // Disable or enable the success label based on whether there are errors
         formPanel.successLabel.setVisible(!hasError);
+
+        if (!hasError) {
+            // Open the LoginView here
+            openLoginView();
+        }
     }
 
+    public void closeWindow() {
+        this.setVisible(false);
+    }
+
+    private void openLoginView() {
+        if (loginView == null) {  // Check if LoginView has been created before
+            loginView = new LoginView();  // Create a new LoginView instance
+        }
+        loginView.setVisible(true);  // Show the LoginView
+        this.setVisible(false);
+    }
 }

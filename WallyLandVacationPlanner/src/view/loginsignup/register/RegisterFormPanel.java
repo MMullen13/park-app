@@ -34,6 +34,7 @@ import model.loginsignup.RegisterFormEvent;
 import view.loginsignup.RegisterFormListenerIF;
 import view.loginsignup.RoundedBorder;
 import view.loginsignup.RoundedTextField;
+import view.loginsignup.UpdateSignupListener;
 
 /**
  *
@@ -69,6 +70,7 @@ public class RegisterFormPanel extends JPanel {
     private Icon successIcon;
 
     protected RegisterFormListenerIF formListener;
+    private UpdateSignupListener listener;
 
     /**
      * Constructor
@@ -83,7 +85,7 @@ public class RegisterFormPanel extends JPanel {
         passwordField = new RoundedTextField("Password", 14);
         firstNameField = new RoundedTextField("First Name", 14);
         lastNameField = new RoundedTextField("Last Name", 14);
-        phoneField = new RoundedTextField("(215) 123-4567", 14);
+        phoneField = new RoundedTextField("(215)123-4567", 14);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
@@ -108,7 +110,7 @@ public class RegisterFormPanel extends JPanel {
         setTextField(passwordField, "Password");
         setTextField(firstNameField, "First Name");
         setTextField(lastNameField, "Last Name");
-        setTextField(phoneField, "(215) 123-4567");
+        setTextField(phoneField, "(215)123-4567");
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
@@ -152,7 +154,7 @@ public class RegisterFormPanel extends JPanel {
         ageList.setForeground(Color.DARK_GRAY);
         ageList.setSelectionBackground(new Color(58, 115, 169)); // Same navy blue as register button
         ageList.setSelectionForeground(Color.WHITE);
-        
+
         ageList.setBorder(BorderFactory.createCompoundBorder(
                 new RoundedBorder(10),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5))
@@ -189,6 +191,16 @@ public class RegisterFormPanel extends JPanel {
             public void mouseExited(MouseEvent e) {
                 registerBtn.setBackground(new Color(58, 115, 169)); // Original blue
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                registerBtn.setForeground(new Color(40, 95, 150));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                registerBtn.setForeground(Color.WHITE);
+            }
         });
 
         registerBtn.addActionListener(new ActionListener() {
@@ -214,14 +226,11 @@ public class RegisterFormPanel extends JPanel {
                     formListener.formEventOccured(userEvent);
                 }
 
-                boolean isCorrectPassword = checkPassword(password);
-
-                if (!isCorrectPassword) {
-//                    incorrectPassword.setText("Invalid Login Credentials!");
+                if (listener != null) {
+                    listener.updateSuccessState();
                 }
             }
-        }
-        );
+        });
 
         registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
 
@@ -239,10 +248,6 @@ public class RegisterFormPanel extends JPanel {
 
     public void setFormListener(RegisterFormListenerIF formListener) {
         this.formListener = formListener;
-    }
-
-    protected boolean checkPassword(String password) {
-        return "password".equals(password);
     }
 
     private ImageIcon createIcon(String path, int w, int l) {
@@ -276,6 +281,10 @@ public class RegisterFormPanel extends JPanel {
                 }
             }
         });
+    }
+
+    public void setUpdateStateListener(UpdateSignupListener listener) {
+        this.listener = listener;
     }
 
     private void setControls() {

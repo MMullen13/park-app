@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.foodordering;
 
 /**
  * Concrete Remove Item Class for Command Pattern. Manages the details for the 
  * last item that was removed from the order.
- * @author theme
+ * @author Mark
  */
 public class RemoveLastItemCommand implements OrderCommandIF {
     

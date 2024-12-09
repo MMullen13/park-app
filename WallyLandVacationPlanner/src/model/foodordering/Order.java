@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.foodordering;
 
 import java.util.ArrayList;
@@ -9,7 +5,7 @@ import java.util.Random;
 
 /**
  * Class manages orders and items in the order for the application
- * @author theme
+ * @author Mark
  */
 public class Order implements OrderIF {
     

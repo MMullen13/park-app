@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.foodordering;
 
 import java.io.Serializable;
 
 /**
  * Manages the eateries for application
- * @author theme
+ * @author Mark
  */
 public class Eatery implements Serializable {
     

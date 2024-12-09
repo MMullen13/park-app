@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller.foodordering;
 
 import java.util.ArrayList;
@@ -13,7 +9,7 @@ import view.foodordering.*;
 /**
  * Controller class. Works with Food Order Module and food order view classes
  * to populate user interface and update Food orders based on user selections.
- * @author theme
+ * @author Mark
  */
 public class FoodController {
     
