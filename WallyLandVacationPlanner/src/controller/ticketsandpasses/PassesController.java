@@ -63,18 +63,18 @@ public class PassesController {
         this.passView = passView;
     }
 
-//    public List<CartItem> getPassesCartItems() {
-//        return new ArrayList<>(passesCartItems); // Return a copy to avoid direct manipulation
-//    }
-//    
-//    public List<CartItem> getTicketsCartItems() {
-//        return new ArrayList<>(ticketsCartItems); // Return a copy to avoid direct manipulation
-//    }
+    public List<CartItem> getPassesCartItems() {
+        return new ArrayList<>(passesCartItems); // Return a copy to avoid direct manipulation
+    }
+
+    public List<CartItem> getTicketsCartItems() {
+        return new ArrayList<>(ticketsCartItems); // Return a copy to avoid direct manipulation
+    }
 
     public void updatePassTotals(String passType, int quantity) {
         totalPassesPrice += quantity * pass.getPriceForType(passType);
     }
-    
+
     public void updateTicketsTotals(String passType, int quantity) {
         totalTicketsPrice += quantity * ticket.getPriceForType(passType);
     }
@@ -166,6 +166,18 @@ public class PassesController {
             }
         } catch (IOException e) {
             System.err.println("Error reading cart data: " + e.getMessage());
+        }
+    }
+
+    public void clearCartFiles() {
+        File passFile = new File("pass_cart_data.txt");
+        File ticketFile = new File("ticket_cart_data.txt");
+
+        if (passFile.exists()) {
+            passFile.delete();
+        }
+        if (ticketFile.exists()) {
+            ticketFile.delete();
         }
     }
 }

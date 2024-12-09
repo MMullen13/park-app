@@ -22,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import model.ticketsandpasses.CartItem;
 import view.Card;
@@ -38,18 +37,21 @@ public class CartPanel extends JPanel {
     private Header header;
     private Footer footer;
     private JPanel ticketsPanel;
+    private JPanel passesPanel;
     private String ticketType;
     private int quantity;
     private double totalPrice;
     private double price;
     private List<CartItem> ticketCartItemsList;
     private List<CartItem> passCartItemsList;
+    private JLabel totalLabel;
 
     public CartPanel(PassesController controller) {
         ticketCartItemsList = new ArrayList<>();
         passCartItemsList = new ArrayList<>();
         header = new Header();
         footer = new Footer();
+        totalLabel = new JLabel("Total Price at Checkout (incl. taxes): $0.00");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -74,40 +76,61 @@ public class CartPanel extends JPanel {
         refreshCartPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 
         // Add a Refresh button
-        JButton refreshButton = new JButton("Refresh Window");
-        refreshButton.setBackground(new Color(152, 175, 197));
-        refreshButton.setForeground(Color.WHITE);
-        refreshButton.setFocusPainted(false); // Removes focus border on click
-        refreshButton.setFont(new Font("Arial", Font.BOLD, 14));
-        refreshButton.setPreferredSize(new Dimension(150, 46)); // Width, Height
+        JButton deleteCartItemsBtn = new JButton("Delete Cart Items");
+        deleteCartItemsBtn.setBackground(new Color(152, 175, 197));
+        deleteCartItemsBtn.setForeground(Color.WHITE);
+        deleteCartItemsBtn.setFocusPainted(false); // Removes focus border on click
+        deleteCartItemsBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        deleteCartItemsBtn.setPreferredSize(new Dimension(180, 46)); // Width, Height
 
         // Add hover effects
-        refreshButton.addMouseListener(new MouseAdapter() {
+        deleteCartItemsBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                refreshButton.setBackground(new Color(132, 155, 177));
+                deleteCartItemsBtn.setBackground(new Color(132, 155, 177));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                refreshButton.setBackground(new Color(152, 175, 197)); // Original blue
+                deleteCartItemsBtn.setBackground(new Color(152, 175, 197)); // Original blue
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                refreshButton.setForeground(new Color(40, 95, 150));
+                deleteCartItemsBtn.setForeground(new Color(40, 95, 150));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                refreshButton.setForeground(Color.WHITE);
+                deleteCartItemsBtn.setForeground(Color.WHITE);
             }
         });
 
-        refreshButton.addActionListener((ActionEvent e) -> {
-            refreshCart();
+        deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
+            refreshTicketCart();
+            refreshPassCart();
         });
-        refreshCartPanel.add(refreshButton);
+
+        deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
+            int action = JOptionPane.showConfirmDialog(this,
+                    "Do you really want to clear all items in the cart?",
+                    "Confirm Cart Items Deletion",
+                    JOptionPane.OK_CANCEL_OPTION);
+
+            if (action == JOptionPane.OK_OPTION) {
+                controller.clearCartFiles();
+                passCartItemsList.clear();
+                ticketCartItemsList.clear();
+            }
+
+            refreshTicketCart();
+            refreshPassCart();
+
+            // Update total price
+            updateTotalLabel();
+        });
+
+        refreshCartPanel.add(deleteCartItemsBtn);
         add(refreshCartPanel, BorderLayout.CENTER);
 
         // Create the main panel for the tickets
@@ -116,10 +139,18 @@ public class CartPanel extends JPanel {
         ticketsPanel.setOpaque(false);
         ticketsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
         ticketsPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
-        refreshCart();
+        refreshTicketCart();
         add(ticketsPanel);
 
-        JLabel totalLabel = new JLabel("Total Price (incl. taxes): $0.00");
+        passesPanel = new JPanel();
+        passesPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontally align cards
+        passesPanel.setOpaque(false);
+        passesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
+        passesPanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align tickets panel
+        refreshPassCart();
+        add(passesPanel);
+
+        
         totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
         totalLabel.setForeground(new Color(40, 95, 150));
         totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -163,7 +194,7 @@ public class CartPanel extends JPanel {
         });
 
         purchaseButton.addActionListener((ActionEvent e) -> {
-            refreshCart();
+//            refreshCart();
         });
         purchasePanel.add(purchaseButton);
         add(purchasePanel, BorderLayout.CENTER);
@@ -253,23 +284,36 @@ public class CartPanel extends JPanel {
         }
     }
 
-    private void refreshCart() {
-        passCartItemsList.clear(); // Clear the existing data
+    private double calculateTotalPrice() {
+        double total = 0.0;
+
+        // Calculate total for tickets
+        for (CartItem item : ticketCartItemsList) {
+            double itemTotal = item.getQuantity() * item.getPrice();
+            itemTotal += itemTotal * 0.07; // Adding 7% tax
+            total += itemTotal;
+        }
+
+        // Calculate total for passes
+        for (CartItem item : passCartItemsList) {
+            double itemTotal = item.getQuantity() * item.getPrice();
+            itemTotal += itemTotal * 0.07; // Adding 7% tax
+            total += itemTotal;
+        }
+
+        return total;
+    }
+
+    private void refreshTicketCart() {
         ticketCartItemsList.clear(); // Clear the existing data
-        readCartDataFromPassFile(); // Re-read the file to load new data
         readCartDataFromTicketFile(); // Re-read the file to load new data
-        double passTypePrice = 0;
-        double ticketTypePrice = 0;
+
+        double ticketTypePrice;
 
         // Clear and update ticketsPanel
         ticketsPanel.removeAll();
 
-        if (ticketCartItemsList.isEmpty()) {
-            JLabel cartDetailsLabel = new JLabel("Cart is empty");
-            cartDetailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            cartDetailsLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            ticketsPanel.add(cartDetailsLabel);
-        } else {
+        if (!ticketCartItemsList.isEmpty()) {
             for (CartItem item : ticketCartItemsList) {
                 ticketTypePrice = item.getQuantity() * item.getPrice() + (item.getQuantity() * item.getPrice() * 0.07);
                 Card card = new Card(item.getType(),
@@ -279,23 +323,40 @@ public class CartPanel extends JPanel {
                 ticketsPanel.add(card);
             }
         }
-        if (passCartItemsList.isEmpty()) {
-            JLabel cartDetailsLabel = new JLabel("Cart is empty");
-            cartDetailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            cartDetailsLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            ticketsPanel.add(cartDetailsLabel);
-        } else {
+
+        ticketsPanel.revalidate(); // Recalculate layout
+        ticketsPanel.repaint();    // Refresh the UI
+
+        updateTotalLabel();
+    }
+
+    private void refreshPassCart() {
+        passCartItemsList.clear(); // Clear the existing data
+        readCartDataFromPassFile(); // Re-read the file to load new data
+
+        double passTypePrice;
+
+        // Clear and update ticketsPanel
+        passesPanel.removeAll();
+
+        if (!passCartItemsList.isEmpty()) {
             for (CartItem item : passCartItemsList) {
                 passTypePrice = item.getQuantity() * item.getPrice() + (item.getQuantity() * item.getPrice() * 0.07);
                 Card card = new Card(item.getType(),
                         " - $" + item.getPrice(),
                         "Total for " + item.getQuantity() + " pass (es): $" + passTypePrice,
                         215, 100);
-                ticketsPanel.add(card);
+                passesPanel.add(card);
             }
         }
 
-        ticketsPanel.revalidate(); // Recalculate layout
-        ticketsPanel.repaint();    // Refresh the UI
+        passesPanel.revalidate(); // Recalculate layout
+        passesPanel.repaint();    // Refresh the UI
+        updateTotalLabel();
+    }
+
+    private void updateTotalLabel() {
+        double total = calculateTotalPrice();
+        totalLabel.setText(String.format("Total Price at Checkout (incl. taxes): $%.2f", total));
     }
 }
