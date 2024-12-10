@@ -22,8 +22,8 @@ public class WallyLandVacationPlannerApp {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new LoginView();
-//                new MainPageView();
+//                new LoginView();
+                new MainPageView();
 
             }
 
