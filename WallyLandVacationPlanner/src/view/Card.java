@@ -2,8 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * 
@@ -14,21 +12,21 @@ public class Card extends JPanel {
     public Card(String header, String price, String description, int width, int height) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Stack components vertically
         setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
-        setBackground(new Color(170, 187, 192)); // gray background
+        setBackground(new Color(58, 115, 169)); 
         setPreferredSize(new Dimension(width, height));
 
-        // Add MouseListener for hover effect
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setBackground(new Color(255, 255, 255)); // Change background on hover
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setBackground(new Color(170, 187, 192)); // Revert to original background
-            }
-        });
+//        // Add MouseListener for hover effect
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                setBackground(new Color(255, 255, 255)); // Change background on hover
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                setBackground(new Color(170, 187, 192)); // Revert to original background
+//            }
+//        });
 
         // Header (Name + Price)
         JLabel headerLabel = new JLabel(header + price, JLabel.CENTER) {

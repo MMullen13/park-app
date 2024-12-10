@@ -137,7 +137,7 @@ public class PassesPanel extends JPanel {
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
         addToCart = new JButton("Add to Cart");
-        addToCart.setBackground(new Color(152, 175, 197)); 
+        addToCart.setBackground(new Color(152, 175, 197));
         addToCart.setForeground(Color.WHITE);
         addToCart.setFocusPainted(false); // Removes focus border on click
         addToCart.setFont(new Font("Arial", Font.BOLD, 14));
@@ -182,17 +182,14 @@ public class PassesPanel extends JPanel {
             }
             saveData();
         });
-        
+
         viewCart = new JButton("View Cart");
         viewCart.setBackground(new Color(58, 115, 169)); // Navy blue
         viewCart.setForeground(Color.WHITE);
         viewCart.setFocusPainted(false); // Removes focus border on click
         viewCart.setFont(new Font("Arial", Font.BOLD, 14));
         viewCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        viewCart.setIcon(ImageUtils.createIcon("/images/icons8-cart-100.png", 40, 40));
-        viewCart.addActionListener((ActionEvent e) -> {
-            // Add action listener
-        });
+
         viewCart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -215,17 +212,17 @@ public class PassesPanel extends JPanel {
             }
         });
 
-        viewCart.addActionListener((ActionEvent e) ->{
-                CartView cartView = new CartView();
-                cartView.setVisible(true);
-               
-                Window parentWindow = SwingUtilities.getWindowAncestor(PassesPanel.this);
-                
-                if(parentWindow instanceof PassesView passesView){
-                    passesView.closeWindow();
-                }
+        viewCart.addActionListener((ActionEvent e) -> {
+            CartView cartView = new CartView();
+            cartView.setVisible(true);
+
+            Window parentWindow = SwingUtilities.getWindowAncestor(PassesPanel.this);
+
+            if (parentWindow instanceof PassesView passesView) {
+                passesView.closeWindow();
+            }
         });
-        
+
         purchasePanel.add(addToCart);
         purchasePanel.add(viewCart);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
@@ -245,7 +242,7 @@ public class PassesPanel extends JPanel {
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
-        
+
         Color backGroundColor = Color.WHITE;
 
         JPanel cardPanel = new JPanel();
@@ -396,4 +393,5 @@ public class PassesPanel extends JPanel {
     private void saveData() {
         controller.savePassCartDataToFile(cartItems);
     }
+
 }
