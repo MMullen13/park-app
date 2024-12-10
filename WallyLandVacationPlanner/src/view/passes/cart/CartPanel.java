@@ -147,7 +147,7 @@ public class CartPanel extends JPanel {
 
         deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
             
-            deleteCartItemsBtn.setForeground(Color.GRAY);
+            deleteCartItemsBtn.setForeground(Color.LIGHT_GRAY);
             // Create a custom panel with graphics
             JPanel customPanel = new JPanel(new BorderLayout());
             customPanel.setBackground(Color.WHITE);
@@ -422,10 +422,10 @@ public class CartPanel extends JPanel {
         deleteCartItemsBtn.setEnabled(!isCartEmpty);
         purchaseButton.setEnabled(!isCartEmpty);
 
-        deleteCartItemsBtn.setForeground(isCartEmpty ? Color.GRAY : Color.WHITE);
+        deleteCartItemsBtn.setForeground(isCartEmpty ? Color.LIGHT_GRAY : Color.WHITE);
         deleteCartItemsBtn.setCursor(isCartEmpty ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        purchaseButton.setForeground(isCartEmpty ? Color.GRAY : Color.WHITE);
+        purchaseButton.setForeground(isCartEmpty ? Color.LIGHT_GRAY : Color.WHITE);
         purchaseButton.setCursor(isCartEmpty ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 

@@ -189,8 +189,7 @@ public class PassesPanel extends JPanel {
             }
             
             saveData();
-            updateButtonStates();
-            
+            updateButtonStates();           
             viewCartBtn.setEnabled(true);
         });
 
@@ -416,9 +415,8 @@ public class PassesPanel extends JPanel {
         boolean cartHasItems = !cartItems.isEmpty() && cartItems.values().stream().anyMatch(quantity -> quantity > 0);
 
         addToCartBtn.setEnabled(cartHasItems);
-//        viewCartBtn.setEnabled(cartHasItems);
 
-        addToCartBtn.setForeground(cartHasItems ? Color.WHITE : Color.GRAY);
+        addToCartBtn.setForeground(cartHasItems ? Color.WHITE : Color.LIGHT_GRAY);
         addToCartBtn.setCursor(cartHasItems ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 }

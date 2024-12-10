@@ -4,6 +4,7 @@ import controller.ticketsandpasses.PassesController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -42,8 +43,8 @@ import view.passes.cart.CartView;
  */
 public class TicketsPanel extends JPanel {
 
-    private JButton addToCart;
-    private JButton viewCart;
+    private JButton addToCartBtn;
+    private JButton viewCartBtn;
     private JPanel purchasePanel;
     private JLabel totalItemsCartLabel;
     private JLabel childTicketsCartLabel;
@@ -63,12 +64,13 @@ public class TicketsPanel extends JPanel {
     private Ticket ticket;
     private PassesController controller;
 
-
     public TicketsPanel(PassesController controller) {
         this.controller = controller;
         header = new Header();
         footer = new Footer();
         ticket = new Ticket();
+        addToCartBtn = new JButton("Add to Cart");
+        viewCartBtn = new JButton("View Cart");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -139,41 +141,44 @@ public class TicketsPanel extends JPanel {
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        addToCart = new JButton("Add to Cart");
-        addToCart.setBackground(new Color(152, 175, 197));
-        addToCart.setForeground(Color.WHITE);
-        addToCart.setFocusPainted(false); // Removes focus border on click
-        addToCart.setFont(new Font("Arial", Font.BOLD, 14));
-        addToCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        addToCart.setIcon(ImageUtils.createIcon("/images/icons8-add-to-cart.png", 40, 40));
+        addToCartBtn.setBackground(new Color(152, 175, 197));
+        addToCartBtn.setForeground(Color.WHITE);
+        addToCartBtn.setFocusPainted(false); // Removes focus border on click
+        addToCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        addToCartBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
+        addToCartBtn.setIcon(ImageUtils.createIcon("/images/icons8-add-to-cart.png", 40, 40));
 
-        addToCart.addMouseListener(new MouseAdapter() {
+        addToCartBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                addToCart.setBackground(new Color(132, 155, 177)); // Darker blue on hover
+                if (addToCartBtn.isEnabled()) {
+                    addToCartBtn.setBackground(new Color(132, 155, 177)); // Darker on hover
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                addToCart.setBackground(new Color(152, 175, 197)); // Original blue
+                if (addToCartBtn.isEnabled()) {
+                    addToCartBtn.setBackground(new Color(152, 175, 197)); // Original color
+                }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                addToCart.setForeground(new Color(40, 95, 150));
+                addToCartBtn.setForeground(new Color(40, 95, 150));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                addToCart.setForeground(Color.WHITE);
+                addToCartBtn.setForeground(Color.WHITE);
             }
         });
 
-        addToCart.addActionListener((ActionEvent e) -> {
+        addToCartBtn.addActionListener((ActionEvent e) -> {
             for (Map.Entry<String, Integer> entry : cartItems.entrySet()) {
                 String passType = entry.getKey();
                 int passQuantity = entry.getValue();
-                
+
                 System.out.println(passType + " " + passQuantity);
 
                 if (passQuantity > 0) {
@@ -187,40 +192,46 @@ public class TicketsPanel extends JPanel {
                 listener.formEventOccured(ticketEvent);
             }
             saveData();
+            updateButtonStates();
+            viewCartBtn.setEnabled(true);
         });
 
-        viewCart = new JButton("View Cart");
-        viewCart.setBackground(new Color(58, 115, 169)); // Navy blue
-        viewCart.setForeground(Color.WHITE);
-        viewCart.setFocusPainted(false); // Removes focus border on click
-        viewCart.setFont(new Font("Arial", Font.BOLD, 14));
-        viewCart.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        viewCart.addActionListener((ActionEvent e) -> {
+        viewCartBtn.setEnabled(false);
+        viewCartBtn.setBackground(new Color(58, 115, 169)); // Navy blue
+        viewCartBtn.setForeground(Color.WHITE);
+        viewCartBtn.setFocusPainted(false); // Removes focus border on click
+        viewCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        viewCartBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
+        viewCartBtn.addActionListener((ActionEvent e) -> {
             // Add action listener
         });
-        viewCart.addMouseListener(new MouseAdapter() {
+        viewCartBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                viewCart.setBackground(new Color(40, 95, 150)); // Darker blue on hover
+                if (viewCartBtn.isEnabled()) {
+                    viewCartBtn.setBackground(new Color(40, 95, 150)); // Darker blue on hover
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                viewCart.setBackground(new Color(58, 115, 169)); // Original blue
+                if (viewCartBtn.isEnabled()) {
+                    viewCartBtn.setBackground(new Color(58, 115, 169)); // Original blue
+                }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                viewCart.setForeground(new Color(40, 95, 150));
+                viewCartBtn.setForeground(new Color(40, 95, 150));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                viewCart.setForeground(Color.WHITE);
+                viewCartBtn.setForeground(Color.WHITE);
             }
         });
 
-        viewCart.addActionListener((ActionEvent e) -> {
+        viewCartBtn.addActionListener((ActionEvent e) -> {
             CartView cartView = new CartView();
             cartView.setVisible(true);
 
@@ -229,10 +240,11 @@ public class TicketsPanel extends JPanel {
             if (parentWindow instanceof TicketsView ticketView) {
                 ticketView.closeWindow();
             }
+            updateButtonStates();
         });
 
-        purchasePanel.add(addToCart);
-        purchasePanel.add(viewCart);
+        purchasePanel.add(addToCartBtn);
+        purchasePanel.add(viewCartBtn);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
         add(purchasePanel);
 
@@ -247,6 +259,7 @@ public class TicketsPanel extends JPanel {
 
         // Add spacing between elements
         add(Box.createVerticalGlue()); // Allows dynamic adjustment based on available space
+        updateButtonStates();
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
@@ -263,6 +276,7 @@ public class TicketsPanel extends JPanel {
             public void mouseEntered(MouseEvent e) {
                 cardPanel.setBackground(new Color(255, 255, 255)); // Change background on hover
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 cardPanel.setBackground(new Color(170, 187, 192)); // Revert to original background
@@ -391,10 +405,19 @@ public class TicketsPanel extends JPanel {
         totalPrice += totalPrice * TAX_RATE;
         totalItemsCartLabel.setText("Total Items: " + totalTicketsQuantity + " tickets");
         totalPriceLabel.setText(String.format("Total Price (incl. taxes): $%.2f", totalPrice));
-//        System.out.println(totalPrice);
+        updateButtonStates();
     }
 
     private void saveData() {
         controller.saveTicketCartDataToFile(cartItems);
+    }
+
+    private void updateButtonStates() {
+        boolean cartHasItems = !cartItems.isEmpty() && cartItems.values().stream().anyMatch(quantity -> quantity > 0);
+
+        addToCartBtn.setEnabled(cartHasItems);
+
+        addToCartBtn.setForeground(cartHasItems ? Color.WHITE : Color.LIGHT_GRAY);
+        addToCartBtn.setCursor(cartHasItems ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 }
