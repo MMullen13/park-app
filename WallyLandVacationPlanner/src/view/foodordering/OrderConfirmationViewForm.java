@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view.foodordering;
 
 import controller.foodordering.FoodController;
@@ -34,8 +30,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         populateConfirmationForm();
         setActionListeners();
         setLocationRelativeTo(null);
-        this.setVisible(false);
-        
+        this.setVisible(false);      
     }
     
     /**
@@ -44,7 +39,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
      */
     private void populateConfirmationForm(){
         DefaultTableModel tableModel = (DefaultTableModel) orderSummaryTable.getModel();
-        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/FoodImages/barcode-306926_1280.png"));
+        ImageIcon barcodeIcon = new ImageIcon(getClass().getResource("/images/barcode-306926_1280.png"));
         orderNumber.setText(cntl.getOrderNumber());
         pickupTime.setText(cntl.getPickupTime());
         totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));

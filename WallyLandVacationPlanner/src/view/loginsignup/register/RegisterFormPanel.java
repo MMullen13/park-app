@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -23,12 +22,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import model.loginsignup.NewUser;
 import model.loginsignup.User;
@@ -38,8 +35,6 @@ import view.loginsignup.RegisterFormListenerIF;
 import view.loginsignup.RoundedBorder;
 import view.loginsignup.RoundedTextField;
 import view.loginsignup.UpdateSignupListener;
-import view.loginsignup.login.LoginFormPanel;
-import view.loginsignup.login.LoginView;
 
 /**
  *
@@ -90,7 +85,7 @@ public class RegisterFormPanel extends JPanel {
         passwordField = new RoundedTextField("Password", 14);
         firstNameField = new RoundedTextField("First Name", 14);
         lastNameField = new RoundedTextField("Last Name", 14);
-        phoneField = new RoundedTextField("(215) 123-4567", 14);
+        phoneField = new RoundedTextField("(215)123-4567", 14);
         ageList = new JList();
         emailIcon = createIcon("/images/icons8-email.png", 40, 40);
         passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
@@ -115,7 +110,7 @@ public class RegisterFormPanel extends JPanel {
         setTextField(passwordField, "Password");
         setTextField(firstNameField, "First Name");
         setTextField(lastNameField, "Last Name");
-        setTextField(phoneField, "(215) 123-4567");
+        setTextField(phoneField, "(215)123-4567");
 
         emailLabel = new JLabel("Email", emailIcon, SwingConstants.RIGHT);
         passwordLabel = new JLabel("Password", passwordIcon, SwingConstants.LEFT);
@@ -234,27 +229,6 @@ public class RegisterFormPanel extends JPanel {
                 if (listener != null) {
                     listener.updateSuccessState();
                 }
-//
-//                Window parentWindow = SwingUtilities.getWindowAncestor(RegisterFormPanel.this);
-//
-//                if (parentWindow instanceof RegisterView registerView) {
-//                    // Show a success message or visual cue before the timer
-//                    JOptionPane.showMessageDialog(parentWindow, "Registration successful! Redirecting to Login...",
-//                            "Success", JOptionPane.INFORMATION_MESSAGE);
-//
-//                    // Create a timer with a delay of 3 seconds (3000 milliseconds)
-//                    javax.swing.Timer timer = new javax.swing.Timer(3000, new ActionListener() {
-//                        @Override
-//                        public void actionPerformed(ActionEvent event) {
-//                            // Open LoginView after the delay
-//                            LoginView loginView = new LoginView();
-//                            loginView.setVisible(true);
-//                            registerView.closeWindow();
-//                        }
-//                    });
-//                    timer.setRepeats(false); // Ensure the timer executes only once
-//                    timer.start(); // Start the timer
-//                }
             }
         });
 

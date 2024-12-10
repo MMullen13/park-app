@@ -18,9 +18,11 @@ import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
 import view.foodordering.OrderHistoryView;
 import view.foodordering.OrderViewForm;
-import view.ticketing.cart.TicketCartView;
-import view.ticketing.passes.PassView;
-import view.ticketing.tickets.TicketView;
+import view.passes.tiketsandpasses.PassesView;
+import view.passes.cart.CartView;
+import view.passes.tiketsandpasses.TicketsView;
+import controller.parkmap.ParkMapController;
+import view.parkmap.ParkMapView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -32,13 +34,15 @@ public class MainPagePanel extends JPanel {
     private FoodController cntl;
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
-    private TicketView ticketView;
-    private PassView passView;
-    private TicketCartView ticketCartView;
+    private PassesView passView;
+    private CartView ticketCartView;
+    private TicketsView ticketsView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
-    private Footer footer;
+    private Footer footer; 
+    private ParkMapController parkMapCtrl;
+    private ParkMapView parkMapView;
 
     /**
      * Constructor
@@ -49,6 +53,10 @@ public class MainPagePanel extends JPanel {
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
+
+        //User to initizalize the controller and views for park map
+        parkMapCtrl = new ParkMapController();
+        parkMapView = new ParkMapView(parkMapCtrl);
 
         footer = new Footer();
 
@@ -118,6 +126,8 @@ public class MainPagePanel extends JPanel {
 
         JMenuItem signOut = createCustomMenuItem("User Sign Out");
 
+        JMenuItem openMap = new JMenuItem("Open Map");
+
         // Add menus to the bar
         menuBar.add(purchaseTickets);
         menuBar.add(bday);
@@ -129,7 +139,7 @@ public class MainPagePanel extends JPanel {
         // Add items to the menus
         exit.add(signOut);
 
-        viewMap.add(map);
+        viewMap.add(openMap);
 
         bday.add(birthdayOne);
         bday.add(birthdayTwo);
@@ -155,7 +165,7 @@ public class MainPagePanel extends JPanel {
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
         signOut.addActionListener(e -> handleSignOut());
-        map.addActionListener(e -> handleParkMap());
+        openMap.addActionListener(e -> handleParkMap());
         groupTickets.addActionListener(e -> handleParkMap());
         promotions.addActionListener(e -> handleParkMap());
         events.addActionListener(e -> handleParkMap());
@@ -236,17 +246,19 @@ public class MainPagePanel extends JPanel {
     }
 
     private void handleTicketPurchasing() {
-        ticketView = new TicketView();
-        ticketView.setVisible(true);
+        ticketsView = new TicketsView();
+        ticketsView.setVisible(true);
     }
     
     private void handlePassPurchasing() {
-        passView = new PassView();
+        passView = new PassesView();
         passView.setVisible(true);
+        
+        
     }
     
     private void handleCartView() {
-        ticketCartView = new TicketCartView();
+        ticketCartView = new CartView();
         ticketCartView.setVisible(true);
     }
 
@@ -275,8 +287,8 @@ public class MainPagePanel extends JPanel {
     }
     
     private void handleParkMap() {
-        ComingSoonView history = new ComingSoonView();
-        history.setVisible(true);
+        parkMapCtrl.getView().setVisible(true);
+        parkMapCtrl.displayMapWithBusyLocations();
     }
     
     private void handleBdayPackages() {
@@ -309,5 +321,4 @@ public class MainPagePanel extends JPanel {
         Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
-
 }
