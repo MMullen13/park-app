@@ -161,7 +161,7 @@ public class MenuItem {
                 sides.add(new MenuItem("French Fries", 3.99));
             }
             case "Grill & Chill" -> {
-                sides.add(new MenuItem("French Fires", 3.99));
+                sides.add(new MenuItem("French Fries", 3.99));
                 sides.add(new MenuItem("Onion Rings", 4.99));
                 sides.add(new MenuItem("Side Salad", 2.99));
                 sides.add(new MenuItem("Mac and Cheese", 5.99));

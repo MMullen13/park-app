@@ -49,7 +49,8 @@ public class MainPagePanel extends JPanel {
      */
     public MainPagePanel() {
         setLayout(new BorderLayout());
-
+        
+        //Starts the controllers and views
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
@@ -126,7 +127,7 @@ public class MainPagePanel extends JPanel {
 
         JMenuItem signOut = createCustomMenuItem("User Sign Out");
 
-        JMenuItem openMap = new JMenuItem("Open Map");
+        JMenuItem openMap = createCustomMenuItem("Open Map");
 
         // Add menus to the bar
         menuBar.add(purchaseTickets);
