@@ -1,11 +1,8 @@
 package wallylandvacationplanner;
 
 import controller.ticketsandpasses.PassesController;
-import view.loginsignup.login.LoginView;
 import javax.swing.SwingUtilities;
 import view.MainPageView;
-import view.passes.tiketsandpasses.PassesView;
-import view.passes.tiketsandpasses.TicketsView;
 
 /**
  * This is the main class for the WLVP Application

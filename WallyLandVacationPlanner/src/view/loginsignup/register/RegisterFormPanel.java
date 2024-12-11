@@ -31,6 +31,7 @@ import model.loginsignup.NewUser;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
 import model.loginsignup.RegisterFormEvent;
+import view.ImageUtils;
 import view.loginsignup.RegisterFormListenerIF;
 import view.loginsignup.RoundedBorder;
 import view.loginsignup.RoundedTextField;
@@ -87,12 +88,12 @@ public class RegisterFormPanel extends JPanel {
         lastNameField = new RoundedTextField("Last Name", 14);
         phoneField = new RoundedTextField("(215)123-4567", 14);
         ageList = new JList();
-        emailIcon = createIcon("/images/icons8-email.png", 40, 40);
-        passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
-        firstNameIcon = createIcon("/images/icons8-name-tag.png", 50, 50);
-        ageIcon = createIcon("/images/icons8-calendar.png", 60, 60);
-        phoneIcon = createIcon("/images/icons8-phone.png", 40, 40);
-        successIcon = createIcon("/images/icons8-success.png", 40, 40);
+        emailIcon = ImageUtils.createIcon("/images/icons8-email.png", 40, 40);
+        passwordIcon = ImageUtils.createIcon("/images/icons8-lock.png", 40, 40);
+        firstNameIcon = ImageUtils.createIcon("/images/icons8-name-tag.png", 50, 50);
+        ageIcon = ImageUtils.createIcon("/images/icons8-calendar.png", 60, 60);
+        phoneIcon = ImageUtils.createIcon("/images/icons8-phone.png", 40, 40);
+        successIcon = ImageUtils.createIcon("/images/icons8-success.png", 40, 40);
 
         emailField.setForeground(Color.LIGHT_GRAY);
         passwordField.setForeground(Color.LIGHT_GRAY);
@@ -232,7 +233,7 @@ public class RegisterFormPanel extends JPanel {
             }
         });
 
-        registerBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
+        registerBtn.setIcon(ImageUtils.createIcon("/images/icons8-add-user.png", 20, 20));
 
         Font fieldFont = new Font("Arial", Font.PLAIN, 14);
         emailField.setFont(fieldFont);
@@ -248,19 +249,6 @@ public class RegisterFormPanel extends JPanel {
 
     public void setFormListener(RegisterFormListenerIF formListener) {
         this.formListener = formListener;
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
 
     private void setTextField(JTextField field, String message) {

@@ -2,8 +2,6 @@ package view.passes.cart;
 
 
 import controller.ticketsandpasses.PassesController;
-import java.awt.Image;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import view.ImageUtils;
@@ -23,8 +21,6 @@ public class CartView extends JFrame {
         
         this.controller = new PassesController();
 
-        controller.setCartView(this);
-
         // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
@@ -41,5 +37,20 @@ public class CartView extends JFrame {
         }
 
         setVisible(true);
+    }
+    
+    public void closeWindow() {
+       this.setVisible(false);
+    }
+
+    public void refresh() {
+//        cartPanel.removeAll();
+        cartPanel.refreshTicketCart();
+        cartPanel.refreshPassCart();
+        cartPanel.updateTotalLabel();
+        cartPanel.updateEmptyCartLabel();
+        cartPanel.updateButtonStates();
+        cartPanel.revalidate();
+        cartPanel.repaint();
     }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import controller.foodordering.FoodController;
+import controller.ticketsandpasses.PassesController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -10,9 +11,7 @@ import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
-import java.net.URL;
 import javax.swing.*;
 import javax.swing.border.Border;
 import view.foodordering.OrderConfirmationViewForm;
@@ -35,7 +34,7 @@ public class MainPagePanel extends JPanel {
     private OrderViewForm orderView;
     private OrderConfirmationViewForm confirmationView;
     private PassesView passView;
-    private CartView ticketCartView;
+    public CartView cartView;
     private TicketsView ticketsView;
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
@@ -61,19 +60,19 @@ public class MainPagePanel extends JPanel {
 
         footer = new Footer();
 
-        wallylandImage = createIcon("/images/pb.jpg", 1100, 900);
+        wallylandImage = ImageUtils.createIcon("/images/pb.jpg", 1100, 900);
         backgroundPanel = new FadedImagePanel(wallylandImage);
         add(backgroundPanel, BorderLayout.CENTER);
 
         JMenuBar menuBar = createMenuBar();
         add(menuBar, BorderLayout.NORTH);
-        
+
         String msgOne = "Contact Us: 123-456-7890 | Email: info@wallyland.com";
         String msgTwo = "Address: 123 WallyLand Ave, Fun City, USA";
 
         footerPanel = footer.createFooterPanel(msgOne, msgTwo);
         add(footerPanel, BorderLayout.SOUTH);
-        
+
         Border innerBorder = BorderFactory.createTitledBorder("Home");
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
@@ -111,8 +110,8 @@ public class MainPagePanel extends JPanel {
         JMenuItem viewConfirmation = createCustomMenuItem("View Order Confirmation");
         JMenuItem orderHistory = createCustomMenuItem("Order History");
 
-        JMenuItem tickets = createCustomMenuItem("Purchase a Day Pass");
-        JMenuItem passes = createCustomMenuItem("Purchase a Season Pass");
+        JMenuItem tickets = createCustomMenuItem("Purchase Tickets");
+        JMenuItem passes = createCustomMenuItem("Purchase Season Passes");
         JMenuItem groupTickets = createCustomMenuItem("Purchase a Group Pass");
         JMenuItem promotions = createCustomMenuItem("More Deals");
         JMenuItem cart = createCustomMenuItem("View Cart");
@@ -250,17 +249,15 @@ public class MainPagePanel extends JPanel {
         ticketsView = new TicketsView();
         ticketsView.setVisible(true);
     }
-    
+
     private void handlePassPurchasing() {
         passView = new PassesView();
         passView.setVisible(true);
-        
-        
     }
-    
+
     private void handleCartView() {
-        ticketCartView = new CartView();
-        ticketCartView.setVisible(true);
+        cartView = new CartView();
+        cartView.setVisible(true);
     }
 
     private void handleNewOrder() {
@@ -286,40 +283,57 @@ public class MainPagePanel extends JPanel {
         OrderHistoryView history = new OrderHistoryView();
         history.setVisible(true);
     }
-    
+
     private void handleParkMap() {
         parkMapCtrl.getView().setVisible(true);
         parkMapCtrl.displayMapWithBusyLocations();
     }
-    
+
     private void handleBdayPackages() {
         ComingSoonView history = new ComingSoonView();
         history.setVisible(true);
     }
-    
+
     private void handleInfo() {
         ComingSoonView history = new ComingSoonView();
         history.setVisible(true);
     }
 
     private void handleSignOut() {
-        int action = JOptionPane.showConfirmDialog(this, "Do you really want to Sign Out?", "Confirm Sign Out", JOptionPane.OK_CANCEL_OPTION);
+        // Create a custom panel with graphics
+        JPanel customPanel = new JPanel(new BorderLayout());
+        customPanel.setBackground(new Color(233, 233, 234));
+
+        // Title
+        JLabel titleLabel = new JLabel("Do you really want to Sign Out?");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        titleLabel.setForeground(new Color(40, 95, 150));
+
+        // Icon or Graphic (Example: a warning icon)
+        JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        iconLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Add components to the panel
+        customPanel.add(iconLabel, BorderLayout.NORTH);
+        customPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Show the dialog with the custom panel
+        int action = JOptionPane.showConfirmDialog(
+                null,
+                customPanel,
+                "Confirm Sign Out",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        // Handle user selectiosn
         if (action == JOptionPane.OK_OPTION) {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             topFrame.dispose();
+            System.exit(0);
         }
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-            return null;
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
     }
 }

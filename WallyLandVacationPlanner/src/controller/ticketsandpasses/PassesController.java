@@ -24,7 +24,7 @@ public class PassesController {
 
     protected PassesView passView;
     protected TicketsView ticketsView;
-    protected CartView cartView;
+    public CartView cartView;
     private List<CartItem> passesCartItems;
     private List<CartItem> ticketsCartItems;
     private double totalPassesPrice = 0.0;
@@ -179,5 +179,13 @@ public class PassesController {
         if (ticketFile.exists()) {
             ticketFile.delete();
         }
+    }
+
+    public void openCartView() {
+        if (cartView != null) {
+            cartView.closeWindow(); // Close the old window if it exists
+        }
+        cartView = new CartView(); // Create a new CartView instance
+        cartView.setVisible(true); // Show the new CartView
     }
 }

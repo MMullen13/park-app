@@ -4,6 +4,7 @@ import controller.ticketsandpasses.PassesController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -27,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import model.ticketsandpasses.CartItem;
 import view.Card;
+import view.ComingSoonView;
 import view.Footer;
 import view.Header;
 
@@ -48,6 +50,8 @@ public class CartPanel extends JPanel {
     private List<CartItem> passCartItemsList;
     private JLabel totalLabel;
     private JLabel emptyCartLabel;
+    private JButton purchaseButton;
+    private JButton deleteCartItemsBtn;
 
     public CartPanel(PassesController controller) {
         ticketCartItemsList = new ArrayList<>();
@@ -56,6 +60,8 @@ public class CartPanel extends JPanel {
         footer = new Footer();
         totalLabel = new JLabel("Total Price at Checkout (incl. taxes): $0.00");
         emptyCartLabel = new JLabel();
+        deleteCartItemsBtn = new JButton("Delete Cart Items");
+        purchaseButton = new JButton("Checkout");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -106,8 +112,7 @@ public class CartPanel extends JPanel {
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Padding
         purchasePanel.setPreferredSize(new Dimension(800, 80));
 
-        // Add a Refresh button
-        JButton deleteCartItemsBtn = new JButton("Delete Cart Items");
+        // Add a delete button
         deleteCartItemsBtn.setBackground(new Color(243, 103, 103));
         deleteCartItemsBtn.setForeground(Color.WHITE);
         deleteCartItemsBtn.setFocusPainted(false); // Removes focus border on click
@@ -118,12 +123,16 @@ public class CartPanel extends JPanel {
         deleteCartItemsBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                deleteCartItemsBtn.setBackground(new Color(223, 83, 83));
+                if (deleteCartItemsBtn.isEnabled()) {
+                    deleteCartItemsBtn.setBackground(new Color(223, 83, 83));
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                deleteCartItemsBtn.setBackground(new Color(243, 103, 103)); // Original blue
+                if (deleteCartItemsBtn.isEnabled()) {
+                    deleteCartItemsBtn.setBackground(new Color(243, 103, 103));
+                }
             }
 
             @Override
@@ -138,15 +147,18 @@ public class CartPanel extends JPanel {
         });
 
         deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
+            
+            deleteCartItemsBtn.setForeground(Color.LIGHT_GRAY);
             // Create a custom panel with graphics
             JPanel customPanel = new JPanel(new BorderLayout());
-            customPanel.setBackground(Color.WHITE);
+            customPanel.setBackground(new Color(233, 233, 234));
 
             // Title
-            JLabel titleLabel = new JLabel("Do you really want to clear all items in the cart?");
+            JLabel titleLabel = new JLabel("Do you really wish to clear all items in the cart?");
             titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
             titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
             titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            titleLabel.setForeground(new Color(40, 95, 150));
 
             // Icon or Graphic (Example: a warning icon)
             JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
@@ -180,12 +192,12 @@ public class CartPanel extends JPanel {
             // Update total price
             updateTotalLabel();
             updateEmptyCartLabel();
+            updateButtonStates();
         });
 
         purchasePanel.add(deleteCartItemsBtn);
 
         // Add a Refresh button
-        JButton purchaseButton = new JButton("Checkout");
         purchaseButton.setBackground(new Color(58, 115, 169)); // Navy blue
         purchaseButton.setForeground(Color.WHITE);
         purchaseButton.setFocusPainted(false); // Removes focus border on click
@@ -196,12 +208,16 @@ public class CartPanel extends JPanel {
         purchaseButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                purchaseButton.setBackground(new Color(40, 95, 150)); // Darker blue on hover
+                if (purchaseButton.isEnabled()) {
+                    purchaseButton.setBackground(new Color(40, 95, 150)); // Darker blue on hover
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                purchaseButton.setBackground(new Color(58, 115, 169)); // Original blue
+                if (purchaseButton.isEnabled()) {
+                    purchaseButton.setBackground(new Color(58, 115, 169)); // Original blue
+                }
             }
 
             @Override
@@ -216,7 +232,9 @@ public class CartPanel extends JPanel {
         });
 
         purchaseButton.addActionListener((ActionEvent e) -> {
-
+            updateButtonStates();
+            ComingSoonView view = new ComingSoonView();
+            view.setVisible(true);
         });
 
         purchasePanel.add(purchaseButton);
@@ -327,7 +345,7 @@ public class CartPanel extends JPanel {
         return total;
     }
 
-    private void refreshTicketCart() {
+    protected void refreshTicketCart() {
         ticketCartItemsList.clear(); // Clear the existing data
         readCartDataFromTicketFile(); // Re-read the file to load new data
 
@@ -352,9 +370,10 @@ public class CartPanel extends JPanel {
 
         updateTotalLabel();
         updateEmptyCartLabel();
+        updateButtonStates();
     }
 
-    private void refreshPassCart() {
+    protected void refreshPassCart() {
         passCartItemsList.clear(); // Clear the existing data
         readCartDataFromPassFile(); // Re-read the file to load new data
 
@@ -378,14 +397,15 @@ public class CartPanel extends JPanel {
         passesPanel.repaint();    // Refresh the UI
         updateTotalLabel();
         updateEmptyCartLabel();
+        updateButtonStates();
     }
 
-    private void updateTotalLabel() {
+    protected void updateTotalLabel() {
         double total = calculateTotalPrice();
         totalLabel.setText(String.format("Total Price at Checkout (incl. taxes): $%.2f", total));
     }
 
-    private void updateEmptyCartLabel() {
+    protected void updateEmptyCartLabel() {
         if (ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty()) {
             emptyCartLabel.setText("Cart is Empty");
             emptyCartLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -398,6 +418,19 @@ public class CartPanel extends JPanel {
 
         this.revalidate();
         this.repaint();
+    }
+
+    protected void updateButtonStates() {
+        boolean isCartEmpty = ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty();
+
+        deleteCartItemsBtn.setEnabled(!isCartEmpty);
+        purchaseButton.setEnabled(!isCartEmpty);
+
+        deleteCartItemsBtn.setForeground(isCartEmpty ? Color.LIGHT_GRAY : Color.WHITE);
+        deleteCartItemsBtn.setCursor(isCartEmpty ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        purchaseButton.setForeground(isCartEmpty ? Color.LIGHT_GRAY : Color.WHITE);
+        purchaseButton.setCursor(isCartEmpty ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
 }

@@ -10,6 +10,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.RegisterFormEvent;
+import view.ImageUtils;
 import view.loginsignup.UpdateSignupListener;
 import view.loginsignup.login.LoginView;
 
@@ -39,7 +40,7 @@ public class RegisterView extends JFrame implements UpdateSignupListener {
 
         controller.setRegisterView(this);
 
-        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
         }
@@ -74,19 +75,6 @@ public class RegisterView extends JFrame implements UpdateSignupListener {
 
         setVisible(true);
         setResizable(false);
-    }
-
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
 
     public void displayPhoneError(String message) {
