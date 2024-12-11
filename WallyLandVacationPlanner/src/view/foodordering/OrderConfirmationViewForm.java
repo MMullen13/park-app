@@ -115,7 +115,7 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
 
         setTitle("WallyLand - Order Confirmation");
         setBackground(new java.awt.Color(58, 115, 169));
-        setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/theme-park.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(227, 236, 241));
