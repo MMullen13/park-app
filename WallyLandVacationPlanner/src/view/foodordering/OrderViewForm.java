@@ -80,7 +80,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
        
         foodType.removeAllItems();
         foodType.addItem("Drinks");
-        foodType.addItem("Appitizers");
+        foodType.addItem("Appetizers");
         foodType.addItem("Mains");
         foodType.addItem("Sides");
         foodType.addItem("Desserts");
@@ -225,14 +225,17 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                     }
                 }
                 else if (lastCommand instanceof RemoveLastItemCommand){
-                    MenuItem removedItem = cntl.getremovedItem();
-                    tableModel.addRow(new Object[] {removedItem.getItemName(), removedItem.getPrice(), removedItem.getQuantity()});
-                    cntl.calculateTotal(removedItem.getQuantity(), removedItem.getPrice());
+                    
+                    for (MenuItem item : cntl.getOrderItems()){
+                        tableModel.addRow(new Object[] {item.getItemName(), item.getPrice(), item.getQuantity()});
+                        cntl.calculateTotal(item.getQuantity(), item.getPrice());
+                    }
                 }
                 
             }
             
             totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
+            System.out.println(cntl.getOrderItems());
                  
         }
         
@@ -253,7 +256,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
                 }
             
                 totalCost.setText("$" + String.format("%.2f", cntl.getTotal()));
-            }
+                }
             catch(ArrayIndexOutOfBoundsException a){
                 JOptionPane.showMessageDialog(this, "Order is empty, nothing to remove");
             }
@@ -299,7 +302,7 @@ public class OrderViewForm extends javax.swing.JFrame implements ActionListener 
         orderNumber = new javax.swing.JLabel();
 
         setTitle("WallyLand - Create Order");
-        setIconImage(new ImageIcon(getClass().getResource("/FoodImages/theme-park.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/theme-park.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(58, 115, 169));

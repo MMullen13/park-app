@@ -20,6 +20,8 @@ import view.foodordering.OrderViewForm;
 import view.passes.tiketsandpasses.PassesView;
 import view.passes.cart.CartView;
 import view.passes.tiketsandpasses.TicketsView;
+import controller.parkmap.ParkMapController;
+import view.parkmap.ParkMapView;
 
 /**
  * Main Page Panel encapsulating the main page components.
@@ -37,17 +39,24 @@ public class MainPagePanel extends JPanel {
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
-    private Footer footer;
+    private Footer footer; 
+    private ParkMapController parkMapCtrl;
+    private ParkMapView parkMapView;
 
     /**
      * Constructor
      */
     public MainPagePanel() {
         setLayout(new BorderLayout());
-
+        
+        //Starts the controllers and views
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
+
+        //User to initizalize the controller and views for park map
+        parkMapCtrl = new ParkMapController();
+        parkMapView = new ParkMapView(parkMapCtrl);
 
         footer = new Footer();
 
@@ -117,6 +126,8 @@ public class MainPagePanel extends JPanel {
 
         JMenuItem signOut = createCustomMenuItem("User Sign Out");
 
+        JMenuItem openMap = createCustomMenuItem("Open Map");
+
         // Add menus to the bar
         menuBar.add(purchaseTickets);
         menuBar.add(bday);
@@ -128,7 +139,7 @@ public class MainPagePanel extends JPanel {
         // Add items to the menus
         exit.add(signOut);
 
-        viewMap.add(map);
+        viewMap.add(openMap);
 
         bday.add(birthdayOne);
         bday.add(birthdayTwo);
@@ -154,7 +165,7 @@ public class MainPagePanel extends JPanel {
         viewConfirmation.addActionListener(e -> handleViewConfirmation());
         orderHistory.addActionListener(e -> handleOrderHistory());
         signOut.addActionListener(e -> handleSignOut());
-        map.addActionListener(e -> handleParkMap());
+        openMap.addActionListener(e -> handleParkMap());
         groupTickets.addActionListener(e -> handleParkMap());
         promotions.addActionListener(e -> handleParkMap());
         events.addActionListener(e -> handleParkMap());
@@ -274,8 +285,8 @@ public class MainPagePanel extends JPanel {
     }
 
     private void handleParkMap() {
-        ComingSoonView history = new ComingSoonView();
-        history.setVisible(true);
+        parkMapCtrl.getView().setVisible(true);
+        parkMapCtrl.displayMapWithBusyLocations();
     }
 
     private void handleBdayPackages() {
