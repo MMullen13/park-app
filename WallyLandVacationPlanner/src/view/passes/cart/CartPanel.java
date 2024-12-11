@@ -28,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import model.ticketsandpasses.CartItem;
 import view.Card;
+import view.ComingSoonView;
 import view.Footer;
 import view.Header;
 
@@ -150,13 +151,14 @@ public class CartPanel extends JPanel {
             deleteCartItemsBtn.setForeground(Color.LIGHT_GRAY);
             // Create a custom panel with graphics
             JPanel customPanel = new JPanel(new BorderLayout());
-            customPanel.setBackground(Color.WHITE);
+            customPanel.setBackground(new Color(233, 233, 234));
 
             // Title
-            JLabel titleLabel = new JLabel("Do you really want to clear all items in the cart?");
+            JLabel titleLabel = new JLabel("Do you really wish to clear all items in the cart?");
             titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
             titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
             titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            titleLabel.setForeground(new Color(40, 95, 150));
 
             // Icon or Graphic (Example: a warning icon)
             JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
@@ -231,6 +233,8 @@ public class CartPanel extends JPanel {
 
         purchaseButton.addActionListener((ActionEvent e) -> {
             updateButtonStates();
+            ComingSoonView view = new ComingSoonView();
+            view.setVisible(true);
         });
 
         purchasePanel.add(purchaseButton);
@@ -341,7 +345,7 @@ public class CartPanel extends JPanel {
         return total;
     }
 
-    private void refreshTicketCart() {
+    protected void refreshTicketCart() {
         ticketCartItemsList.clear(); // Clear the existing data
         readCartDataFromTicketFile(); // Re-read the file to load new data
 
@@ -369,7 +373,7 @@ public class CartPanel extends JPanel {
         updateButtonStates();
     }
 
-    private void refreshPassCart() {
+    protected void refreshPassCart() {
         passCartItemsList.clear(); // Clear the existing data
         readCartDataFromPassFile(); // Re-read the file to load new data
 
@@ -396,12 +400,12 @@ public class CartPanel extends JPanel {
         updateButtonStates();
     }
 
-    private void updateTotalLabel() {
+    protected void updateTotalLabel() {
         double total = calculateTotalPrice();
         totalLabel.setText(String.format("Total Price at Checkout (incl. taxes): $%.2f", total));
     }
 
-    private void updateEmptyCartLabel() {
+    protected void updateEmptyCartLabel() {
         if (ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty()) {
             emptyCartLabel.setText("Cart is Empty");
             emptyCartLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -416,7 +420,7 @@ public class CartPanel extends JPanel {
         this.repaint();
     }
 
-    private void updateButtonStates() {
+    protected void updateButtonStates() {
         boolean isCartEmpty = ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty();
 
         deleteCartItemsBtn.setEnabled(!isCartEmpty);

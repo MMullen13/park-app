@@ -1,11 +1,10 @@
 package view.passes.tiketsandpasses;
 
 import controller.ticketsandpasses.PassesController;
-import java.awt.Image;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import view.ImageUtils;
+import view.passes.cart.CartView;
 
 /**
  *
@@ -22,13 +21,16 @@ public class PassesView extends JFrame {
         
         this.controller = new PassesController();
         controller.setPassView(this);
+        
+//        CartView cartView = controller.getCartView();
+//        controller.openCartView(cartView);
+//        cartView.closeWindow();
 
-  // Set frame properties
+        // Set frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 700);
         setLocationRelativeTo(null);
         setResizable(false);
-//        getContentPane().setBackground(new Color(240, 248, 255));
 
         // Set icon
         wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);

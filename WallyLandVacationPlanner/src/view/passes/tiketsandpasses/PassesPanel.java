@@ -13,7 +13,6 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -35,7 +35,7 @@ import model.ticketsandpasses.PurchasePassFormListenerIF;
 import view.Footer;
 import view.Header;
 import view.ImageUtils;
-import view.passes.cart.CartView;
+import view.MessageDialogue;
 
 /**
  *
@@ -44,7 +44,6 @@ import view.passes.cart.CartView;
 public class PassesPanel extends JPanel {
 
     private JButton addToCartBtn;
-    private JButton viewCartBtn;
     private JPanel purchasePanel;
     private JLabel totalItemsCartLabel;
     private JLabel silverPassLabel;
@@ -70,7 +69,6 @@ public class PassesPanel extends JPanel {
         footer = new Footer();
         pass = new Pass();
         addToCartBtn = new JButton("Add to Cart");
-        viewCartBtn = new JButton("View Cart");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -140,7 +138,7 @@ public class PassesPanel extends JPanel {
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        addToCartBtn.setBackground(new Color(152, 175, 197));
+        addToCartBtn.setBackground(new Color(58, 115, 169));
         addToCartBtn.setForeground(Color.WHITE);
         addToCartBtn.setFocusPainted(false); // Removes focus border on click
         addToCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
@@ -151,14 +149,14 @@ public class PassesPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (addToCartBtn.isEnabled()) {
-                    addToCartBtn.setBackground(new Color(132, 155, 177)); // Darker blue on hover
+                    addToCartBtn.setBackground(new Color(40, 95, 150)); // Darker blue on hover
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!addToCartBtn.isEnabled()) {
-                    addToCartBtn.setBackground(new Color(152, 175, 197));
+                    addToCartBtn.setBackground(new Color(58, 115, 169));
                 }
             }
 
@@ -187,59 +185,13 @@ public class PassesPanel extends JPanel {
             if (listener != null) {
                 listener.formEventOccured(passEvent);
             }
-            
+
             saveData();
-            updateButtonStates();           
-            viewCartBtn.setEnabled(true);
-        });
-
-        viewCartBtn.setEnabled(false);
-        viewCartBtn.setBackground(new Color(58, 115, 169)); // Navy blue
-        viewCartBtn.setForeground(Color.WHITE);
-        viewCartBtn.setFocusPainted(false); // Removes focus border on click
-        viewCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
-        viewCartBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
-
-        viewCartBtn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (viewCartBtn.isEnabled()) {
-                    viewCartBtn.setBackground(new Color(40, 95, 150)); // Darker blue on hover
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (viewCartBtn.isEnabled()) {
-                    viewCartBtn.setBackground(new Color(58, 115, 169)); // Original blue
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                viewCartBtn.setForeground(new Color(40, 95, 150));
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                viewCartBtn.setForeground(Color.WHITE);
-            }
-        });
-
-        viewCartBtn.addActionListener((ActionEvent e) -> {
-            CartView cartView = new CartView();
-            cartView.setVisible(true);
-
-            Window parentWindow = SwingUtilities.getWindowAncestor(PassesPanel.this);
-
-            if (parentWindow instanceof PassesView passesView) {
-                passesView.closeWindow();
-            }
             updateButtonStates();
+            MessageDialogue.displayConfirmationtMsg((JFrame) SwingUtilities.getWindowAncestor(this));
         });
 
         purchasePanel.add(addToCartBtn);
-        purchasePanel.add(viewCartBtn);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
         add(purchasePanel);
 
@@ -260,6 +212,7 @@ public class PassesPanel extends JPanel {
     private JPanel createTicketCard(String header, String price, String description) {
 
         Color backGroundColor = new Color(233, 233, 234);
+        Color textColor = new Color(82, 105, 127);
 
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
@@ -314,7 +267,7 @@ public class PassesPanel extends JPanel {
         // Description with fixed height
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        descriptionLabel.setForeground(new Color(82, 105, 127));
+        descriptionLabel.setForeground(textColor);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
@@ -333,7 +286,7 @@ public class PassesPanel extends JPanel {
 
         JLabel quantityLabel = new JLabel("Qty:");
         quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantityLabel.setForeground(new Color(82, 105, 127));
+        quantityLabel.setForeground(textColor);
         quantityPanel.add(quantityLabel);
 
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
@@ -419,4 +372,43 @@ public class PassesPanel extends JPanel {
         addToCartBtn.setForeground(cartHasItems ? Color.WHITE : Color.LIGHT_GRAY);
         addToCartBtn.setCursor(cartHasItems ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
+    
+//    private void displayConfirmationtMsg() {
+//        // Create a custom panel with graphics
+//        JPanel customPanel = new JPanel(new BorderLayout());
+//        customPanel.setBackground( new Color(233, 233, 234));
+//
+//        // Title
+//        JLabel titleLabel = new JLabel("Items added to the cart! "
+//                + "View cart by navigating to "
+//                + "the menu bar on the home page.");
+//        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+//        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//        titleLabel.setForeground(new Color(40, 95, 150));
+//
+//        // Icon or Graphic (Example: a warning icon)
+//        JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.informationIcon"));
+//        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        iconLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//
+//        // Add components to the panel
+//        customPanel.add(iconLabel, BorderLayout.NORTH);
+//        customPanel.add(titleLabel, BorderLayout.CENTER);
+//
+//        // Show the dialog with the custom panel
+//        int action = JOptionPane.showConfirmDialog(
+//                null,
+//                customPanel,
+//                "Cart Confirmation",
+//                JOptionPane.PLAIN_MESSAGE,
+//                JOptionPane.PLAIN_MESSAGE
+//        );
+//
+//        // Handle user selection
+//        if (action == JOptionPane.OK_OPTION) {
+//            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+//            topFrame.dispose();
+//        }
+//    }
 }

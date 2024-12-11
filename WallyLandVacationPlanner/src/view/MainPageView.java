@@ -1,21 +1,22 @@
 package view;
 
-import java.awt.Image;
-import java.net.URL;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.*;
-import view.loginsignup.login.LoginView;
 
 /**
  * Main Page View containing the main page panel.
+ *
  * @author Ana
  */
 public class MainPageView extends JFrame {
 
     private ImageIcon wallylandIcon;
-    
-    public MainPageView() {      
+
+    public MainPageView() {
         super("WallyLand");
-        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
         }
@@ -26,8 +27,37 @@ public class MainPageView extends JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
-                int confirm = JOptionPane.showConfirmDialog(MainPageView.this, "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.OK_CANCEL_OPTION);
-                if (confirm == JOptionPane.OK_OPTION) {
+                // Create a custom panel with graphics
+                JPanel customPanel = new JPanel(new BorderLayout());
+                customPanel.setBackground(new Color(233, 233, 234));
+
+                // Title
+                JLabel titleLabel = new JLabel("Are you sure you want to exit?");
+                titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                titleLabel.setForeground(new Color(40, 95, 150));
+
+                // Icon or Graphic (Example: a warning icon)
+                JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.warningIcon"));
+                iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                iconLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                // Add components to the panel
+                customPanel.add(iconLabel, BorderLayout.NORTH);
+                customPanel.add(titleLabel, BorderLayout.CENTER);
+
+                // Show the dialog with the custom panel
+                int action = JOptionPane.showConfirmDialog(
+                        null,
+                        customPanel,
+                        "Exit Confirmation",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE
+                );
+
+                // Handle user selection
+                if (action == JOptionPane.OK_OPTION) {
                     dispose();
                 }
             }
@@ -38,17 +68,8 @@ public class MainPageView extends JFrame {
         setVisible(true);
         setResizable(false);
     }
-
-private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-            return null;
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImage);
+    
+    public void closewindow(){
+        this.dispose();
     }
 }

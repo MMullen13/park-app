@@ -7,6 +7,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.loginsignup.LoginFormEvent;
+import view.ImageUtils;
 
 /**
  * The LoginView class represents the main window of the WallyLand Park
@@ -30,7 +31,7 @@ public class LoginView extends JFrame {
     public LoginView() {
         super("WallyLand");
 
-        wallylandIcon = createIcon("/images/theme-park.png", 200, 200);
+        wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);
         if (wallylandIcon != null) {
             setIconImage(wallylandIcon.getImage()); // This should work if class extends JFrame
         }
@@ -56,28 +57,6 @@ public class LoginView extends JFrame {
 
         setVisible(true);
         setResizable(false);
-    }
-
-    /**
-     * Creates an ImageIcon from the specified file path, resizes it to the
-     * given width and height, and returns the resized icon.
-     *
-     * @param path The path to the image file.
-     * @param w The desired width of the icon.
-     * @param l The desired length (height) of the icon.
-     * @return A resized ImageIcon.
-     */
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
     
     /**

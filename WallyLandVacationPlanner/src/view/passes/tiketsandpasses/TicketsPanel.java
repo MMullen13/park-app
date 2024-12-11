@@ -13,7 +13,6 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -35,7 +35,7 @@ import model.ticketsandpasses.Ticket;
 import view.Footer;
 import view.Header;
 import view.ImageUtils;
-import view.passes.cart.CartView;
+import view.MessageDialogue;
 
 /**
  *
@@ -44,7 +44,6 @@ import view.passes.cart.CartView;
 public class TicketsPanel extends JPanel {
 
     private JButton addToCartBtn;
-    private JButton viewCartBtn;
     private JPanel purchasePanel;
     private JLabel totalItemsCartLabel;
     private JLabel childTicketsCartLabel;
@@ -70,7 +69,6 @@ public class TicketsPanel extends JPanel {
         footer = new Footer();
         ticket = new Ticket();
         addToCartBtn = new JButton("Add to Cart");
-        viewCartBtn = new JButton("View Cart");
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Use vertical BoxLayout
 
@@ -141,7 +139,7 @@ public class TicketsPanel extends JPanel {
         purchasePanel.setOpaque(false);
         purchasePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add spacing around the button
 
-        addToCartBtn.setBackground(new Color(152, 175, 197));
+        addToCartBtn.setBackground(new Color(58, 115, 169));
         addToCartBtn.setForeground(Color.WHITE);
         addToCartBtn.setFocusPainted(false); // Removes focus border on click
         addToCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
@@ -152,14 +150,14 @@ public class TicketsPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (addToCartBtn.isEnabled()) {
-                    addToCartBtn.setBackground(new Color(132, 155, 177)); // Darker on hover
+                    addToCartBtn.setBackground(new Color(40, 95, 150)); // Darker on hover
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (addToCartBtn.isEnabled()) {
-                    addToCartBtn.setBackground(new Color(152, 175, 197)); // Original color
+                    addToCartBtn.setBackground(new Color(58, 115, 169)); // Original color
                 }
             }
 
@@ -193,58 +191,11 @@ public class TicketsPanel extends JPanel {
             }
             saveData();
             updateButtonStates();
-            viewCartBtn.setEnabled(true);
-        });
-
-        viewCartBtn.setEnabled(false);
-        viewCartBtn.setBackground(new Color(58, 115, 169)); // Navy blue
-        viewCartBtn.setForeground(Color.WHITE);
-        viewCartBtn.setFocusPainted(false); // Removes focus border on click
-        viewCartBtn.setFont(new Font("Arial", Font.BOLD, 14));
-        viewCartBtn.setPreferredSize(new Dimension(160, 60)); // Width, Height
-        viewCartBtn.addActionListener((ActionEvent e) -> {
-            // Add action listener
-        });
-        viewCartBtn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (viewCartBtn.isEnabled()) {
-                    viewCartBtn.setBackground(new Color(40, 95, 150)); // Darker blue on hover
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (viewCartBtn.isEnabled()) {
-                    viewCartBtn.setBackground(new Color(58, 115, 169)); // Original blue
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                viewCartBtn.setForeground(new Color(40, 95, 150));
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                viewCartBtn.setForeground(Color.WHITE);
-            }
-        });
-
-        viewCartBtn.addActionListener((ActionEvent e) -> {
-            CartView cartView = new CartView();
-            cartView.setVisible(true);
-
-            Window parentWindow = SwingUtilities.getWindowAncestor(TicketsPanel.this);
-
-            if (parentWindow instanceof TicketsView ticketView) {
-                ticketView.closeWindow();
-            }
-            updateButtonStates();
+            
+            MessageDialogue.displayConfirmationtMsg((JFrame) SwingUtilities.getWindowAncestor(this));
         });
 
         purchasePanel.add(addToCartBtn);
-        purchasePanel.add(viewCartBtn);
         purchasePanel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center-align purchase button
         add(purchasePanel);
 
@@ -263,6 +214,9 @@ public class TicketsPanel extends JPanel {
     }
 
     private JPanel createTicketCard(String header, String price, String description) {
+        
+        Color backGroundColor = new Color(233, 233, 234);
+        Color textColor = new Color(82, 105, 127);
 
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Stack components vertically
@@ -317,12 +271,12 @@ public class TicketsPanel extends JPanel {
         // Description with fixed height
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: left; '>" + description + "</div></html>", JLabel.CENTER);
         descriptionLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        descriptionLabel.setForeground(Color.WHITE);
+        descriptionLabel.setForeground(textColor);
         descriptionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         descriptionLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setBackground(new Color(152, 175, 197));
+        descriptionPanel.setBackground(backGroundColor);
         descriptionPanel.setPreferredSize(new Dimension(200, 100));
         descriptionPanel.setLayout(new BorderLayout());
         descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -331,12 +285,12 @@ public class TicketsPanel extends JPanel {
 
         // Quantity Selector
         JPanel quantityPanel = new JPanel();
-        quantityPanel.setBackground(new Color(152, 175, 197));
+        quantityPanel.setBackground(backGroundColor);
         quantityPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
         JLabel quantityLabel = new JLabel("Qty:");
         quantityLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        quantityLabel.setForeground(Color.WHITE);
+        quantityLabel.setForeground(textColor);
         quantityPanel.add(quantityLabel);
 
         JSpinner quantitySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
@@ -378,7 +332,7 @@ public class TicketsPanel extends JPanel {
 
         // footer Panel to add space
         JPanel footerPanel = new JPanel();
-        footerPanel.setBackground(new Color(152, 175, 197));
+        footerPanel.setBackground(backGroundColor);
         footerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
 
         cardPanel.add(footerPanel);

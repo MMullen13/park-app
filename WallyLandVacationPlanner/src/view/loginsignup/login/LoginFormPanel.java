@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -14,10 +13,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +25,7 @@ import javax.swing.border.Border;
 import model.loginsignup.User;
 import model.loginsignup.UserFactory;
 import model.loginsignup.LoginFormEvent;
+import view.ImageUtils;
 import view.loginsignup.register.RegisterView;
 import view.loginsignup.LoginFormListenerIF;
 import view.loginsignup.RoundedBorder;
@@ -80,10 +78,10 @@ public class LoginFormPanel extends JPanel {
         incorrectPassword = new JLabel("");
         incorrectPasswordIcon = new JLabel("");
         signUpExplanationLabel = new JLabel("New User, Sign Up Here");
-        emailIcon = createIcon("/images/icons8-email.png", 40, 40);
-        passwordIcon = createIcon("/images/icons8-lock.png", 40, 40);
-        incorrPassIcon = createIcon("/images/icons8-error.png", 50, 50);
-        eyeIcon = createIcon("/images/icons8-eye.png", 35, 35);
+        emailIcon = ImageUtils.createIcon("/images/icons8-email.png", 40, 40);
+        passwordIcon = ImageUtils.createIcon("/images/icons8-lock.png", 40, 40);
+        incorrPassIcon = ImageUtils.createIcon("/images/icons8-error.png", 50, 50);
+        eyeIcon = ImageUtils.createIcon("/images/icons8-eye.png", 35, 35);
 
         signUpExplanationLabel.setForeground(Color.GRAY);
 
@@ -183,7 +181,7 @@ public class LoginFormPanel extends JPanel {
 
         layoutControls(); //add the layout controllers
 
-        loginBtn.setIcon(createIcon("/images/icons8-user.png", 20, 20));
+        loginBtn.setIcon(ImageUtils.createIcon("/images/icons8-user.png", 20, 20));
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -209,7 +207,7 @@ public class LoginFormPanel extends JPanel {
             }
         });
 
-        signUpBtn.setIcon(createIcon("/images/icons8-add-user.png", 20, 20));
+        signUpBtn.setIcon(ImageUtils.createIcon("/images/icons8-add-user.png", 20, 20));
         signUpBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -249,28 +247,6 @@ public class LoginFormPanel extends JPanel {
 
     private boolean checkPassword(String password) {
         return "password".equals(password);
-    }
-
-    /**
-     * Creates an ImageIcon from the specified file path, resizes it to the
-     * given width and height, and returns the resized icon.
-     *
-     * @param path The path to the image file.
-     * @param w The desired width of the icon.
-     * @param l The desired length (height) of the icon.
-     * @return A resized ImageIcon.
-     */
-    private ImageIcon createIcon(String path, int w, int l) {
-        URL url = getClass().getResource(path);
-
-        if (url == null) {
-            System.err.println("Unable to load image icon: " + path);
-        }
-
-        ImageIcon icon = new ImageIcon(url);
-        Image scaledImage = icon.getImage().getScaledInstance(w, l, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(scaledImage);
-        return resizedIcon;
     }
 
     /**

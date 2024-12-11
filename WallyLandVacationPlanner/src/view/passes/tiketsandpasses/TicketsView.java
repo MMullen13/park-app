@@ -1,8 +1,6 @@
 package view.passes.tiketsandpasses;
 
 import controller.ticketsandpasses.PassesController;
-import java.awt.Image;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import view.ImageUtils;
