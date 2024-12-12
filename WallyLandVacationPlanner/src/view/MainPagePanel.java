@@ -1,7 +1,6 @@
 package view;
 
 import controller.foodordering.FoodController;
-import controller.ticketsandpasses.PassesController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -166,12 +165,12 @@ public class MainPagePanel extends JPanel {
         orderHistory.addActionListener(e -> handleOrderHistory());
         signOut.addActionListener(e -> handleSignOut());
         openMap.addActionListener(e -> handleParkMap());
-        groupTickets.addActionListener(e -> handleParkMap());
-        promotions.addActionListener(e -> handleParkMap());
-        events.addActionListener(e -> handleParkMap());
-        attractions.addActionListener(e -> handleParkMap());
-        birthdayOne.addActionListener(e -> handleParkMap());
-        birthdayTwo.addActionListener(e -> handleParkMap());
+        groupTickets.addActionListener(e -> handleInfo());
+        promotions.addActionListener(e -> handleInfo());
+        events.addActionListener(e -> handleInfo());
+        attractions.addActionListener(e -> handleInfo());
+        birthdayOne.addActionListener(e -> handleInfo());
+        birthdayTwo.addActionListener(e -> handleInfo());
 
         menuBar.setBorder(BorderFactory.createEmptyBorder());
 

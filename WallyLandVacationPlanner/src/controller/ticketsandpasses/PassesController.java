@@ -17,6 +17,10 @@ import view.passes.cart.CartView;
 import view.passes.tiketsandpasses.TicketsView;
 
 /**
+ * The PassesController class handles the business logic for managing passes,
+ * tickets, and cart items. It provides methods to update totals, save and load
+ * cart data to/from files, and manage views related to passes, tickets, and the
+ * cart.
  *
  * @author Ana
  */
@@ -27,11 +31,14 @@ public class PassesController {
     public CartView cartView;
     private List<CartItem> passesCartItems;
     private List<CartItem> ticketsCartItems;
-    private double totalPassesPrice = 0.0;
-    private double totalTicketsPrice = 0.0;
+    protected double totalPassesPrice = 0.0;
+    protected double totalTicketsPrice = 0.0;
     protected Pass pass;
     protected Ticket ticket;
 
+    /**
+     * Constructs a new PassesController instance and initializes fields.
+     */
     public PassesController() {
         pass = new Pass();
         ticket = new Ticket();
@@ -39,46 +46,103 @@ public class PassesController {
         ticketsCartItems = new ArrayList<>();
     }
 
+    /**
+     * Gets the current CartView instance.
+     *
+     * @return the current CartView
+     */
     public CartView getCartView() {
         return cartView;
     }
 
+    /**
+     * Sets the CartView instance.
+     *
+     * @param cartView the CartView to set
+     */
     public void setCartView(CartView cartView) {
         this.cartView = cartView;
     }
 
+    /**
+     * Gets the current TicketsView instance.
+     *
+     * @return the current TicketsView
+     */
     public TicketsView getTicketsView() {
         return ticketsView;
     }
 
+    /**
+     * Sets the TicketsView instance.
+     *
+     * @param ticketsView the TicketsView to set
+     */
     public void setTicketsView(TicketsView ticketsView) {
         this.ticketsView = ticketsView;
     }
 
+    /**
+     * Gets the current PassesView instance.
+     *
+     * @return the current PassesView
+     */
     public PassesView getPassView() {
         return passView;
     }
 
+    /**
+     * Sets the PassesView instance.
+     *
+     * @param passView the PassesView to set
+     */
     public void setPassView(PassesView passView) {
         this.passView = passView;
     }
 
+    /**
+     * Gets the list of cart items for passes.
+     * 
+     * @return a copy of the passes cart items list
+     */
     public List<CartItem> getPassesCartItems() {
         return new ArrayList<>(passesCartItems); // Return a copy to avoid direct manipulation
     }
 
+    /**
+     * Gets the list of cart items for tickets.
+     * 
+     * @return a copy of the tickets cart items list
+     */
     public List<CartItem> getTicketsCartItems() {
         return new ArrayList<>(ticketsCartItems); // Return a copy to avoid direct manipulation
     }
 
+    /**
+     * Updates the total price for passes based on the given type and quantity.
+     * 
+     * @param passType the type of pass
+     * @param quantity the quantity of passes
+     */
     public void updatePassTotals(String passType, int quantity) {
         totalPassesPrice += quantity * pass.getPriceForType(passType);
     }
 
+    /**
+     * Updates the total price for tickets based on the given type and quantity.
+     * 
+     * @param passType the type of ticket
+     * @param quantity the quantity of tickets
+     */
     public void updateTicketsTotals(String passType, int quantity) {
         totalTicketsPrice += quantity * ticket.getPriceForType(passType);
     }
 
+    /**
+     * Saves the pass cart data to a file.
+     * 
+     * @param cartItems a map of cart items with their types and quantities
+     */
     public void savePassCartDataToFile(Map<String, Integer> cartItems) {
         synchronized (this) {
             File file = new File("pass_cart_data.txt");
@@ -94,6 +158,9 @@ public class PassesController {
         }
     }
 
+    /**
+     * Loads the pass cart data from a file and updates the cart items list.
+     */
     public void loadPassCartDataFromFile() {
         File file = new File("pass_cart_data.txt");
 
@@ -124,6 +191,11 @@ public class PassesController {
         }
     }
 
+    /**
+     * Saves the ticket cart data to a file.
+     * 
+     * @param cartItems a map of cart items with their types and quantities
+     */
     public void saveTicketCartDataToFile(Map<String, Integer> cartItems) {
         synchronized (this) {
             File file = new File("ticket_cart_data.txt");
@@ -139,6 +211,9 @@ public class PassesController {
         }
     }
 
+    /**
+     * Loads the ticket cart data from a file and updates the cart items list.
+     */
     public void loadTicketCartDataFromFile() {
         File file = new File("ticket_cart_data.txt");
 
@@ -169,6 +244,9 @@ public class PassesController {
         }
     }
 
+    /**
+     * Clears the cart data files for both passes and tickets.
+     */
     public void clearCartFiles() {
         File passFile = new File("pass_cart_data.txt");
         File ticketFile = new File("ticket_cart_data.txt");
@@ -181,6 +259,9 @@ public class PassesController {
         }
     }
 
+    /**
+     * Opens the CartView window. If a previous instance exists, it will be closed
+     * */
     public void openCartView() {
         if (cartView != null) {
             cartView.closeWindow(); // Close the old window if it exists

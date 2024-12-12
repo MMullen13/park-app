@@ -43,14 +43,4 @@ public class CartView extends JFrame {
        this.setVisible(false);
     }
 
-    public void refresh() {
-//        cartPanel.removeAll();
-        cartPanel.refreshTicketCart();
-        cartPanel.refreshPassCart();
-        cartPanel.updateTotalLabel();
-        cartPanel.updateEmptyCartLabel();
-        cartPanel.updateButtonStates();
-        cartPanel.revalidate();
-        cartPanel.repaint();
-    }
 }
