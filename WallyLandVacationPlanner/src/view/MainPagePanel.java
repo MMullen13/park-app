@@ -38,16 +38,18 @@ public class MainPagePanel extends JPanel {
     private ImageIcon wallylandImage;
     private FadedImagePanel backgroundPanel;
     private JPanel footerPanel;
-    private Footer footer; 
+    private Footer footer;
     private ParkMapController parkMapCtrl;
     private ParkMapView parkMapView;
 
     /**
-     * Constructor
+     * Constructor Initializes the main page panel, sets layout, initializes
+     * controllers and views for food, order, park map, and footer, and sets up
+     * the background, footer, and menu bar.
      */
     public MainPagePanel() {
         setLayout(new BorderLayout());
-        
+
         //Starts the controllers and views
         cntl = new FoodController();
         orderView = new OrderViewForm(cntl);
@@ -77,6 +79,13 @@ public class MainPagePanel extends JPanel {
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
     }
 
+    /**
+     * Creates and customizes the menu bar with various menu items like Dining,
+     * Park Map, Birthday Packages, and others. It sets up custom menu items and
+     * actions for each menu option.
+     *
+     * @return menu
+     */
     private JMenuBar createMenuBar() {
         // Create a custom JMenuBar
         JMenuBar menuBar = new JMenuBar() {
@@ -207,6 +216,13 @@ public class MainPagePanel extends JPanel {
         return menu;
     }
 
+    /**
+     * Creates a custom JMenu with a gradient background and hover effect for
+     * the given title.
+     *
+     * @param title
+     * @return menuItem
+     */
     private JMenuItem createCustomMenuItem(String title) {
         JMenuItem menuItem = new JMenuItem(title) {
             @Override

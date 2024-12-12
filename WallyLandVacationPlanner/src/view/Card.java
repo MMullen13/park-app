@@ -4,29 +4,33 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * 
+ * The Card class represents a custom JPanel component that displays a card-like
+ * UI element. The card includes a header with a name and price, a description,
+ * and a footer. The card components are styled with gradients, rounded corners,
+ * and text centering. This class extends JPanel and uses BoxLayout to stack
+ * components vertically.
+ *
  * @author Ana
  */
 public class Card extends JPanel {
 
+    /**
+     * Constructs a new Card object with the specified header, price,
+     * description, width, and height. It sets up the card layout, styles the
+     * header with a gradient background, displays the description in a label,
+     * and includes a footer with a gradient background.
+     *
+     * @param header The header text (name) to display at the top of the card.
+     * @param price The price to display next to the header.
+     * @param description The description text to display below the header.
+     * @param width The preferred width of the card.
+     * @param height The preferred height of the card.
+     */
     public Card(String header, String price, String description, int width, int height) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Stack components vertically
         setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 6, true)); // Rounded border
-        setBackground(new Color(58, 115, 169)); 
+        setBackground(new Color(58, 115, 169));
         setPreferredSize(new Dimension(width, height));
-
-//        // Add MouseListener for hover effect
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//                setBackground(new Color(255, 255, 255)); // Change background on hover
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//                setBackground(new Color(170, 187, 192)); // Revert to original background
-//            }
-//        });
 
         // Header (Name + Price)
         JLabel headerLabel = new JLabel(header + price, JLabel.CENTER) {
@@ -75,7 +79,7 @@ public class Card extends JPanel {
         add(descriptionPanel);
 
         // footer Panel to add space
-        JPanel footerPanel = new JPanel(){
+        JPanel footerPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -95,6 +99,5 @@ public class Card extends JPanel {
 
         add(footerPanel);
     }
-    
-}
 
+}

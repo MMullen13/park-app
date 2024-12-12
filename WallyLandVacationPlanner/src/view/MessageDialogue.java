@@ -12,11 +12,23 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 /**
+ * The MessageDialogue class provides utility methods to display custom
+ * confirmation dialogs with various messages and options. It includes methods
+ * for displaying simple confirmation messages as well as dialog boxes with
+ * customizable messages and "OK" / "Cancel" options.
  *
  * @author Ana
  */
 public class MessageDialogue {
 
+    /**
+     * Displays a confirmation message indicating that items have been added to
+     * the cart. The user is informed that they can view the cart by navigating
+     * to the menu bar on the home page.
+     *
+     * @param frame The JFrame instance that will be closed upon user
+     * confirmation.
+     */
     public static void displayConfirmationtMsg(JFrame frame) {
         // Create a custom panel with graphics
         JPanel customPanel = new JPanel(new BorderLayout());
@@ -56,6 +68,16 @@ public class MessageDialogue {
         }
     }
 
+    /**
+     * Displays a customizable confirmation dialog with an "OK" and "Cancel"
+     * option. The dialog shows a title and a message, and upon clicking "OK",
+     * the provided frame is disposed of.
+     *
+     * @param frame The JFrame instance that will be disposed upon user
+     * confirmation.
+     * @param title The title to be displayed in the dialog.
+     * @param msg The message to be displayed in the dialog.
+     */
     public static void okCancelConfirmationDialogue(JFrame frame, String title, String msg) {
         // Create a custom panel with graphics
         JPanel customPanel = new JPanel(new BorderLayout());

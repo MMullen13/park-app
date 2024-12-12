@@ -38,6 +38,9 @@ import view.ImageUtils;
 import view.MessageDialogue;
 
 /**
+ * Panel that displays the available passes (Silver, Gold, Platinum) and allows
+ * the user to add them to a cart. Includes quantity selection, price display,
+ * and a button to add selected passes to the cart.
  *
  * @author Ana
  */
@@ -63,6 +66,13 @@ public class PassesPanel extends JPanel {
     private Pass pass;
     private PassesController controller;
 
+    /**
+     * Constructor to initialize the panel with passes and their related UI
+     * elements.
+     *
+     * @param controller the PassesController object to handle pass-related
+     * actions.
+     */
     public PassesPanel(PassesController controller) {
         this.controller = controller;
         header = new Header();
@@ -209,6 +219,15 @@ public class PassesPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Creates a ticket card for displaying pass details such as header, price,
+     * description, and quantity selector.
+     *
+     * @param header the name of the pass type (e.g., "Silver")
+     * @param price the price of the pass
+     * @param description the description of the pass benefits
+     * @return the JPanel containing the ticket card
+     */
     private JPanel createTicketCard(String header, String price, String description) {
 
         Color backGroundColor = new Color(233, 233, 234);
@@ -341,6 +360,12 @@ public class PassesPanel extends JPanel {
         return cardPanel;
     }
 
+    /**
+     * Updates the cart label with the total number of passes and total price,
+     * including taxes. The method calculates the total number of passes and
+     * the total price based on the cart contents, applies tax, and updates the
+     * label texts.
+     */
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
         totalPassQuantity = 0;
@@ -360,10 +385,21 @@ public class PassesPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Saves the current ticket cart data to a file. This method persists the
+     * current cart items (with their quantities) to a file for later retrieval
+     * or session persistence.
+     */
     private void saveData() {
         controller.savePassCartDataToFile(cartItems);
     }
 
+    /**
+     * Updates the state of the "Add to Cart" button based on the current
+     * contents of the cart. The button's enabled state, foreground color, and
+     * cursor appearance are updated depending on whether the cart contains any
+     * items.
+     */
     private void updateButtonStates() {
         boolean cartHasItems = !cartItems.isEmpty() && cartItems.values().stream().anyMatch(quantity -> quantity > 0);
 
@@ -372,43 +408,4 @@ public class PassesPanel extends JPanel {
         addToCartBtn.setForeground(cartHasItems ? Color.WHITE : Color.LIGHT_GRAY);
         addToCartBtn.setCursor(cartHasItems ? Cursor.getDefaultCursor() : Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
-    
-//    private void displayConfirmationtMsg() {
-//        // Create a custom panel with graphics
-//        JPanel customPanel = new JPanel(new BorderLayout());
-//        customPanel.setBackground( new Color(233, 233, 234));
-//
-//        // Title
-//        JLabel titleLabel = new JLabel("Items added to the cart! "
-//                + "View cart by navigating to "
-//                + "the menu bar on the home page.");
-//        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-//        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-//        titleLabel.setForeground(new Color(40, 95, 150));
-//
-//        // Icon or Graphic (Example: a warning icon)
-//        JLabel iconLabel = new JLabel(UIManager.getIcon("OptionPane.informationIcon"));
-//        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        iconLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-//
-//        // Add components to the panel
-//        customPanel.add(iconLabel, BorderLayout.NORTH);
-//        customPanel.add(titleLabel, BorderLayout.CENTER);
-//
-//        // Show the dialog with the custom panel
-//        int action = JOptionPane.showConfirmDialog(
-//                null,
-//                customPanel,
-//                "Cart Confirmation",
-//                JOptionPane.PLAIN_MESSAGE,
-//                JOptionPane.PLAIN_MESSAGE
-//        );
-//
-//        // Handle user selection
-//        if (action == JOptionPane.OK_OPTION) {
-//            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//            topFrame.dispose();
-//        }
-//    }
 }

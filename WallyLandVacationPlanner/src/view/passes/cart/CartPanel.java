@@ -33,6 +33,14 @@ import view.Footer;
 import view.Header;
 
 /**
+ * This class represents the CartPanel, a custom JPanel component used in the
+ * shopping cart section of the application. It provides a graphical user
+ * interface for displaying the contents of a shopping cart, allowing users to
+ * view, modify, and interact with items in the cart.
+ *
+ * The CartPanel class extends JPanel and includes various UI components such as
+ * labels, buttons to manage the cart's contents. It supports event handling for
+ * user interactions like adding, removing, or updating items in the cart.
  *
  * @author Ana
  */
@@ -53,6 +61,9 @@ public class CartPanel extends JPanel {
     private JButton purchaseButton;
     private JButton deleteCartItemsBtn;
 
+    /**
+     * Constructor, initializes all the components.
+     */
     public CartPanel(PassesController controller) {
         ticketCartItemsList = new ArrayList<>();
         passCartItemsList = new ArrayList<>();
@@ -147,7 +158,7 @@ public class CartPanel extends JPanel {
         });
 
         deleteCartItemsBtn.addActionListener((ActionEvent e) -> {
-            
+
             deleteCartItemsBtn.setForeground(Color.LIGHT_GRAY);
             // Create a custom panel with graphics
             JPanel customPanel = new JPanel(new BorderLayout());
@@ -251,6 +262,13 @@ public class CartPanel extends JPanel {
         add(footerPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Reads cart data from the pass cart data file and populates the pass cart
+     * item list. If the file does not exist, returns the current pass cart
+     * items list. Handles malformed lines by skipping them.
+     *
+     * @return List of pass cart items
+     */
     private List<CartItem> readCartDataFromPassFile() {
         synchronized (this) {
             File file = new File("pass_cart_data.txt");
@@ -288,6 +306,13 @@ public class CartPanel extends JPanel {
         }
     }
 
+    /**
+     * Reads cart data from the ticket cart data file and populates the ticket
+     * cart item list. If the file does not exist, returns the current ticket
+     * cart items list. Handles malformed lines by skipping them.
+     *
+     * @return List of ticket cart items
+     */
     private List<CartItem> readCartDataFromTicketFile() {
         synchronized (this) {
             File file = new File("ticket_cart_data.txt");
@@ -325,6 +350,9 @@ public class CartPanel extends JPanel {
         }
     }
 
+    /**
+     * Calculates the total price including taxes for the tickets and passes.
+     */
     private double calculateTotalPrice() {
         double total = 0.0;
 
@@ -345,6 +373,10 @@ public class CartPanel extends JPanel {
         return total;
     }
 
+    /**
+     * Refreshes the ticket cart panel by clearing the current content and
+     * displaying the updated list of ticket cart items.
+     */
     protected void refreshTicketCart() {
         ticketCartItemsList.clear(); // Clear the existing data
         readCartDataFromTicketFile(); // Re-read the file to load new data
@@ -373,6 +405,10 @@ public class CartPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Refreshes the pass cart panel by clearing the current content and
+     * displaying the updated list of pass cart items.
+     */
     protected void refreshPassCart() {
         passCartItemsList.clear(); // Clear the existing data
         readCartDataFromPassFile(); // Re-read the file to load new data
@@ -400,11 +436,19 @@ public class CartPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Updates the label displaying the total price at checkout, including
+     * taxes.
+     */
     protected void updateTotalLabel() {
         double total = calculateTotalPrice();
         totalLabel.setText(String.format("Total Price at Checkout (incl. taxes): $%.2f", total));
     }
 
+    /**
+     * Updates the label to indicate whether the cart is empty or contains
+     * items.
+     */
     protected void updateEmptyCartLabel() {
         if (ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty()) {
             emptyCartLabel.setText("Cart is Empty");
@@ -420,6 +464,10 @@ public class CartPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Updates the states of buttons such as enabling or disabling based on the
+     * current cart status.
+     */
     protected void updateButtonStates() {
         boolean isCartEmpty = ticketCartItemsList.isEmpty() && passCartItemsList.isEmpty();
 

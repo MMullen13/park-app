@@ -38,6 +38,9 @@ import view.ImageUtils;
 import view.MessageDialogue;
 
 /**
+ * Panel that displays the available tickets (Child, Adult, Senior) and allows
+ * the user to add them to a cart. Includes quantity selection, price display,
+ * and a button to add selected tickets to the cart.
  *
  * @author Ana
  */
@@ -63,6 +66,13 @@ public class TicketsPanel extends JPanel {
     private Ticket ticket;
     private PassesController controller;
 
+    /**
+     * Constructor to initialize the panel with tickets and their related UI
+     * elements.
+     *
+     * @param controller the PassesController object to handle tickets-related
+     * actions.
+     */
     public TicketsPanel(PassesController controller) {
         this.controller = controller;
         header = new Header();
@@ -191,7 +201,7 @@ public class TicketsPanel extends JPanel {
             }
             saveData();
             updateButtonStates();
-            
+
             MessageDialogue.displayConfirmationtMsg((JFrame) SwingUtilities.getWindowAncestor(this));
         });
 
@@ -213,8 +223,17 @@ public class TicketsPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Creates a ticket card for displaying pass details such as header, price,
+     * description, and quantity selector.
+     *
+     * @param header the name of the pass type (e.g., "Adult")
+     * @param price the price of the ticket
+     * @param description the description of the ticket benefits
+     * @return the JPanel containing the ticket card
+     */
     private JPanel createTicketCard(String header, String price, String description) {
-        
+
         Color backGroundColor = new Color(233, 233, 234);
         Color textColor = new Color(82, 105, 127);
 
@@ -343,6 +362,12 @@ public class TicketsPanel extends JPanel {
         return cardPanel;
     }
 
+    /**
+     * Updates the cart label with the total number of tickets and total price,
+     * including taxes. The method calculates the total number of tickets and
+     * the total price based on the cart contents, applies tax, and updates the
+     * label texts.
+     */
     private void updateCartLabel() {
         // Calculate the total number of tickets from the cart
         totalTicketsQuantity = 0;
@@ -362,10 +387,21 @@ public class TicketsPanel extends JPanel {
         updateButtonStates();
     }
 
+    /**
+     * Saves the current ticket cart data to a file. This method persists the
+     * current cart items (with their quantities) to a file for later retrieval
+     * or session persistence.
+     */
     private void saveData() {
         controller.saveTicketCartDataToFile(cartItems);
     }
 
+    /**
+     * Updates the state of the "Add to Cart" button based on the current
+     * contents of the cart. The button's enabled state, foreground color, and
+     * cursor appearance are updated depending on whether the cart contains any
+     * items.
+     */
     private void updateButtonStates() {
         boolean cartHasItems = !cartItems.isEmpty() && cartItems.values().stream().anyMatch(quantity -> quantity > 0);
 

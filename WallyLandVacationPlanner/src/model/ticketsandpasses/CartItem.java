@@ -5,7 +5,7 @@ package model.ticketsandpasses;
  * This class stores the type, quantity, and price of a cart item and provides methods to access and modify these properties.
  * It also includes a method to return a string representation of the cart item.
  * 
- * @author aniut
+ * @author Ana
  */
 public class CartItem {
     

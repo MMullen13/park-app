@@ -17,7 +17,7 @@ import view.passes.cart.CartView;
 import view.passes.tiketsandpasses.TicketsView;
 
 /**
- * The PassesController class handles the business logic for managing passes,
+ * The PassesController class handles the logic for managing passes,
  * tickets, and cart items. It provides methods to update totals, save and load
  * cart data to/from files, and manage views related to passes, tickets, and the
  * cart.
