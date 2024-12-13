@@ -6,7 +6,9 @@ import java.awt.Font;
 import javax.swing.*;
 
 /**
- * Main Page View containing the main page panel.
+ * The MainPageView class represents the main window of the WallyLand
+ * application. It extends JFrame and sets up the window with an icon, a custom
+ * exit confirmation dialog, and a panel for displaying the main content.
  *
  * @author Ana
  */
@@ -14,6 +16,12 @@ public class MainPageView extends JFrame {
 
     private ImageIcon wallylandIcon;
 
+    /**
+     * Constructs the main window of the WallyLand application. Sets the window
+     * icon, title, and default close operation, and adds the main content
+     * panel. A custom exit confirmation dialog is shown when the user attempts
+     * to close the window.
+     */
     public MainPageView() {
         super("WallyLand");
         wallylandIcon = ImageUtils.createIcon("/images/theme-park.png", 200, 200);
@@ -68,8 +76,12 @@ public class MainPageView extends JFrame {
         setVisible(true);
         setResizable(false);
     }
-    
-    public void closewindow(){
+
+    /**
+     * Closes the main window of the application. This method is used to dispose
+     * of the window and close the application.
+     */
+    public void closewindow() {
         this.dispose();
     }
 }

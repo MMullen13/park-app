@@ -11,6 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
+ * A JPanel subclass that displays an image with a fading effect and overlays
+ * text. This panel is used to show a background image with a semi-transparent
+ * gradient and display custom text on top of the image.
  *
  * @author Ana
  */
@@ -18,10 +21,21 @@ class FadedImagePanel extends JPanel {
 
     private ImageIcon imageIcon;
 
+    /**
+     * Constructs a FadedImagePanel with the specified image.
+     *
+     * @param imageIcon The ImageIcon to be displayed on the panel.
+     */
     public FadedImagePanel(ImageIcon imageIcon) {
         this.imageIcon = imageIcon;
     }
 
+    /**
+     * Paints the component by drawing the image with a fading gradient overlay
+     * and rendering the text on top of it.
+     *
+     * @param g The Graphics object used for painting the component.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -64,7 +78,7 @@ class FadedImagePanel extends JPanel {
         // Draw the large text
         g2d.drawString(largeText, xLarge, yLarge);
 
-        // Set the font for the smaller text
+        // Set the font for the smaller textF
         g2d.setFont(new Font("Arial", Font.PLAIN, 25)); // Smaller font size for the second line
         FontMetrics fmSmall = g2d.getFontMetrics();
         int xSmall = (getWidth() - fmSmall.stringWidth(smallText)) / 2; // Center the smaller text

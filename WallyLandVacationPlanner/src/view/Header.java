@@ -14,11 +14,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * A utility class for creating a header panel with two labels displaying custom
+ * messages. The header has a gradient background and is designed to be used as
+ * a part of a larger UI.
  *
  * @author Ana
  */
 public class Header {
-    
+
+    /**
+     * Creates a header panel with two labels displaying the specified messages.
+     * The panel has a gradient background and the labels are centered within
+     * it.
+     *
+     * @param msgOne The first message to display in the header.
+     * @param msgTwo The second message to display in the header.
+     * @return A JPanel containing the header with the two messages.
+     */
     public JPanel createHeaderPanel(String msgOne, String msgTwo) {
         JPanel header = new JPanel() {
             @Override
@@ -38,7 +50,6 @@ public class Header {
 
         JLabel firstLabel = new JLabel(msgOne);
         JLabel secondLabel = new JLabel(msgTwo);
-        
 
         firstLabel.setFont(new Font("Arial", Font.BOLD, 18));
         firstLabel.setForeground(Color.WHITE);
@@ -46,11 +57,11 @@ public class Header {
 
         header.add(Box.createRigidArea(new Dimension(0, 5))); // Add spacing at the top
         header.add(firstLabel);
-        header.add(Box.createRigidArea(new Dimension(0, 5))); 
+        header.add(Box.createRigidArea(new Dimension(0, 5)));
         header.add(secondLabel);
         header.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing at the bottom
 
         return header;
     }
-    
+
 }

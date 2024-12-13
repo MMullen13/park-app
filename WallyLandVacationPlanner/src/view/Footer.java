@@ -14,12 +14,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * A utility class for creating a footer panel with two labels displaying custom
+ * messages. The footer has a gradient background and is designed to be used as
+ * a part of a larger UI.
  *
  * @author Ana
  */
 public class Footer {
-    
-        public JPanel createFooterPanel(String msgOne, String msgTwo) {
+
+    /**
+     * Creates a footer panel with two labels displaying the specified messages.
+     * The panel has a gradient background and the labels are centered within
+     * it.
+     *
+     * @param msgOne The first message to display in the footer.
+     * @param msgTwo The second message to display in the footer.
+     * @return A JPanel containing the footer with the two messages.
+     */
+    public JPanel createFooterPanel(String msgOne, String msgTwo) {
         JPanel footer = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
