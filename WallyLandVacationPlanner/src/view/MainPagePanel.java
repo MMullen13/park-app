@@ -41,6 +41,7 @@ public class MainPagePanel extends JPanel {
     private JPanel footerPanel;
     private Footer footer; 
     private ParkMapController parkMapCtrl;
+    @SuppressWarnings("unused") //parkMapView is assigned but not accessed directly.
     private ParkMapView parkMapView;
 
     /**
@@ -54,7 +55,7 @@ public class MainPagePanel extends JPanel {
         orderView = new OrderViewForm(cntl);
         confirmationView = new OrderConfirmationViewForm(cntl);
 
-        //User to initizalize the controller and views for park map
+        //Initizalize the controller and views for park map
         parkMapCtrl = new ParkMapController();
         parkMapView = new ParkMapView(parkMapCtrl);
 
@@ -284,9 +285,12 @@ public class MainPagePanel extends JPanel {
         history.setVisible(true);
     }
 
+    /**
+        * Handles the display and update of the park map.
+    */
     private void handleParkMap() {
-        parkMapCtrl.getView().setVisible(true);
-        parkMapCtrl.displayMapWithBusyLocations();
+        parkMapCtrl.getView().setVisible(true); //Make park map view visible
+        parkMapCtrl.displayMapWithBusyLocations(); //Update park map view to show the map along with the busy locations
     }
 
     private void handleBdayPackages() {
