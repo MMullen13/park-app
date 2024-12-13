@@ -54,7 +54,7 @@ public class OrderHistory implements Serializable {
     * Saves the current order history to a file "orderHistory.dat". Serializes the
     * history list and writes it to the file. This save files allows order history
     * to persist between runs and be loaded at a later time. If there is an issue
-    * with the file, Sever log message is created.
+    * with the file, Severe log message is created.
     */
     public static void saveOrderHistory() {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data/orderHistory.dat"))) {
@@ -91,7 +91,7 @@ public class OrderHistory implements Serializable {
     
     /**
      * Returns the ArrayList containing the order history
-     * @return 
+     * @return ArrayList of the History
      */
     public static ArrayList<OrderHistory> getHistoryList() {
         return historyList;
@@ -99,7 +99,7 @@ public class OrderHistory implements Serializable {
 
     /**
      * Gets the order number from the order in the history
-     * @return Order Number
+     * @return Order Number as a string
      */
     public String getOrderNumber() {
         return orderNumber;
@@ -123,7 +123,7 @@ public class OrderHistory implements Serializable {
     
     /**
      * Gets the eatery for the order in the order history
-     * @return 
+     * @return eatery object
      */
     public Eatery getEatery() {
         return eatery;
