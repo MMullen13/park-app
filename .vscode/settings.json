@@ -1,0 +1,25 @@
+{
+    "java.project.sourcePaths": [
+        "WallyLandVacationPlanner\\src",
+        "WallyLandVacationPlanner\\test"
+    ],
+    "java.project.referencedLibraries": [
+        "WallyLandVacationPlanner\\lib\\assertj-core-3.25.3.jar",
+        "WallyLandVacationPlanner\\lib\\assertj-swing-3.17.1.jar",
+        "WallyLandVacationPlanner\\lib\\assertj-swing-junit-3.17.1.jar",
+        "WallyLandVacationPlanner\\lib\\byte-buddy-1.14.12.jar",
+        "WallyLandVacationPlanner\\lib\\byte-buddy-agent-1.14.12.jar",
+        "WallyLandVacationPlanner\\lib\\equalsverifier-3.15.8.jar",
+        "WallyLandVacationPlanner\\lib\\fest-reflect-1.4.1.jar",
+        "WallyLandVacationPlanner\\lib\\fest-test-2.1.0.jar",
+        "WallyLandVacationPlanner\\lib\\fest-util-1.2.5.jar",
+        "WallyLandVacationPlanner\\lib\\hamcrest-2.2.jar",
+        "WallyLandVacationPlanner\\lib\\jsr305-3.0.2.jar",
+        "WallyLandVacationPlanner\\lib\\junit-platform-console-standalone-1.10.2.jar",
+        "WallyLandVacationPlanner\\lib\\mockito-core-5.11.0.jar",
+        "WallyLandVacationPlanner\\lib\\multithreadedtc-1.01.jar",
+        "WallyLandVacationPlanner\\lib\\objenesis-3.3.jar",
+        "WallyLandVacationPlanner\\lib\\opentest4j-1.3.0.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}

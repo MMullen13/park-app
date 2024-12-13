@@ -3,12 +3,20 @@ package model.parkmap;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MODEL CLASS: Represents the overall park map, containing a collection of locations.
+ * @author Becky
+ */
+
 public class ParkMap {
 
-    private final List<Location> locations;
+    private final List<Location> locations; //A list of all locations in the park
 
+    /**
+     * Constructs a new ParkMap and initializes it with sample locations.
+     * The sample data includes a mix of visible and hidden locations.
+     */
     public ParkMap() {
-        // Initialize the attractions with sample data
         locations = new ArrayList<>();
         locations.add(new Location("Restroom", "X594,Y52", true, false));
         locations.add(new Location("Curly Water Slide", "X727,Y75", true, true));
@@ -30,6 +38,10 @@ public class ParkMap {
         locations.add(new Location("Restroom", "X897,Y289", false, false));
     }
 
+    /**
+     * Retrieves the list of all locations in the park.
+     * @return a list of Location objects.
+     */
     public List<Location> getLocations() {
         return locations;
     }
