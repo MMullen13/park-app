@@ -83,7 +83,7 @@ public class FoodController {
         
         //types of items that can be ordered
         itemByCategory.put("Drinks", new ArrayList<>());
-        itemByCategory.put("Appitizers", new ArrayList<>());
+        itemByCategory.put("Appetizers", new ArrayList<>());
         itemByCategory.put("Mains", new ArrayList<>());
         itemByCategory.put("Sides", new ArrayList<>());
         itemByCategory.put("Desserts", new ArrayList<>());
@@ -92,7 +92,7 @@ public class FoodController {
         for(Eatery eatery : eateries){
             if(eatery.getEateryName().equals(eateryName)){
                 itemByCategory.get("Drinks").addAll(MenuItem.getDrinks(eateryName));
-                itemByCategory.get("Appitizers").addAll(MenuItem.getApps(eateryName));
+                itemByCategory.get("Appetizers").addAll(MenuItem.getApps(eateryName));
                 itemByCategory.get("Mains").addAll(MenuItem.getMains(eateryName));
                 itemByCategory.get("Sides").addAll(MenuItem.getSides(eateryName));
                 itemByCategory.get("Desserts").addAll(MenuItem.getDesserts(eateryName));
