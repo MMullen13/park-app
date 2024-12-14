@@ -10,7 +10,8 @@ import model.foodordering.MenuItem;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * Order Confirmation View Form. User uses this page to complete order pickup,
+ * view details of the order, and mark an order as picked up.
  * @author theme
  */
 public class OrderConfirmationViewForm extends javax.swing.JFrame implements ActionListener {
@@ -53,6 +54,8 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
         ImageIcon scaledBarcodeIcon = new ImageIcon(scaledImage); 
         barCode.setIcon(scaledBarcodeIcon);
         barCode.setHorizontalAlignment(SwingConstants.CENTER);
+        orderSummaryTable.getTableHeader().setResizingAllowed(false);
+        orderSummaryTable.getTableHeader().setReorderingAllowed(false);
         
     }
     
@@ -136,7 +139,15 @@ public class OrderConfirmationViewForm extends javax.swing.JFrame implements Act
             new String [] {
                 "Item", "Price", "Quantity"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(orderSummaryTable);
 
         totalLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
