@@ -3,6 +3,7 @@ package wallylandvacationplanner;
 import controller.ticketsandpasses.PassesController;
 import javax.swing.SwingUtilities;
 import view.MainPageView;
+import view.loginsignup.login.LoginView;
 
 /**
  * This is the main class for the WLVP Application
@@ -19,7 +20,7 @@ public class WallyLandVacationPlannerApp {
      */
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(MainPageView::new);
+        SwingUtilities.invokeLater(LoginView::new);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             PassesController controller = new PassesController(); // Ensure this is your singleton or relevant instance
